@@ -1,1 +1,1 @@
-# VisioQuery-Chrome-ext
+# VisioQuery-chrome-ext
