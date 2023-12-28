@@ -544,12 +544,36 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.h-\[480px\] {
+  height: 480px;
+}
+
+.w-80 {
+  width: 20rem;
+}
+
 .bg-secondary {
   --tw-bg-opacity: 1;
   background-color: rgb(18 18 18 / var(--tw-bg-opacity));
 }
 
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+@font-face {
+  font-family: Blackout;
+
+  src: url("fonts/DMSans-VariableFont_opsz,wght.ttf") format("opentype");
+}
+
+* {
+  font-family: Blackout;
+  color: #fff;
 }
