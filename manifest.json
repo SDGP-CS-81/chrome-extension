@@ -5,12 +5,12 @@
   "version": "1.0",
   "permissions": ["activeTab", "scripting"],
   "action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "src/popup/popup.html"
   },
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/watch/*"],
-      "js": ["src/script.js"]
+      "js": ["src/content_script/script.js"]
     }
   ]
 }
