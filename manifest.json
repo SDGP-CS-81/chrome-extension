@@ -4,6 +4,12 @@
   "description": "In Development",
   "version": "1.0",
   "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "16": "assets/icons/bytesense_logo_dark.png",
+    "32": "assets/icons/bytesense_logo_dark.png",
+    "48": "assets/icons/bytesense_logo_dark.png",
+    "128": "assets/icons/bytesense_logo_dark.png"
+  },
   "action": {
     "default_popup": "src/popup/popup.html"
   },
