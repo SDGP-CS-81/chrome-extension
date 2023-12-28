@@ -1,0 +1,17 @@
+{
+  "homepage": "https://mcq-maker.netlify.app",
+  "name": "mcq-maker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "tailwind": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "build": "vite build",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

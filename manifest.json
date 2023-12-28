@@ -1,15 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "tester",
-  "description": "Base Level Extension",
+  "name": "ByteSense",
+  "description": "In Development",
   "version": "1.0",
   "permissions": ["activeTab", "scripting"],
   "action": {
-    "default_popup": "src/index.html"
+    "default_popup": "src/popup.html"
   },
   "content_scripts": [
     {
-      "matches": ["www.youtube.com/watch/*"],
+      "matches": ["https://www.youtube.com/watch/*"],
       "js": ["src/script.js"]
     }
   ]
