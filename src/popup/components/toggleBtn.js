@@ -2,8 +2,8 @@ const template = document.createElement("template");
 template.innerHTML = `
     <label for="toggle-example" class="flex items-center cursor-pointer relative mb-4">
         <input type="checkbox" id="toggle" class="sr-only peer/toggle" checked>
-        <div class="bg-grey peer-checked/toggle:bg-primary border border-gray-200 h-7 w-12 rounded-full"></div>
-        <div class="absolute left-1 peer-checked/toggle:right-1 peer-checked/toggle:left-auto top-1 bg-white w-5 h-5 rounded-full transition"></div>
+        <div class="bg-grey peer-checked/toggle:bg-primary h-7 w-12 rounded-full"></div>
+        <div class="absolute left-0.5 peer-checked/toggle:translate-x-[82%] top-0.5 bg-white w-6 h-6 rounded-full transition-all duration-300 ease-out"></div>
     </label>
     `;
 
