@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="./output.css" />
+    <script src="popup.js" async defer></script>
+    <script src="components/toggleBtn.js" async defer></script>
   </head>
-  <body class="bg-secondary w-80 h-[480px]">
-    <h1 class="text-white text-lg">ByteSense</h1>
+  <body class="bg-secondary flex flex-col items-center w-80 h-[480px]">
+    <h1 class="text-white text-xl">ByteSense</h1>
 
+    <toggle-btn></toggle-btn>
     <!-- dropdown -->
     <div class="relative inline-block text-left w-full">
       <div>
@@ -92,6 +95,5 @@
         </div>
       </div>
     </div>
-    <script src="popup.js"></script>
   </body>
 </html>
