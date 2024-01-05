@@ -3,7 +3,7 @@
   "name": "ByteSense",
   "description": "In Development",
   "version": "1.0",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "icons": {
     "16": "assets/icons/bytesense_logo_dark.png",
     "32": "assets/icons/bytesense_logo_dark.png",
