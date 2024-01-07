@@ -9,19 +9,34 @@
     <script type="module" src="popup.js"></script>
   </head>
 
-  <body class="flex flex-col items-end w-80 h-[480px]">
-    <div class="flex flex-col w-full max-w-sm p-4 mx-auto rounded-md shadow-sm bg-secondary">
-      <div class="flex items-center justify-between mb-4">
-        <img src="../../assets/icons/bytesense_logo_dark.png" alt="ByteSense Logo" class="mr-2 h-15 w-10">
+  <body class="flex h-[480px] w-80 flex-col items-end">
+    <div
+      class="mx-auto flex w-full max-w-sm flex-col rounded-md bg-secondary p-4 shadow-sm"
+    >
+      <!-- dummy dropdown -->
+      <div class="mb-4 flex items-center justify-between">
+        <img
+          src="../../assets/icons/bytesense_logo_dark.png"
+          alt="ByteSense Logo"
+          class="h-15 mr-2 w-10"
+        />
         <h5 class="text-lg font-semibold">ByteSense</h5>
-        <label for="offline-toggle" class="inline-flex items-center space-x-2 text-sm font-medium">
+        <label
+          for="offline-toggle"
+          class="inline-flex items-center space-x-2 text-sm font-medium"
+        >
           <span>Offline</span>
           <toggle-btn toggle-id="offline-toggle"></toggle-btn>
         </label>
       </div>
       <div class="mb-4">
-        <label for="current-category" class="block mb-2 text-sm font-medium">Current Category</label>
-        <select id="current-category" class="bg-gray-500 border border-gray-30 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <label for="current-category" class="mb-2 block text-sm font-medium"
+          >Current Category</label
+        >
+        <select
+          id="current-category"
+          class="border-gray-30 block w-full rounded-md border bg-gray-500 p-2.5 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        >
           <option>360p</option>
           <option>480p</option>
           <option>720p</option>
@@ -31,113 +46,12 @@
       <div class="mb-4">
         <h6 class="text-sm font-semibold">Preferences</h6>
         <div class="mt-4 space-y-2">
-          <label for="feature-1" class="flex items-center space-x-4">
-            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
-              <span class="ml-2 text-sm text-white">Feature 1</span>
-              
-            </div>
-          </label>
-          <label for="feature-2" class="flex items-center space-x-4">
-            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
-              <span class="ml-2 text-sm text-white">Feature 2</span>
-            </div>
-          </label>
-          <label for="feature-3" class="flex items-center space-x-4">
-            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
-              <span class="ml-2 text-sm text-white">Feature 3</span>
-            </div>
-          </label>
-          <label for="feature-4" class="flex items-center space-x-4">
-            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
-              <span class="ml-2 text-sm text-white">Feature 4</span>
-            </div>
-          </label>
-        </div>
-      </div>
-
-    <!-- dropdown -->
-    <div class="relative inline-block w-full text-left">
-      <div>
-        <button
-          type="button"
-          class="inline-flex w-full justify-between gap-x-1.5 rounded-md bg-secondary_variant px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-secondary_variant/80"
-          id="menu-button"
-          aria-expanded="true"
-          aria-haspopup="true"
-        >
-          Options
-          <svg
-            class="-mr-1 h-5 w-5 text-gray-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <!--
-        Dropdown menu, show/hide based on menu state.
-    
-        Entering: "transition ease-out duration-100"
-          From: "transform opacity-0 scale-95"
-          To: "transform opacity-100 scale-100"
-        Leaving: "transition ease-in duration-75"
-          From: "transform opacity-100 scale-100"
-          To: "transform opacity-0 scale-95"
-      -->
-      <div
-        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-secondary_variant shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="menu-button"
-        tabindex="-1"
-      >
-        <div class="py-1" role="none">
-          <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm text-white"
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-0"
-            >Account settings</a
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm text-white"
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-1"
-            >Support</a
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm text-white"
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-2"
-            >License</a
-          >
-          <form method="POST" action="#" role="none">
-            <button
-              type="submit"
-              class="block w-full px-4 py-2 text-left text-sm text-white"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-3"
-            >
-              Sign out
-            </button>
-          </form>
+          <toggle-btn toggle-id="audioOnly"></toggle-btn>
+          <toggle-btn toggle-id="something"></toggle-btn>
+          <toggle-btn toggle-id="another"></toggle-btn>
+          <toggle-btn toggle-id="idek"></toggle-btn>
         </div>
       </div>
     </div>
-      
   </body>
 </html>
