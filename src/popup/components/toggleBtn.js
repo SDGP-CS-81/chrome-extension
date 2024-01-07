@@ -2,7 +2,6 @@ import { getPreferences, html, setPreferences } from "../../common.js";
 import { features } from "../../features.js";
 
 const generateTemplate = (toggleID, featureName) => {
-  console.log(typeof toggleID, typeof featureName);
   const template = document.createElement("template");
   template.innerHTML = html`
     <div

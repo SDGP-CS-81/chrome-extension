@@ -13,6 +13,10 @@ export const getPreferences = async () => {
   return preferences;
 };
 
-export const html = (string) => {
-  return string;
+export const html = (staticText, ...values) => {
+  const fullText = staticText.reduce((acc, text, index) => {
+    return acc + text + (values[index] ?? "");
+  }, "");
+
+  return fullText;
 };
