@@ -628,16 +628,12 @@ video {
   height: 1.5rem;
 }
 
-.h-7 {
-  height: 1.75rem;
-}
-
 .h-\[480px\] {
   height: 480px;
 }
 
-.w-12 {
-  width: 3rem;
+.w-10 {
+  width: 2.5rem;
 }
 
 .w-5 {
@@ -646,10 +642,6 @@ video {
 
 .w-56 {
   width: 14rem;
-}
-
-.w-6 {
-  width: 1.5rem;
 }
 
 .w-80 {
@@ -737,6 +729,10 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.p-\[18px\] {
+  padding: 18px;
 }
 
 .px-3 {
@@ -875,6 +871,11 @@ video {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
+.\@container\/main {
+  container-type: inline-size;
+  container-name: main;
+}
+
 @font-face {
   font-family: Blackout;
 
@@ -895,41 +896,6 @@ video {
   outline-offset: 2px;
 }
 
-.group\/toggle:checked .group-checked\/toggle\:translate-x-\[82\%\] {
-  --tw-translate-x: 82%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.group:checked .group-checked\:translate-x-\[82\%\] {
-  --tw-translate-x: 82%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.group\/cus:checked .group-checked\/cus\:translate-x-\[82\%\] {
-  --tw-translate-x: 82%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.group\/toggle:checked .group-checked\/toggle\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
-.group:checked .group-checked\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
-.group\/cus:checked .group-checked\/cus\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
-.group\/cus:hover .group-hover\/cus\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
 .peer\/toggle:checked ~ .peer-checked\/toggle\:translate-x-\[82\%\] {
   --tw-translate-x: 82%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -938,4 +904,26 @@ video {
 .peer\/toggle:checked ~ .peer-checked\/toggle\:bg-primary {
   --tw-bg-opacity: 1;
   background-color: rgb(31 133 5 / var(--tw-bg-opacity));
+}
+
+@container main (min-width: 400px) {
+  .\@\[400px\]\/main\:h-6 {
+    height: 1.5rem;
+  }
+
+  .\@\[400px\]\/main\:h-7 {
+    height: 1.75rem;
+  }
+
+  .\@\[400px\]\/main\:w-12 {
+    width: 3rem;
+  }
+
+  .\@\[400px\]\/main\:w-6 {
+    width: 1.5rem;
+  }
+
+  .\@\[400px\]\/main\:p-\[22px\] {
+    padding: 22px;
+  }
 }
