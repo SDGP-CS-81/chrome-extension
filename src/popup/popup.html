@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,13 +8,13 @@
     <script type="module" src="components/toggleBtn.js"></script>
     <script type="module" src="popup.js"></script>
   </head>
-  <body class="bg-secondary flex flex-col items-center w-80 h-[480px]">
-    <h1 class="text-white text-xl">ByteSense</h1>
+  <body class="flex h-[480px] w-80 flex-col items-center bg-secondary">
+    <h1 class="text-xl text-white">ByteSense</h1>
 
     <toggle-btn toggle-id="audioOnly"></toggle-btn>
 
     <!-- dropdown -->
-    <div class="relative inline-block text-left w-full">
+    <div class="relative inline-block w-full text-left">
       <div>
         <button
           type="button"
@@ -60,7 +60,7 @@
           <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
           <a
             href="#"
-            class="text-white block px-4 py-2 text-sm"
+            class="block px-4 py-2 text-sm text-white"
             role="menuitem"
             tabindex="-1"
             id="menu-item-0"
@@ -68,7 +68,7 @@
           >
           <a
             href="#"
-            class="text-white block px-4 py-2 text-sm"
+            class="block px-4 py-2 text-sm text-white"
             role="menuitem"
             tabindex="-1"
             id="menu-item-1"
@@ -76,7 +76,7 @@
           >
           <a
             href="#"
-            class="text-white block px-4 py-2 text-sm"
+            class="block px-4 py-2 text-sm text-white"
             role="menuitem"
             tabindex="-1"
             id="menu-item-2"
@@ -85,7 +85,7 @@
           <form method="POST" action="#" role="none">
             <button
               type="submit"
-              class="text-white block w-full px-4 py-2 text-left text-sm"
+              class="block w-full px-4 py-2 text-left text-sm text-white"
               role="menuitem"
               tabindex="-1"
               id="menu-item-3"
