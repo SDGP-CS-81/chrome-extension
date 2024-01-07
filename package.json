@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "tailwind": "tailwindcss -i ./src/popup/input.css -o ./src/popup/output.css --watch",
+    "tailwind": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
