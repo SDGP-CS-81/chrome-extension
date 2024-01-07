@@ -4,8 +4,9 @@ const generateTemplate = () => {
   const template = document.createElement("template");
   template.innerHTML = html`
     <div
-      class="mb-4 flex w-full  items-center justify-between bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
+      class="mb-4 flex w-full items-center justify-between rounded-lg bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
     >
+      <p class="text-[18px]">Audio Only</p>
       <label
         for="toggle-example"
         class="relative flex cursor-pointer items-center "

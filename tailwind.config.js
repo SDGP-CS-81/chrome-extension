@@ -16,8 +16,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/container-queries"),
-    require("prettier-plugin-tailwindcss"),
-  ],
+  plugins: [require("@tailwindcss/container-queries")],
 };
