@@ -3,24 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./output.css" />
+    <title>ByteSense</title>
+    <link rel="stylesheet" href="../output.css" />
+
+    <script type="module" src="components/textLogo.js"></script>
     <script type="module" src="components/toggleBtn.js"></script>
+    <script type="module" src="components/dropdown.js"></script>
     <script type="module" src="popup.js"></script>
   </head>
 
   <body class="flex h-[480px] w-80 flex-col items-end">
     <div
-      class="mx-auto flex w-full max-w-sm flex-col rounded-md bg-secondary p-4 shadow-sm"
+      class="mx-auto flex w-full max-w-sm flex-col bg-secondary p-4 shadow-sm"
     >
       <!-- dummy dropdown -->
       <div class="mb-4 flex items-center justify-between">
-        <img
-          src="../../assets/icons/bytesense_logo_dark.png"
-          alt="ByteSense Logo"
-          class="h-15 mr-2 w-10"
-        />
-        <h5 class="text-lg font-semibold">ByteSense</h5>
+        <text-logo></text-logo>
         <label
           for="offline-toggle"
           class="inline-flex items-center space-x-2 text-sm font-medium"
