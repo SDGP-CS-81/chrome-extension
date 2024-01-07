@@ -1,17 +1,19 @@
 import { getPreferences, html, setPreferences } from "../../common.js";
+import { features } from "../../features.js";
 
-const generateTemplate = () => {
+const generateTemplate = (toggleID, featureName) => {
+  console.log(typeof toggleID, typeof featureName);
   const template = document.createElement("template");
   template.innerHTML = html`
     <div
       class="mb-4 flex w-full items-center justify-between rounded-lg bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
     >
-      <p class="text-[18px]">Audio Only</p>
+      <p class="text-[18px]">${featureName}</p>
       <label
         for="toggle-example"
         class="relative flex cursor-pointer items-center "
       >
-        <input type="checkbox" id="toggle" class="peer/toggle sr-only " />
+        <input type="checkbox" id="${toggleID}" class="peer/toggle sr-only " />
         <div
           class="h-6 w-10 rounded-full bg-grey peer-checked/toggle:bg-primary @[400px]/main:h-7 @[400px]/main:w-12"
         ></div>
@@ -41,8 +43,12 @@ class ToggleBtn extends HTMLElement {
   }
 
   connectedCallback() {
-    this.appendChild(generateTemplate().content.cloneNode(true));
     this.toggleID = this.getAttribute("toggle-id");
+    this.featureName = features[this.toggleID].featureName;
+    // this.description = features[this.toggleID];
+    this.appendChild(
+      generateTemplate(this.toggleID, this.featureName).content.cloneNode(true)
+    );
 
     getPreferences().then((object) => {
       const preferences = object.preferences;
