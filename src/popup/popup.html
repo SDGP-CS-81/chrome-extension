@@ -8,10 +8,52 @@
     <script type="module" src="components/toggleBtn.js"></script>
     <script type="module" src="popup.js"></script>
   </head>
-  <body class="bg-secondary flex flex-col items-center w-80 h-[480px]">
-    <h1 class="text-white text-xl">ByteSense</h1>
 
-    <toggle-btn toggle-id="audioOnly"></toggle-btn>
+  <body class="flex flex-col items-end w-80 h-[480px]">
+    <div class="flex flex-col w-full max-w-sm p-4 mx-auto rounded-md shadow-sm bg-secondary">
+      <div class="flex items-center justify-between mb-4">
+        <img src="../../assets/icons/bytesense_logo_dark.png" alt="ByteSense Logo" class="mr-2 h-15 w-10">
+        <h5 class="text-lg font-semibold">ByteSense</h5>
+        <label for="offline-toggle" class="inline-flex items-center space-x-2 text-sm font-medium">
+          <span>Offline</span>
+          <toggle-btn toggle-id="offline-toggle"></toggle-btn>
+        </label>
+      </div>
+      <div class="mb-4">
+        <label for="current-category" class="block mb-2 text-sm font-medium">Current Category</label>
+        <select id="current-category" class="bg-gray-500 border border-gray-30 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option>360p</option>
+          <option>480p</option>
+          <option>720p</option>
+          <option>1080p</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <h6 class="text-sm font-semibold">Preferences</h6>
+        <div class="mt-4 space-y-2">
+          <label for="feature-1" class="flex items-center space-x-4">
+            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
+              <span class="ml-2 text-sm text-white">Feature 1</span>
+              
+            </div>
+          </label>
+          <label for="feature-2" class="flex items-center space-x-4">
+            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
+              <span class="ml-2 text-sm text-white">Feature 2</span>
+            </div>
+          </label>
+          <label for="feature-3" class="flex items-center space-x-4">
+            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
+              <span class="ml-2 text-sm text-white">Feature 3</span>
+            </div>
+          </label>
+          <label for="feature-4" class="flex items-center space-x-4">
+            <div class="flex w-72 h-15 px-7 py-4 items-start gap-36 flex-shrink-0 rounded-lg bg-gray-600">
+              <span class="ml-2 text-sm text-white">Feature 4</span>
+            </div>
+          </label>
+        </div>
+      </div>
 
     <!-- dropdown -->
     <div class="relative inline-block text-left w-full">
@@ -96,5 +138,6 @@
         </div>
       </div>
     </div>
+      
   </body>
 </html>
