@@ -895,41 +895,6 @@ video {
   outline-offset: 2px;
 }
 
-.group\/toggle:checked .group-checked\/toggle\:translate-x-\[82\%\] {
-  --tw-translate-x: 82%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.group:checked .group-checked\:translate-x-\[82\%\] {
-  --tw-translate-x: 82%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.group\/cus:checked .group-checked\/cus\:translate-x-\[82\%\] {
-  --tw-translate-x: 82%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.group\/toggle:checked .group-checked\/toggle\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
-.group:checked .group-checked\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
-.group\/cus:checked .group-checked\/cus\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
-.group\/cus:hover .group-hover\/cus\:bg-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 133 5 / var(--tw-bg-opacity));
-}
-
 .peer\/toggle:checked ~ .peer-checked\/toggle\:translate-x-\[82\%\] {
   --tw-translate-x: 82%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
