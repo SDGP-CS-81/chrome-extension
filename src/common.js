@@ -12,3 +12,7 @@ export const getPreferences = async () => {
   });
   return preferences;
 };
+
+export const html = (string) => {
+  return string;
+};

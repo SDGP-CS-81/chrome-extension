@@ -1,13 +1,28 @@
-import { getPreferences, setPreferences } from "../../common.js";
+import { getPreferences, html, setPreferences } from "../../common.js";
 
-const template = document.createElement("template");
-template.innerHTML = `
-    <label for="toggle-example" class="flex items-center cursor-pointer relative mb-4">
-        <input type="checkbox" id="toggle" class="sr-only peer/toggle ">
-        <div class="bg-grey peer-checked/toggle:bg-primary h-7 w-12 rounded-full"></div>
-        <div class="absolute  left-0.5 peer-checked/toggle:translate-x-[82%] top-0.5 bg-white w-6 h-6 rounded-full transition-all duration-300 ease-out"></div>
-    </label>
-    `;
+const generateTemplate = () => {
+  const template = document.createElement("template");
+  template.innerHTML = html`
+    <div
+      class="mb-4 flex w-full items-center justify-between rounded-lg bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
+    >
+      <p class="text-[18px]">Audio Only</p>
+      <label
+        for="toggle-example"
+        class="relative flex cursor-pointer items-center "
+      >
+        <input type="checkbox" id="toggle" class="peer/toggle sr-only " />
+        <div
+          class="h-6 w-10 rounded-full bg-grey peer-checked/toggle:bg-primary @[400px]/main:h-7 @[400px]/main:w-12"
+        ></div>
+        <div
+          class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @[400px]/main:h-6 @[400px]/main:w-6"
+        ></div>
+      </label>
+    </div>
+  `;
+  return template;
+};
 
 class ToggleBtn extends HTMLElement {
   constructor() {
@@ -26,7 +41,7 @@ class ToggleBtn extends HTMLElement {
   }
 
   connectedCallback() {
-    this.appendChild(template.content.cloneNode(true));
+    this.appendChild(generateTemplate().content.cloneNode(true));
     this.toggleID = this.getAttribute("toggle-id");
 
     getPreferences().then((object) => {
@@ -39,6 +54,8 @@ class ToggleBtn extends HTMLElement {
     this.addEventListener("click", () => {
       this.checked = !this.checked;
     });
+
+    this.style.width = "100%";
   }
 
   attributeChangedCallback(name, oldValue, newValue) {

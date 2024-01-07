@@ -7,3 +7,5 @@ npm run tailwind
 
 For better developer experience install the chrome extension "Extension reloader" to provide HMR
 https://chromewebstore.google.com/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid
+
+also install tailwindcss vs code extension

@@ -12,6 +12,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.0"
+  },
+  "dependencies": {
+    "@tailwindcss/container-queries": "^0.1.1"
   }
 }
