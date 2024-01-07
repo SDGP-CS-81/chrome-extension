@@ -1,10 +1,10 @@
-import { getPreferences, setPreferences } from "../../common.js";
+import { getPreferences, html, setPreferences } from "../../common.js";
 
 const generateTemplate = () => {
   const template = document.createElement("template");
   template.innerHTML = html`
     <div
-      class="mb-4 flex w-full items-center justify-between bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
+      class="mb-4 flex w-full  items-center justify-between bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
     >
       <label
         for="toggle-example"
