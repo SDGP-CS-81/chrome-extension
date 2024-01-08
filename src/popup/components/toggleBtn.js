@@ -1,26 +1,21 @@
 import { getPreferences, html, setPreferences } from "../../common.js";
 import { features } from "../../features.js";
 
-const generateTemplate = (toggleID, featureName) => {
+const generateTemplate = (toggleID) => {
   const template = document.createElement("template");
   template.innerHTML = html`
-    <div
-      class="mb-4 flex w-full items-center justify-between rounded-lg bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
+    <label
+      for="toggle-example"
+      class="relative flex cursor-pointer items-center "
     >
-      <p class="text-[18px]">${featureName}</p>
-      <label
-        for="toggle-example"
-        class="relative flex cursor-pointer items-center "
-      >
-        <input type="checkbox" id="${toggleID}" class="peer/toggle sr-only " />
-        <div
-          class="h-6 w-10 rounded-full bg-grey peer-checked/toggle:bg-primary @[400px]/main:h-7 @[400px]/main:w-12"
-        ></div>
-        <div
-          class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @[400px]/main:h-6 @[400px]/main:w-6"
-        ></div>
-      </label>
-    </div>
+      <input type="checkbox" id="${toggleID}" class="peer/toggle sr-only " />
+      <div
+        class="h-6 w-10 rounded-full bg-grey peer-checked/toggle:bg-primary @[400px]/main:h-7 @[400px]/main:w-12"
+      ></div>
+      <div
+        class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @[400px]/main:h-6 @[400px]/main:w-6"
+      ></div>
+    </label>
   `;
   return template;
 };
@@ -44,10 +39,7 @@ class ToggleBtn extends HTMLElement {
   connectedCallback() {
     this.toggleID = this.getAttribute("toggle-id");
     this.featureName = features[this.toggleID].featureName;
-    // this.description = features[this.toggleID];
-    this.appendChild(
-      generateTemplate(this.toggleID, this.featureName).content.cloneNode(true)
-    );
+    this.appendChild(generateTemplate(this.toggleID).content.cloneNode(true));
 
     getPreferences().then((object) => {
       const preferences = object.preferences;
@@ -59,10 +51,12 @@ class ToggleBtn extends HTMLElement {
     this.addEventListener("click", () => {
       this.checked = !this.checked;
     });
-
-    this.style.width = "100%";
   }
 
+  disconnectedCallback() {
+    this.replaceChildren();
+    this.replaceWith(this.cloneNode(true));
+  }
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "checked") {
       getPreferences().then(async (object) => {

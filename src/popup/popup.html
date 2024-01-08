@@ -9,6 +9,7 @@
     <script type="module" src="components/textLogo.js"></script>
     <script type="module" src="components/toggleBtn.js"></script>
     <script type="module" src="components/dropdown.js"></script>
+    <script type="module" src="components/featureBtn.js"></script>
     <script type="module" src="popup.js"></script>
   </head>
 
@@ -44,10 +45,18 @@
       <div class="mb-4">
         <h6 class="text-sm font-semibold">Preferences</h6>
         <div class="mt-4 space-y-2">
-          <toggle-btn toggle-id="audioOnly"></toggle-btn>
-          <toggle-btn toggle-id="something"></toggle-btn>
-          <toggle-btn toggle-id="another"></toggle-btn>
-          <toggle-btn toggle-id="idek"></toggle-btn>
+          <feature-btn toggle-id="audioOnly">
+            <toggle-btn toggle-id="audioOnly" slot="toggleBtn"></toggle-btn>
+          </feature-btn>
+          <feature-btn toggle-id="something">
+            <toggle-btn toggle-id="something" slot="toggleBtn"></toggle-btn>
+          </feature-btn>
+          <feature-btn toggle-id="another">
+            <toggle-btn toggle-id="another" slot="toggleBtn"></toggle-btn>
+          </feature-btn>
+          <feature-btn toggle-id="idek">
+            <toggle-btn toggle-id="idek" slot="toggleBtn"></toggle-btn>
+          </feature-btn>
         </div>
       </div>
     </div>

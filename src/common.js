@@ -20,3 +20,18 @@ export const html = (staticText, ...values) => {
 
   return fullText;
 };
+
+export function replaceSlots(parent) {
+  const slots = {};
+  parent.querySelectorAll("[slot]").forEach((el) => {
+    // convert 'nick-name' into 'nickName' for easy JS access
+    // set the *DOM node* as data property value
+    slots[
+      el.getAttribute("slot").replace(/-(\w)/g, ($0, $1) => $1.toUpperCase())
+    ] = el; // <- this is a DOM node, not a string ;-)
+    el.removeAttribute("slot"); // <- remove attribute to avoid duplicates
+  });
+  parent.querySelectorAll("slot").forEach((slot) => {
+    slot.replaceWith(slots[slot.name]);
+  });
+}
