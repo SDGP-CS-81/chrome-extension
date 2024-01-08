@@ -5,6 +5,9 @@ export const setPreferences = async (preferences) => {
 export const getPreferences = async () => {
   const defaultPreferences = {
     audioOnly: false,
+    something: false,
+    another: false,
+    idek: true,
   };
 
   const preferences = await chrome.storage.local.get({

@@ -19,6 +19,7 @@ class TextLogo extends HTMLElement {
   constructor() {
     super();
   }
+
   connectedCallback() {
     this.appendChild(generateTemplate().content.cloneNode(true));
   }

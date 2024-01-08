@@ -1,5 +1,4 @@
 import { getPreferences, html, setPreferences } from "../../common.js";
-import { features } from "../../features.js";
 
 const generateTemplate = (toggleID) => {
   const template = document.createElement("template");
@@ -23,7 +22,6 @@ const generateTemplate = (toggleID) => {
 class ToggleBtn extends HTMLElement {
   constructor() {
     super();
-    // this.attachShadow({ mode: "open" });
   }
   get checked() {
     return this.hasAttribute("checked");
@@ -38,7 +36,6 @@ class ToggleBtn extends HTMLElement {
 
   connectedCallback() {
     this.toggleID = this.getAttribute("toggle-id");
-    this.featureName = features[this.toggleID].featureName;
     this.appendChild(generateTemplate(this.toggleID).content.cloneNode(true));
 
     getPreferences().then((object) => {
@@ -57,6 +54,7 @@ class ToggleBtn extends HTMLElement {
     this.replaceChildren();
     this.replaceWith(this.cloneNode(true));
   }
+
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "checked") {
       getPreferences().then(async (object) => {
@@ -64,8 +62,10 @@ class ToggleBtn extends HTMLElement {
         preferences[this.toggleID] = this.checked;
         await setPreferences(preferences);
         this.querySelector("input").checked = this.checked;
+        console.log(preferences);
       });
     }
   }
 }
+
 customElements.define("toggle-btn", ToggleBtn);
