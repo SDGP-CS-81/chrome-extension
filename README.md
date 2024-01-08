@@ -1,11 +1,36 @@
-# ByteSense
+# ByteSense - Chrome Extension
 
-Abrar i dont know how to write a readme..or md
+## Usage
 
-To see style changes during development run command
-npm run tailwind
+TBD
 
-For better developer experience install the chrome extension "Extension reloader" to provide HMR
-https://chromewebstore.google.com/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid
+## Development
 
-also install tailwindcss vs code extension
+Please read this [article](https://cbea.ms/git-commit/) to learn how to write good commit messages.
+
+### Dependencies
+
+- `nodejs` >= 20.0
+- `prettier` >= 3.1
+- `tailwindcss` >= 3.4
+
+### Building and Running
+
+```sh
+git clone git@github.com:SDGP-CS-81/Chrome-Extension.git
+cd Chrome-Extension
+npm install
+npm run build
+npm run preview
+```
+
+#### NPM Commands
+
+- Live preview styling changes -> `npm run tailwind`
+- Run project in live preview mode -> `npm run dev`
+- Run the linter -> `npm run lint`
+
+### Tooling
+
+- Install the ['Extension Reloader'](https://chromewebstore.google.com/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid) Chrome extension to be able to leverage 'Hot Module Reload' capabilities.
+- Install the Visual Studio Code [extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) for TailwindCSS autocompletion.
