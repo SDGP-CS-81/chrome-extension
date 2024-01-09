@@ -3,10 +3,7 @@ import { getPreferences, html, setPreferences } from "../../common.js";
 const generateTemplate = (toggleID) => {
   const template = document.createElement("template");
   template.innerHTML = html`
-    <label
-      for="toggle-example"
-      class="relative flex cursor-pointer items-center "
-    >
+    <div class="relative flex cursor-pointer items-center ">
       <input type="checkbox" id="${toggleID}" class="peer/toggle sr-only " />
       <div
         class="h-6 w-10 rounded-full bg-grey peer-checked/toggle:bg-primary @[400px]/main:h-7 @[400px]/main:w-12"
@@ -14,7 +11,7 @@ const generateTemplate = (toggleID) => {
       <div
         class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @[400px]/main:h-6 @[400px]/main:w-6"
       ></div>
-    </label>
+    </div>
   `;
   return template;
 };

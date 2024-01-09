@@ -8,6 +8,7 @@ export const getPreferences = async () => {
     something: false,
     another: false,
     idek: true,
+    offlineMode: true,
   };
 
   const preferences = await chrome.storage.local.get({
