@@ -11,12 +11,12 @@
     "128": "assets/icons/bytesense_logo_dark.png"
   },
   "action": {
-    "default_popup": "src/popup/popup.html"
+    "default_popup": "popup/popup.html"
   },
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/watch/*"],
-      "js": ["src/content_script/script.js"]
+      "js": ["content_script/script.js"]
     }
   ]
 }

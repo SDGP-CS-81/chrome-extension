@@ -1,11 +1,11 @@
-import { html } from "../../common.js";
+import { html } from "../../common/helpers.js";
 
 const generateTemplate = () => {
   const template = document.createElement("template");
   template.innerHTML = html`
     <a href="https://www.google.com" target="_blank" class="flex items-center">
       <img
-        src="../../../assets/icons/logo.png"
+        src="../../assets/icons/logo.png"
         alt="ByteSense Logo"
         class="mr-2 w-[22px]"
       />
