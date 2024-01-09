@@ -5,9 +5,9 @@ const generateTemplate = (toggleID, featureName) => {
   const template = document.createElement("template");
   template.innerHTML = html`
     <div
-      class="mb-4 flex w-full items-center justify-between rounded-lg bg-secondary_variant p-[18px] @container/main @[400px]/main:p-[22px]"
+      class="flex h-14 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] @container/main @[400px]/main:px-[22px]"
     >
-      <p class="text-[18px]">${featureName}</p>
+      <p class="text-base">${featureName}</p>
       <toggle-btn toggle-id="${toggleID}"></toggle-btn>
     </div>
   `;
