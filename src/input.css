@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: Blackout;
+  font-family: DMSans;
   src: url("fonts/DMSans-VariableFont_opsz,wght.ttf") format("opentype");
 }
 
 * {
-  font-family: Blackout;
+  font-family: DMSans;
   color: #fff;
 }
