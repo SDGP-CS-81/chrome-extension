@@ -1,16 +1,10 @@
+import { defaultPreferences } from "./constants.js";
+
 export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
 };
 
 export const getPreferences = async () => {
-  const defaultPreferences = {
-    audioOnly: false,
-    something: false,
-    another: false,
-    idek: true,
-    offlineMode: true,
-  };
-
   const preferences = await chrome.storage.local.get({
     preferences: defaultPreferences,
   });

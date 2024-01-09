@@ -1,4 +1,4 @@
-import { getPreferences, html, setPreferences } from "../../common.js";
+import { getPreferences, html, setPreferences } from "../../common/helpers.js";
 
 const generateTemplate = () => {
   const template = document.createElement("template");

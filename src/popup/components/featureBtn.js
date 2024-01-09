@@ -1,5 +1,5 @@
-import { html } from "../../common.js";
-import { features } from "../../features.js";
+import { html } from "../../common/helpers.js";
+import { features } from "../../common/features.js";
 
 const generateTemplate = (toggleID, featureName) => {
   const template = document.createElement("template");
