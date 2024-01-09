@@ -10,6 +10,7 @@
     <script type="module" src="components/toggleBtn.js"></script>
     <script type="module" src="components/dropdown.js"></script>
     <script type="module" src="components/featureBtn.js"></script>
+    <script type="module" src="components/offlineBtn.js"></script>
     <script type="module" src="popup.js"></script>
   </head>
 
@@ -17,17 +18,11 @@
     <div
       class="flex h-full w-full flex-col overflow-hidden bg-secondary shadow-sm"
     >
-      <!-- dummy dropdown -->
       <div
         class="border-grey flex items-center justify-between border-b px-5 py-3.5"
       >
         <text-logo></text-logo>
-        <label
-          for="offline-toggle"
-          class="inline-flex items-center space-x-2 text-sm font-medium"
-        >
-          <span>Offline</span>
-        </label>
+        <offline-btn></offline-btn>
       </div>
 
       <div class="flex flex-col gap-4 p-5">
@@ -46,7 +41,8 @@
             <option>1080p</option>
           </select>
         </div>
-        <div class="">
+
+        <div>
           <h6 class="mb-3 text-base font-medium">Preferences</h6>
           <div class="flex flex-col gap-y-3">
             <feature-btn toggle-id="audioOnly"></feature-btn>
