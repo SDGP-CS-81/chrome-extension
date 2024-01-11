@@ -22,18 +22,33 @@
     const availableQualities = document.querySelectorAll(
       ".ytp-quality-menu .ytp-menuitem-label"
     );
+    let hasQualityBeenSet = false;
     for (const qualityElement of availableQualities) {
-      console.log(qualityElement.innerText);
       // check if quality is in innertext ex: "1080p" in "1080p HD"
       if (qualityElement.innerText.includes(quality)) {
+        hasQualityBeenSet = true;
         qualityElement.click();
         break;
       }
     }
+
+    // if quality has not been set, close settings as it is open
+    if (!hasQualityBeenSet) return vidSettingsButton.click();
+
+    // if setting is open due to any edge case, close settings if possible asap
+    const startTime = new Date().getTime();
+    const closeSettingsInterval = setInterval(() => {
+      if (vidSettingsButton.ariaExpanded === "true") {
+        vidSettingsButton.click();
+        clearInterval(closeSettingsInterval);
+      }
+      if (new Date().getTime() - startTime > 300)
+        clearInterval(closeSettingsInterval);
+    }, 100);
   };
 
   // setquality must be called after page has been loaded
   setTimeout(() => {
-    setQuality("1080p");
+    setQuality("1080mmp");
   }, 3000);
 })();
