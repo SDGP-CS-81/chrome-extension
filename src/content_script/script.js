@@ -5,12 +5,24 @@
   const src_helpers = chrome.runtime.getURL("../common/helpers.js");
   globalThis.helpers = await import(src_helpers);
 
-  // setquality must be called after page has been loaded
+  // setQuality must be called after page has been loaded. simulated by timeout
   setTimeout(() => {
     setQuality("144");
-    console.log(
-      globalThis.helpers.keywordSearch(getVideoTextInfo(), ["in", "twitch"])
+    const videoTitle = getVideoTitle();
+    const videoDescription = getVideoDescription();
+
+    // get keyword match scores differently as they may have different levels of importance
+    // ex: titles are more important than descriptions
+    const titleScores = globalThis.helpers.getKeywordScores(
+      videoTitle,
+      globalThis.constants.categoryKeywords
     );
+    const descriptionScores = globalThis.helpers.getKeywordScores(
+      videoDescription,
+      globalThis.constants.categoryKeywords
+    );
+    console.log(titleScores);
+    console.log(descriptionScores);
   }, 3000);
 })();
 
@@ -67,15 +79,8 @@ const setQuality = (quality) => {
   }, 100);
 };
 
-const getVideoTextInfo = () => {
-  return {
-    title: getVideoTitle(),
-    description: getVideoDescription(),
-    channelID: getChannelID(),
-    comments: getComments(),
-  };
-};
-
+// limit to first 20 lines?? full description for keyword search
+// but for backend transfer limit, to reduce data waste and unnecessary desc info like sponsor and timelines
 const getVideoDescription = () => {
   const descriptionArray = Array.from(
     document.querySelectorAll(".yt-core-attributed-string--link-inherit-color")

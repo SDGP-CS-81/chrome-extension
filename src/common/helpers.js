@@ -28,8 +28,24 @@ export const preprocessText = (text) => {
   return preprocessedText;
 };
 
+export const getKeywordScores = (textToSearch, categoryKeywords) => {
+  const keywordScores = {};
+
+  Object.entries(categoryKeywords).forEach(([category, keywords]) => {
+    const matchedScores = keywords.map(
+      (keyword) =>
+        (textToSearch.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
+    );
+    const numKeywordsMatched = matchedScores.filter(
+      (matchCount) => matchCount > 0
+    ).length;
+    keywordScores[category] = numKeywordsMatched;
+  });
+
+  return keywordScores;
+};
+
 export const keywordSearch = (videotextInfo, keywords) => {
-  const longString = Object.values(videotextInfo).join(" ");
   return keywords.map(
     (keyword) =>
       (longString.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
