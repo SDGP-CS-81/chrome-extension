@@ -1,7 +1,5 @@
-export const vidQuality1 = "144p";
-
 export const qualities = [4320, 2160, 1440, 1080, 720, 480, 360, 240, 144];
-export const qualityClosest = qualities.find(
+export const closestQualityToScreen = qualities.find(
   (quality) => quality <= screen.height
 );
 
@@ -11,6 +9,11 @@ export const defaultPreferences = {
   another: false,
   idek: true,
   offlineMode: false,
+};
+
+export const categoryKeywords = {
+  music: ["music", "song", "lyrics"],
+  podcast: ["podcast"],
 };
 
 // taken from https://github.com/sameernyaupane/simple-auto-hd/

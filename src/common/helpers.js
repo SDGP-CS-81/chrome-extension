@@ -19,6 +19,39 @@ export const html = (staticText, ...values) => {
   return fullText;
 };
 
+export const preprocessText = (text) => {
+  // remove all characters that are not alphanumeric
+  let preprocessedText = text
+    .trim()
+    .replace(/[^a-zA-Z0-9]/g, " ")
+    .toLowerCase();
+  return preprocessedText;
+};
+
+export const getKeywordScores = (textToSearch, categoryKeywords) => {
+  const keywordScores = {};
+
+  Object.entries(categoryKeywords).forEach(([category, keywords]) => {
+    const matchedScores = keywords.map(
+      (keyword) =>
+        (textToSearch.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
+    );
+    const numKeywordsMatched = matchedScores.filter(
+      (matchCount) => matchCount > 0
+    ).length;
+    keywordScores[category] = numKeywordsMatched;
+  });
+
+  return keywordScores;
+};
+
+export const keywordSearch = (videotextInfo, keywords) => {
+  return keywords.map(
+    (keyword) =>
+      (longString.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
+  );
+};
+
 export function replaceSlots(parent) {
   const slots = {};
   parent.querySelectorAll("[slot]").forEach((el) => {
