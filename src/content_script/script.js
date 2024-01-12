@@ -7,9 +7,10 @@
 
   // setquality must be called after page has been loaded
   setTimeout(() => {
-    setQuality("144p");
-    console.log(getVideoDescription());
-    console.log(getVideoTitle());
+    setQuality("144");
+    console.log(
+      globalThis.helpers.keywordSearch(getVideoTextInfo(), ["in", "twitch"])
+    );
   }, 3000);
 })();
 
@@ -66,17 +67,39 @@ const setQuality = (quality) => {
   }, 100);
 };
 
+const getVideoTextInfo = () => {
+  return {
+    title: getVideoTitle(),
+    description: getVideoDescription(),
+    channelID: getChannelID(),
+    comments: getComments(),
+  };
+};
+
 const getVideoDescription = () => {
   const descriptionArray = Array.from(
     document.querySelectorAll(".yt-core-attributed-string--link-inherit-color")
   ).map((el) => {
     return globalThis.helpers.preprocessText(el.innerText);
   });
-  return descriptionArray;
+  return descriptionArray.join("\n");
 };
 
 const getVideoTitle = () => {
   return globalThis.helpers.preprocessText(
     document.querySelector("h1.style-scope.ytd-watch-metadata").innerText
   );
+};
+
+const getChannelID = () => {
+  return document
+    .querySelector(".yt-simple-endpoint.style-scope.yt-formatted-string")
+    .href.split("www.youtube.com/")[1];
+};
+
+// will retrive first 3 comments only if already loaded
+const getComments = () => {
+  return Array.from(document.querySelectorAll("#content-text"))
+    .slice(1, 4)
+    .map((el) => globalThis.helpers.preprocessText(el.innerText));
 };
