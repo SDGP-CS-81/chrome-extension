@@ -1,11 +1,15 @@
 (async () => {
-  const src = chrome.runtime.getURL("../common/constants.js");
-  globalThis.constants = await import(src);
+  // import additional scripts
+  const src_constants = chrome.runtime.getURL("../common/constants.js");
+  globalThis.constants = await import(src_constants);
+  const src_helpers = chrome.runtime.getURL("../common/helpers.js");
+  globalThis.helpers = await import(src_helpers);
 
   // setquality must be called after page has been loaded
   setTimeout(() => {
-    setQuality("1080mmp");
-    getVideoDescription();
+    setQuality("144p");
+    console.log(getVideoDescription());
+    console.log(getVideoTitle());
   }, 3000);
 })();
 
@@ -15,6 +19,14 @@ const setQuality = (quality) => {
     ".ytp-settings-button"
   )[0];
   vidSettingsButton.click();
+
+  // if current quality is already the same as quality to be set, return
+  if (
+    document
+      .querySelector(".ytp-menu-label-secondary")
+      ?.innerText?.includes(quality)
+  )
+    return vidSettingsButton.click();
 
   // click the "Quality" button in settings menu popup
   const settingsMenuBtns = document.querySelectorAll(".ytp-menuitem-label");
@@ -55,14 +67,16 @@ const setQuality = (quality) => {
 };
 
 const getVideoDescription = () => {
-  const description = Array.from(
+  const descriptionArray = Array.from(
     document.querySelectorAll(".yt-core-attributed-string--link-inherit-color")
   ).map((el) => {
-    // remove all characters that are not alphanumeric
-    let preprocessedText = el.innerText.trim().replace(/[^a-zA-Z0-9]/g, " ");
-    return preprocessedText;
+    return globalThis.helpers.preprocessText(el.innerText);
   });
-  console.log(description);
+  return descriptionArray;
+};
 
-  return description;
+const getVideoTitle = () => {
+  return globalThis.helpers.preprocessText(
+    document.querySelector("h1.style-scope.ytd-watch-metadata").innerText
+  );
 };

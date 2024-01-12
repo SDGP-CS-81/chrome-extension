@@ -33,3 +33,9 @@ export function replaceSlots(parent) {
     slot.replaceWith(slots[slot.name]);
   });
 }
+
+export const preprocessText = (text) => {
+  // remove all characters that are not alphanumeric
+  let preprocessedText = text.trim().replace(/[^a-zA-Z0-9]/g, " ");
+  return preprocessedText;
+};
