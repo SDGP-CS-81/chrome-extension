@@ -1,30 +1,37 @@
 (async () => {
   // import additional scripts
-  const src_constants = chrome.runtime.getURL("../common/constants.js");
-  globalThis.constants = await import(src_constants);
-  const src_helpers = chrome.runtime.getURL("../common/helpers.js");
-  globalThis.helpers = await import(src_helpers);
+  globalThis.constants = await import(
+    chrome.runtime.getURL("../common/constants.js")
+  );
+  globalThis.helpers = await import(
+    chrome.runtime.getURL("../common/helpers.js")
+  );
 
-  // setQuality must be called after page has been loaded. simulated by timeout
-  setTimeout(() => {
-    setQuality("144");
-    const videoTitle = getVideoTitle();
-    const videoDescription = getVideoDescription();
+  // setQuality when video player is loaded
+  const videoElement = document.querySelector("video");
+  videoElement.addEventListener("canplay", setQualityWhenPossible, {
+    once: true,
+  });
 
-    // get keyword match scores differently as they may have different levels of importance
-    // ex: titles are more important than descriptions
-    const titleScores = globalThis.helpers.getKeywordScores(
-      videoTitle,
-      globalThis.constants.categoryKeywords
-    );
-    const descriptionScores = globalThis.helpers.getKeywordScores(
-      videoDescription,
-      globalThis.constants.categoryKeywords
-    );
-    console.log(titleScores);
-    console.log(descriptionScores);
-  }, 3000);
+  // get video text info when textinfo has been fetched by yt
+  new MutationObserver((_, observer) => {
+    if (
+      document.querySelector(".yt-core-attributed-string--link-inherit-color")
+    ) {
+      getVideoTextInfo();
+      observer.disconnect();
+    }
+  }).observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+  });
 })();
+
+const setQualityWhenPossible = () => {
+  // if videoQuality not generated yet recursively set eventlistener
+  setQuality("144");
+};
 
 const setQuality = (quality) => {
   // click the settings button in video player
@@ -79,6 +86,24 @@ const setQuality = (quality) => {
   }, 100);
 };
 
+const getVideoTextInfo = () => {
+  const videoTitle = getVideoTitle();
+  const videoDescription = getVideoDescription();
+
+  // get keyword match scores differently as they may have different levels of importance
+  // ex: titles are more important than descriptions
+  const titleScores = globalThis.helpers.getKeywordScores(
+    videoTitle,
+    globalThis.constants.categoryKeywords
+  );
+  const descriptionScores = globalThis.helpers.getKeywordScores(
+    videoDescription,
+    globalThis.constants.categoryKeywords
+  );
+  console.log(titleScores);
+  console.log(descriptionScores);
+};
+
 // limit to first 20 lines?? full description for keyword search
 // but for backend transfer limit, to reduce data waste and unnecessary desc info like sponsor and timelines
 const getVideoDescription = () => {
@@ -102,7 +127,7 @@ const getChannelID = () => {
     .href.split("www.youtube.com/")[1];
 };
 
-// will retrive first 3 comments only if already loaded
+// will retrive first 3 comments- but user has to go to comments section...so it doesnt work
 const getComments = () => {
   return Array.from(document.querySelectorAll("#content-text"))
     .slice(1, 4)
