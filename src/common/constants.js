@@ -18,6 +18,7 @@ export const categoryKeywords = {
 
 // taken from https://github.com/sameernyaupane/simple-auto-hd/
 export const qualityTitles = [
+  "Quality",
   "Gehalte",
   "Keyfiyyət",
   "Kualitas",
@@ -27,7 +28,6 @@ export const qualityTitles = [
   "Kvalita",
   "Qualität",
   "Kvaliteet",
-  "Quality",
   "Calidad",
   "Kalitatea",
   "Kalidad",

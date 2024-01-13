@@ -1,4 +1,11 @@
-(async () => {
+document.addEventListener("yt-navigate-finish", () => {
+  runOnUrlChange();
+});
+
+const runOnUrlChange = async () => {
+  console.log(location.pathname);
+  if (location.pathname != "/watch") return;
+
   // import additional scripts
   globalThis.constants = await import(
     chrome.runtime.getURL("../common/constants.js")
@@ -9,11 +16,9 @@
 
   // setQuality when video player is loaded
   const videoElement = document.querySelector("video");
-  videoElement.addEventListener("canplay", setQualityWhenPossible, {
-    once: true,
-  });
+  videoElement.addEventListener("canplay", setQualityWhenPossible);
 
-  // get video text info when textinfo has been fetched by yt
+  // get video text info when description updated by yt
   new MutationObserver((_, observer) => {
     if (
       document.querySelector(".yt-core-attributed-string--link-inherit-color")
@@ -26,11 +31,12 @@
     subtree: true,
     attributes: true,
   });
-})();
+};
 
 const setQualityWhenPossible = () => {
   // if videoQuality not generated yet recursively set eventlistener
-  setQuality("144");
+  console.log("setQualityWhenPossible");
+  setQuality("144p");
 };
 
 const setQuality = (quality) => {
@@ -40,22 +46,32 @@ const setQuality = (quality) => {
   )[0];
   vidSettingsButton.click();
 
+  // ------uncomment----it works
   // if current quality is already the same as quality to be set, return
-  if (
-    document
-      .querySelector(".ytp-menu-label-secondary")
-      ?.innerText?.includes(quality)
-  )
-    return vidSettingsButton.click();
+  // if (
+  //   document
+  //     .querySelector(".ytp-menu-label-secondary")
+  //     ?.innerText?.includes(quality)
+  // )
+  //   return vidSettingsButton.click();
 
   // click the "Quality" button in settings menu popup
-  const settingsMenuBtns = document.querySelectorAll(".ytp-menuitem-label");
-  for (const btn of settingsMenuBtns) {
-    if (globalThis.constants.qualityTitles.includes(btn.innerText)) {
-      btn.click();
-      break;
-    }
-  }
+  let qualityButton = null;
+  // possible to take 3rd index instead of looping to check innertext- but risky
+  // const settingsMenuBtns = document.querySelectorAll(".ytp-menuitem-label");
+  // for (const btn of settingsMenuBtns) {
+  //   if (globalThis.constants.qualityTitles.includes(btn.innerText)) {
+  //     qualityButton = btn;
+  //     break;
+  //   }
+  // }
+
+  // this approach is lesscode-- but wont set quality if already set(it relies on () being around quality when auto)
+  qualityButton = document.querySelector(
+    ".ytp-menu-label-secondary"
+  )?.parentElement;
+
+  qualityButton?.click();
 
   // get the list of available qualities
   const availableQualities = document.querySelectorAll(
@@ -133,3 +149,7 @@ const getComments = () => {
     .slice(1, 4)
     .map((el) => globalThis.helpers.preprocessText(el.innerText));
 };
+
+// currently doesnt work when on video page and reloaded...it wont change quality for that page
+// but it works when navigating to subsequent videos
+// may be due to oncanplay listener setting after current video player canplay
