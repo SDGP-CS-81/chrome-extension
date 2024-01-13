@@ -1,11 +1,9 @@
 (async () => {
   // import additional scripts
-  globalThis.constants = await import(
+  window.constants = await import(
     chrome.runtime.getURL("../common/constants.js")
   );
-  globalThis.helpers = await import(
-    chrome.runtime.getURL("../common/helpers.js")
-  );
+  window.helpers = await import(chrome.runtime.getURL("../common/helpers.js"));
 
   document.addEventListener("yt-navigate-finish", () => {
     if (location.pathname != "/watch") return;
@@ -29,13 +27,18 @@
     //   }
     // }).observe(document.body, observerConfig);
 
+    const currentVideoID = location.href.split("v=")[1].split("&")[0];
+    const videoScores = await window.helpers.getVideoScores(currentVideoID);
+    // use preferences and scores to get quality
+    console.log(videoScores);
+    // perhaps reassign a null varaible "qualityToSet" and check in observer
+
     new MutationObserver((_, observer) => {
       if (!document.contains(document.querySelector(".ytp-settings-button")))
         return;
       observer.disconnect();
 
       setTimeout(() => {
-        // if videoQuality not generated yet recursively set eventlistener
         console.log("setQualityWhenPossible");
         setQuality("144p");
       }, 100);
@@ -63,7 +66,7 @@
     // possible to take 3rd index instead of looping to check innertext- but risky
     // const settingsMenuBtns = document.querySelectorAll(".ytp-menuitem-label");
     // for (const btn of settingsMenuBtns) {
-    //   if (globalThis.constants.qualityTitles.includes(btn.innerText)) {
+    //   if (window.constants.qualityTitles.includes(btn.innerText)) {
     //     qualityButton = btn;
     //     break;
     //   }
@@ -113,13 +116,13 @@
 
     // get keyword match scores differently as they may have different levels of importance
     // ex: titles are more important than descriptions
-    const titleScores = globalThis.helpers.getKeywordScores(
+    const titleScores = window.helpers.getKeywordScores(
       videoTitle,
-      globalThis.constants.categoryKeywords
+      window.constants.categoryKeywords
     );
-    const descriptionScores = globalThis.helpers.getKeywordScores(
+    const descriptionScores = window.helpers.getKeywordScores(
       videoDescription,
-      globalThis.constants.categoryKeywords
+      window.constants.categoryKeywords
     );
     console.log(titleScores);
     console.log(descriptionScores);
@@ -133,14 +136,14 @@
         ".yt-core-attributed-string--link-inherit-color"
       )
     ).map((el) => {
-      return globalThis.helpers.preprocessText(el.innerText);
+      return window.helpers.preprocessText(el.innerText);
     });
     console.log(descriptionArray);
     return descriptionArray.join("\n");
   };
 
   const getVideoTitle = () => {
-    return globalThis.helpers.preprocessText(
+    return window.helpers.preprocessText(
       document.querySelector("h1.style-scope.ytd-watch-metadata").innerText
     );
   };
@@ -155,7 +158,7 @@
   const getComments = () => {
     return Array.from(document.querySelectorAll("#content-text"))
       .slice(1, 4)
-      .map((el) => globalThis.helpers.preprocessText(el.innerText));
+      .map((el) => window.helpers.preprocessText(el.innerText));
   };
 })();
 

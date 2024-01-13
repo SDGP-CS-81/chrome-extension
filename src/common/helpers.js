@@ -1,4 +1,4 @@
-import { defaultPreferences } from "./constants.js";
+import { defaultPreferences, backendUrl } from "./constants.js";
 
 export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
@@ -52,17 +52,28 @@ export const keywordSearch = (videotextInfo, keywords) => {
   );
 };
 
-export function replaceSlots(parent) {
-  const slots = {};
-  parent.querySelectorAll("[slot]").forEach((el) => {
-    // convert 'nick-name' into 'nickName' for easy JS access
-    // set the *DOM node* as data property value
-    slots[
-      el.getAttribute("slot").replace(/-(\w)/g, ($0, $1) => $1.toUpperCase())
-    ] = el; // <- this is a DOM node, not a string ;-)
-    el.removeAttribute("slot"); // <- remove attribute to avoid duplicates
-  });
-  parent.querySelectorAll("slot").forEach((slot) => {
-    slot.replaceWith(slots[slot.name]);
-  });
-}
+// export function replaceSlots(parent) {
+//   const slots = {};
+//   parent.querySelectorAll("[slot]").forEach((el) => {
+//     // convert 'nick-name' into 'nickName' for easy JS access
+//     // set the *DOM node* as data property value
+//     slots[
+//       el.getAttribute("slot").replace(/-(\w)/g, ($0, $1) => $1.toUpperCase())
+//     ] = el; // <- this is a DOM node, not a string ;-)
+//     el.removeAttribute("slot"); // <- remove attribute to avoid duplicates
+//   });
+//   parent.querySelectorAll("slot").forEach((slot) => {
+//     slot.replaceWith(slots[slot.name]);
+//   });
+// }
+
+export const getVideoScores = async (videoID) => {
+  const vidScores = await fetch(`${backendUrl}/api/vid/${videoID}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+
+  return vidScores;
+};

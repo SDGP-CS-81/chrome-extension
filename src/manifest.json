@@ -22,7 +22,11 @@
   "web_accessible_resources": [
     {
       "matches": ["<all_urls>"],
-      "resources": ["common/constants.js", "common/helpers.js"]
+      "resources": [
+        "common/constants.js",
+        "common/helpers.js",
+        "common/axios.min.js"
+      ]
     }
   ],
   "background": {

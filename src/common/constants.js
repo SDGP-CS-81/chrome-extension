@@ -1,3 +1,4 @@
+export const backendUrl = "http://localhost:5000";
 export const qualities = [4320, 2160, 1440, 1080, 720, 480, 360, 240, 144];
 export const closestQualityToScreen = qualities.find(
   (quality) => quality <= screen.height
