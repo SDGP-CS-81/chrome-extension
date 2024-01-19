@@ -13,6 +13,7 @@ export default {
         secondary: "#121212",
         secondary_variant: "#3b3d3b",
         grey: "#6f6f76",
+        lightGrey: "#aaaaaa",
       },
     },
   },

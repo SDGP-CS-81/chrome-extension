@@ -1,13 +1,18 @@
 import { html } from "../../common/helpers.js";
 import { features } from "../../common/features.js";
 
-const generateTemplate = (toggleID, featureName) => {
+const generateTemplate = (toggleID, feature) => {
   const template = document.createElement("template");
   template.innerHTML = html`
     <div
-      class="flex h-14 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] @container/main @[400px]/main:px-[22px]"
+      class="flex h-14 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] @container/main @[400px]/features:h-20 @[400px]/features:px-[22px]"
     >
-      <p class="text-base">${featureName}</p>
+      <div class="flex flex-col">
+        <p class="text-base">${feature.featureName}</p>
+        <p class="text-lightGrey hidden text-sm @[400px]/main:block">
+          ${feature.description}
+        </p>
+      </div>
       <toggle-btn toggle-id="${toggleID}"></toggle-btn>
     </div>
   `;
@@ -21,9 +26,9 @@ class FeatureBtn extends HTMLElement {
 
   connectedCallback() {
     this.toggleID = this.getAttribute("toggle-id");
-    this.featureName = features[this.toggleID].featureName;
+    this.feature = features[this.toggleID];
     this.appendChild(
-      generateTemplate(this.toggleID, this.featureName).content.cloneNode(true)
+      generateTemplate(this.toggleID, this.feature).content.cloneNode(true)
     );
   }
 
