@@ -1,4 +1,5 @@
-import { defaultPreferences, backendUrl } from "./constants.js";
+import { defaultPreferences, apiURL } from "./constants.js";
+import { getYTVideoCategorisation } from "./htmlParsers.js";
 
 export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
@@ -48,8 +49,36 @@ export const getKeywordScores = (textToSearch, categoryKeywords) => {
 export const keywordSearch = (videotextInfo, keywords) => {
   return keywords.map(
     (keyword) =>
-      (longString.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
+      (videotextInfo.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
   );
+};
+
+export const getVideoScores = async (videoID) => {
+  const vidScores = await fetch(`${apiURL}/api/vid/${videoID}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+
+  return vidScores;
+};
+
+export const calcOptimumQuality = async (videoScores) => {
+  let optimumQuality = "144p"; // get default quality
+  if (!videoScores) return optimumQuality;
+
+  const preferences = await getPreferences();
+
+  // doesnt work because same problem as getting description, may have to do serverside
+  // if video has yt categorisation, get quality from preferences
+  // const ytVideoCategorisation = getYTVideoCategorisation();
+  // if (ytVideoCategorisation)
+  //   return (optimumQuality = preferences.categories[ytVideoCategorisation]);
+
+  return optimumQuality;
 };
 
 // export function replaceSlots(parent) {
@@ -66,14 +95,3 @@ export const keywordSearch = (videotextInfo, keywords) => {
 //     slot.replaceWith(slots[slot.name]);
 //   });
 // }
-
-export const getVideoScores = async (videoID) => {
-  const vidScores = await fetch(`${backendUrl}/api/vid/${videoID}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => res.json());
-
-  return vidScores;
-};
