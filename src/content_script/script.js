@@ -29,7 +29,8 @@
 
     const currentVideoID = location.href.split("v=")[1].split("&")[0];
     const videoScores = await window.helpers.getVideoScores(currentVideoID);
-    // use preferences and scores to get quality
+    const qualityToSet = await window.helpers.calcOptimumQuality(videoScores);
+
     console.log(videoScores);
     // perhaps reassign a null varaible "qualityToSet" and check in observer
 
@@ -40,7 +41,7 @@
 
       setTimeout(() => {
         console.log("setQualityWhenPossible");
-        setQuality("144p");
+        setQuality(qualityToSet);
       }, 100);
     }).observe(document.body, observerConfig);
   };
@@ -72,7 +73,7 @@
     //   }
     // }
 
-    // this approach is lesscode-- but wont set quality if already set(it relies on () being around quality when auto)
+    // this approach is lesscode-- but wont set quality if already set by anything(it relies on () being around quality when auto)
     // which is good
     qualityButton = document.querySelector(
       ".ytp-menu-label-secondary"
@@ -110,56 +111,23 @@
     // }, 100);
   };
 
-  const getVideoTextInfo = () => {
-    const videoTitle = getVideoTitle();
-    const videoDescription = getVideoDescription();
+  // const getVideoTextInfo = () => {
+  //   const videoTitle = getVideoTitle();
+  //   const videoDescription = getVideoDescription();
 
-    // get keyword match scores differently as they may have different levels of importance
-    // ex: titles are more important than descriptions
-    const titleScores = window.helpers.getKeywordScores(
-      videoTitle,
-      window.constants.categoryKeywords
-    );
-    const descriptionScores = window.helpers.getKeywordScores(
-      videoDescription,
-      window.constants.categoryKeywords
-    );
-    console.log(titleScores);
-    console.log(descriptionScores);
-  };
-
-  // limit to first 20 lines?? full description for keyword search
-  // but for backend transfer limit, to reduce data waste and unnecessary desc info like sponsor and timelines
-  const getVideoDescription = () => {
-    const descriptionArray = Array.from(
-      document.querySelectorAll(
-        ".yt-core-attributed-string--link-inherit-color"
-      )
-    ).map((el) => {
-      return window.helpers.preprocessText(el.innerText);
-    });
-    console.log(descriptionArray);
-    return descriptionArray.join("\n");
-  };
-
-  const getVideoTitle = () => {
-    return window.helpers.preprocessText(
-      document.querySelector("h1.style-scope.ytd-watch-metadata").innerText
-    );
-  };
-
-  const getChannelID = () => {
-    return document
-      .querySelector(".yt-simple-endpoint.style-scope.yt-formatted-string")
-      .href.split("www.youtube.com/")[1];
-  };
-
-  // will retrive first 3 comments- but user has to go to comments section...so it doesnt work
-  const getComments = () => {
-    return Array.from(document.querySelectorAll("#content-text"))
-      .slice(1, 4)
-      .map((el) => window.helpers.preprocessText(el.innerText));
-  };
+  //   // get keyword match scores seperately as they may have different levels of importance
+  //   // ex: titles are more important than descriptions
+  //   const titleScores = window.helpers.getKeywordScores(
+  //     videoTitle,
+  //     window.constants.categoryKeywords
+  //   );
+  //   const descriptionScores = window.helpers.getKeywordScores(
+  //     videoDescription,
+  //     window.constants.categoryKeywords
+  //   );
+  //   console.log(titleScores);
+  //   console.log(descriptionScores);
+  // };
 })();
 
 // currently vid description is getting previous vid desc
