@@ -11,6 +11,7 @@
     <script type="module" src="components/dropdown.js"></script>
     <script type="module" src="components/featureBtn.js"></script>
     <script type="module" src="components/offlineBtn.js"></script>
+    <script type="module" src="components/settingsBtn.js"></script>
     <script type="module" src="popup.js"></script>
   </head>
 
@@ -21,8 +22,11 @@
       <div
         class="flex items-center justify-between border-b border-grey px-5 py-3.5"
       >
-        <offline-btn></offline-btn>
         <text-logo class="text-base"></text-logo>
+        <div class="flex gap-x-3">
+          <settings-btn></settings-btn>
+          <offline-btn></offline-btn>
+        </div>
       </div>
 
       <div class="flex flex-col gap-4 p-5">
