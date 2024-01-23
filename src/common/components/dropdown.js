@@ -1,5 +1,5 @@
-import { qualities, defaultPreferences } from "../../common/constants.js";
-import { getYTVideoCategorisation } from "../../common/htmlParsers.js";
+import { qualities, defaultPreferences } from "../constants.js";
+import { getYTVideoCategorisation } from "../htmlParsers.js";
 
 const generateTemplate = () => {
   const template = document.createElement("template");

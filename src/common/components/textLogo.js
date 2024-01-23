@@ -1,4 +1,4 @@
-import { html } from "../../common/helpers.js";
+import { html } from "../helpers.js";
 
 const generateTemplate = () => {
   const template = document.createElement("template");
@@ -7,7 +7,7 @@ const generateTemplate = () => {
       <img
         src="../../assets/icons/logo.png"
         alt="ByteSense Logo"
-        class="mr-[0.5em] w-[1em]"
+        class="mr-[0.5em] w-[1.4em]"
       />
       <h5 class="font-medium">ByteSense</h5>
     </a>

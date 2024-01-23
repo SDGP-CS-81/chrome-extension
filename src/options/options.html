@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../output.css" rel="stylesheet" />
 
-    <script type="module" src="../popup/components/textLogo.js"></script>
-    <script type="module" src="../popup/components/toggleBtn.js"></script>
-    <script type="module" src="../popup/components/featureBtn.js"></script>
+    <script type="module" src="../common/components/textLogo.js"></script>
+    <script type="module" src="../common/components/toggleBtn.js"></script>
+    <script type="module" src="../common/components/featureBtn.js"></script>
+    <script type="module" src="../common/components/dropdown.js"></script>
+    <script type="module" src="../common/components/offlineBtn.js"></script>
+    <script type="module" src="../common/components/settingsBtn.js"></script>
     <script type="module" src="../common/features.js"></script>
   </head>
   <body class="bg-secondary">
@@ -21,7 +24,7 @@
         <!-- explicit offline button -->
         <div class="flex items-center justify-between">
           <label for="offlineBtn" class="pe-3 text-lg">Offline Mode</label>
-          <toggle-btn toggle-id="offlineBtn"></toggle-btn>
+          <offline-btn></offline-btn>
         </div>
       </div>
     </header>
@@ -29,7 +32,9 @@
     <!-- contains all the settings and clamps them to a given width -->
     <div class="flex flex-col items-center gap-y-12 py-12 @container">
       <!-- wrap any setting groups into a div like this one -->
-      <div class="flex w-full flex-col gap-y-6 @[600px]:w-[600px]">
+      <div
+        class="flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
+      >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
       </div>
