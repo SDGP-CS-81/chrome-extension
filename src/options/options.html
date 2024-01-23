@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../output.css" rel="stylesheet" />
 
-    <script type="module" src="../popup/components/textLogo.js"></script>
-    <script type="module" src="../popup/components/toggleBtn.js"></script>
-    <script type="module" src="../popup/components/featureBtn.js"></script>
+    <script type="module" src="../common/components/textLogo.js"></script>
+    <script type="module" src="../common/components/toggleBtn.js"></script>
+    <script type="module" src="../common/components/featureBtn.js"></script>
+    <script type="module" src="../common/components/dropdown.js"></script>
+    <script type="module" src="../common/components/offlineBtn.js"></script>
+    <script type="module" src="../common/components/settingsBtn.js"></script>
     <script type="module" src="../common/features.js"></script>
   </head>
   <body class="bg-secondary">
@@ -21,7 +24,7 @@
         <!-- explicit offline button -->
         <div class="flex items-center justify-between">
           <label for="offlineBtn" class="pe-3 text-lg">Offline Mode</label>
-          <toggle-btn toggle-id="offlineBtn"></toggle-btn>
+          <offline-btn></offline-btn>
         </div>
       </div>
     </header>

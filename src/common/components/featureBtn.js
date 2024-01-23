@@ -1,5 +1,5 @@
-import { html } from "../../common/helpers.js";
-import { features } from "../../common/features.js";
+import { html } from "../helpers.js";
+import { features } from "../features.js";
 
 const generateTemplate = (toggleID, feature) => {
   const template = document.createElement("template");
@@ -9,7 +9,7 @@ const generateTemplate = (toggleID, feature) => {
     >
       <div class="flex flex-col">
         <p class="text-base">${feature.featureName}</p>
-        <p class="text-lightGrey hidden text-sm @[400px]/main:block">
+        <p class="hidden text-sm text-lightGrey @[400px]/main:block">
           ${feature.description}
         </p>
       </div>

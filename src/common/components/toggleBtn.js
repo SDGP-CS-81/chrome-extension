@@ -1,4 +1,4 @@
-import { getPreferences, html, setPreferences } from "../../common/helpers.js";
+import { getPreferences, html, setPreferences } from "../helpers.js";
 
 const generateTemplate = (toggleID) => {
   const template = document.createElement("template");

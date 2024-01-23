@@ -1,4 +1,4 @@
-import { html } from "../../common/helpers.js";
+import { html } from "../helpers.js";
 
 const generateTemplate = () => {
   const template = document.createElement("template");
