@@ -20,17 +20,16 @@ Please read this [article](https://cbea.ms/git-commit/) to learn how to write go
 git clone git@github.com:SDGP-CS-81/Chrome-Extension.git
 cd Chrome-Extension
 npm install
-npm run build
-npm run preview
+npm run tailwind
 ```
 
 #### NPM Commands
 
 - Live preview styling changes -> `npm run tailwind`
-- Run project in live preview mode -> `npm run dev`
 - Run the linter -> `npm run lint`
 
 ### Tooling
 
 - Install the ['Extension Reloader'](https://chromewebstore.google.com/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid) Chrome extension to be able to leverage 'Hot Module Reload' capabilities.
 - Install the Visual Studio Code [extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) for TailwindCSS autocompletion.
+
