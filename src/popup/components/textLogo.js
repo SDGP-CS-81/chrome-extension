@@ -1,15 +1,15 @@
 import { html } from "../../common/helpers.js";
 
-const generateTemplate = () => {
+const generateTemplate = (href) => {
   const template = document.createElement("template");
   template.innerHTML = html`
-    <a href="https://www.google.com" target="_blank" class="flex items-center">
+    <a href="${href}" target="_blank" class="flex items-center">
       <img
         src="../../assets/icons/logo.png"
         alt="ByteSense Logo"
-        class="mr-2 w-[22px]"
+        class="mr-[0.5em] w-[1em]"
       />
-      <h5 class="text-lg font-medium">ByteSense</h5>
+      <h5 class="font-medium">ByteSense</h5>
     </a>
   `;
   return template;
@@ -21,7 +21,13 @@ class TextLogo extends HTMLElement {
   }
 
   connectedCallback() {
-    this.appendChild(generateTemplate().content.cloneNode(true));
+    this.href = this.getAttribute("href");
+    this.appendChild(generateTemplate(this.href).content.cloneNode(true));
+  }
+
+  disconnectedCallback() {
+    this.replaceChild();
+    this.replaceWith(this.cloneNode(true));
   }
 }
 
