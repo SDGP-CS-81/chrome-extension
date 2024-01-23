@@ -1,1 +1,38 @@
-<!-- add settings button in popup right side of offline-btn -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>ByteSense - Options</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../output.css" rel="stylesheet" />
+
+    <script type="module" src="../popup/components/textLogo.js"></script>
+    <script type="module" src="../popup/components/toggleBtn.js"></script>
+    <script type="module" src="../popup/components/featureBtn.js"></script>
+    <script type="module" src="../common/features.js"></script>
+  </head>
+  <body class="bg-secondary">
+    <header
+      class="flex items-center justify-center border-b border-grey p-8 @container"
+    >
+      <!-- clamp header items to a maximum width -->
+      <div class="flex w-full items-center justify-between @[900px]:w-[900px]">
+        <text-logo href="#" class="text-3xl"></text-logo>
+        <!-- explicit offline button -->
+        <div class="flex items-center justify-between">
+          <label for="offlineBtn" class="pe-3 text-lg">Offline Mode</label>
+          <toggle-btn toggle-id="offlineBtn"></toggle-btn>
+        </div>
+      </div>
+    </header>
+
+    <!-- contains all the settings and clamps them to a given width -->
+    <div class="flex flex-col items-center gap-y-12 py-12 @container">
+      <!-- wrap any setting groups into a div like this one -->
+      <div class="flex w-full flex-col gap-y-6 @[600px]:w-[600px]">
+        <h1 class="text-xl">Other Features</h1>
+        <feature-btn toggle-id="audioOnly"></feature-btn>
+      </div>
+    </div>
+  </body>
+</html>
