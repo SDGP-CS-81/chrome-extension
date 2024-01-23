@@ -1,8 +1,11 @@
 export const apiURL = "http://localhost:5000";
-export const qualities = [4320, 2160, 1440, 1080, 720, 480, 360, 240, 144];
-export const closestQualityToScreen = qualities.find(
-  (quality) => quality <= screen.height
-);
+export const qualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
+export const closestQualityToScreen =
+  qualities[
+    qualities.indexOf(
+      qualities.find((quality) => quality >= window.screen.height)
+    ) - 1
+  ];
 
 export const defaultPreferences = {
   categories: {
