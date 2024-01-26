@@ -9,11 +9,11 @@ export const closestQualityToScreen =
 
 export const defaultPreferences = {
   categories: {
-    music: "144p",
-    podcast: "144p",
-    gaming: "144p",
-    sports: "144p",
-    news: "144p",
+    music: "144",
+    podcast: "144",
+    gaming: "144",
+    news: "144",
+    sports: "144",
   },
   audioOnly: false,
   something: false,

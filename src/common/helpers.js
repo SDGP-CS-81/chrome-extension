@@ -1,7 +1,7 @@
 import { defaultPreferences, apiURL } from "./constants.js";
 import { getYTVideoCategorisation } from "./htmlParsers.js";
 
-export const setPreferences = async (preferences) => {
+export const setPreferences = async (preferences) => {  
   await chrome.storage.local.set({ preferences: preferences });
 };
 

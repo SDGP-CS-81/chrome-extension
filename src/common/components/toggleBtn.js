@@ -37,7 +37,6 @@ class ToggleBtn extends HTMLElement {
 
     getPreferences().then((object) => {
       const preferences = object.preferences;
-      console.log(preferences);
 
       this.checked = preferences[this.toggleID];
     });
@@ -59,7 +58,7 @@ class ToggleBtn extends HTMLElement {
         preferences[this.toggleID] = this.checked;
         await setPreferences(preferences);
         this.querySelector("input").checked = this.checked;
-        console.log(preferences);
+        // console.log(preferences);
       });
     }
   }

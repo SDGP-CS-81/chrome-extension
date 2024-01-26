@@ -61,7 +61,7 @@ class ToggleBtn extends HTMLElement {
 
     getPreferences().then((object) => {
       const preferences = object.preferences;
-      console.log(preferences);
+      // console.log(preferences);
 
       this.checked = preferences[this.toggleID];
     });

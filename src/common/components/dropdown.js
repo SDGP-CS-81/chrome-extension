@@ -1,22 +1,63 @@
-import { qualities, defaultPreferences } from "../constants.js";
-import { getYTVideoCategorisation } from "../htmlParsers.js";
+import { setPreferences, getPreferences } from "../helpers.js";
+import { qualities } from "../constants.js";
+import { categories } from "../categories.js";
 
-const generateTemplate = () => {
+// template for each dropdown menu item
+const generateMenuItemTemplate = (quality, selectedQuality) => {
+  const isSelected = quality.toString() === selectedQuality;
+  return `
+    <p class="dropdown-menu-item cursor-pointer block w-full px-4 py-3 text-base ${
+      isSelected
+        ? "bg-primary text-white"
+        : "text-white hover:bg-lightGrey hover:text-gray-900"
+    }" data-quality="${quality}">
+      ${quality}p
+    </p>
+  `;
+};
+
+// generate overall template for the dropdown
+const generateTemplate = (selectedQuality, category) => {
+  const qualityItemsHtml = qualities
+    .map((quality) => generateMenuItemTemplate(quality, selectedQuality))
+    .join("");
+
   const template = document.createElement("template");
   template.innerHTML = `
-    <div class="dropdown relative text-left">
-      <button type="button" class="dropdown-button flex h-14 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] text-sm shadow-sm" aria-expanded="false" aria-haspopup="true">
-        <span class="quality-text">Quality Options</span>
-        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <div class="flex items-center">
+  <div class="dropdown relative text-left w-full mr-2">
+    <!-- Button to trigger the dropdown -->
+    <button type="button" category-id="${category}" class="dropdown-button flex h-14 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] text-base shadow-sm" aria-expanded="false" aria-haspopup="true">
+      <!-- Category name -->
+      <p class="category-text">${category.categoryName}</p>
+      <!-- Selected quality and dropdown icon -->
+      <div class="flex items-center">
+        <p class="quality-text mr-2">${
+          selectedQuality ? `${selectedQuality}p` : ""
+        }</p>
+        <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
         </svg>
-      </button>
-      <div class="dropdown-menu absolute right-0 top-2 z-10 mt-0 w-36 origin-top-right rounded-md bg-secondary_variant shadow-lg ring-2 ring-lightGrey ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-      <div class="overflow-y-scroll scrollbar-thin scrollbar-thumb-primary" style="height: 310px;" role="none">
-        <div class="py-0" role="none">
+      </div>
+    </button>
+    <!-- Dropdown menu -->
+    <div class="dropdown-menu absolute right-0 top-2 z-10 mt-0 w-36 origin-top-right rounded-md bg-secondary_variant shadow-lg ring-2 ring-lightGrey ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+      <div class="overflow-y-scroll scrollbar-thin scrollbar-thumb-grey" style="height: 295px;" role="none">
+        <div class="dropdown-item-container" role="none">
+          <!-- Insert quality items HTML here -->
+          ${qualityItemsHtml}
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Popover trigger -->
+  <div>
+    <svg class="h-5 w-full cursor-pointer text-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+  </div>
+</div>
   `;
   return template;
 };
@@ -26,87 +67,59 @@ class Dropdown extends HTMLElement {
     super();
   }
 
+
   connectedCallback() {
-    this.appendChild(generateTemplate().content.cloneNode(true));
+    // initial load
+    getPreferences().then(async (object) => {
+      const preferences = object.preferences;
+      // console.log("initial preferences", preferences)
+      this.currentSelectedQuality = preferences.categories[this.getAttribute("category-id")];
+      // console.log(this.getAttribute("category-id"), this.currentSelectedQuality)
+      this.appendChild(
+        generateTemplate(this.currentSelectedQuality, categories[this.getAttribute("category-id")]).content.cloneNode(true)
+      );
 
-    const dropdownButton = this.querySelector(".dropdown-button");
-    const dropdownMenu = this.querySelector(".dropdown-menu");
-    const dropdownOptionsContainer = this.querySelector(".py-0");
+      // handle dropdown menu item clicks
+      this.querySelector(".dropdown-item-container").addEventListener("click", (event) => {
+        const selectedQuality = event.target.getAttribute("data-quality");
+        // console.log(selectedQuality)
+        getPreferences().then(async (object) => {
+          const preferences = object.preferences;
+          preferences.categories[this.getAttribute("category-id")] = selectedQuality;
+          await setPreferences(preferences);
+          // console.log("set preferences", preferences)
+        })
 
-    const updateOptions = () => {
-      // remove existing options
-      dropdownOptionsContainer.innerHTML = "";
+        // hide dropdown after selection
+        this.querySelector(".dropdown-button").setAttribute("aria-expanded", "false");
+        this.querySelector(".dropdown-menu").classList.add("hidden");
 
-      // add options from the imported qualities array
-      qualities.forEach((quality, index) => {
-        const menuItem = document.createElement("a");
-        menuItem.href = "#";
-        menuItem.textContent = `${quality}p`;
-        menuItem.classList.add(
-          "block",
-          "w-full",
-          "px-4",
-          "py-3",
-          "text-sm",
-          "text-white",
-          "hover:bg-gray-100",
-          "hover:text-gray-900"
-        );
-        menuItem.setAttribute("role", "menuitem");
-        menuItem.setAttribute("tabindex", "-1");
-        menuItem.id = `menu-item-${index}`;
+        // update displayed quality
+        dropdownButton.querySelector(".quality-text").textContent = `${selectedQuality}p`;
+      })
 
-        menuItem.addEventListener("click", () => {
-          // update the selected quality and close the menu
-          this.selectedQuality = quality;
-          dropdownButton.querySelector(".quality-text").textContent =
-            `${quality}p`;
+      const dropdownButton = this.querySelector(".dropdown-button");
+      const dropdownMenu = this.querySelector(".dropdown-menu");
+
+      // handle button clicks to toggle dropdown visibility
+      dropdownButton.addEventListener("click", () => {
+        const expanded = dropdownButton.getAttribute("aria-expanded") === "true";
+        dropdownButton.setAttribute("aria-expanded", !expanded);
+        dropdownMenu.classList.toggle("hidden", expanded);
+      });
+
+      // global click event listener to hide the dropdown when clicking outside
+      document.addEventListener("click", (event) => {
+        if (!this.contains(event.target)) {
           dropdownMenu.classList.add("hidden");
           dropdownButton.setAttribute("aria-expanded", "false");
-        });
-
-        dropdownOptionsContainer.appendChild(menuItem);
+        }
       });
-    };
-
-    // initially populate options
-    updateOptions();
-
-    dropdownButton.addEventListener("click", () => {
-      const expanded =
-        dropdownButton.getAttribute("aria-expanded") === "true" || false;
-      dropdownButton.setAttribute("aria-expanded", !expanded);
-      dropdownMenu.classList.toggle("hidden", expanded);
-    });
-
-    // close the menu when clicking outside of it
-    document.addEventListener("click", (event) => {
-      if (!this.contains(event.target)) {
-        dropdownMenu.classList.add("hidden");
-        dropdownButton.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    this.updateDropdownButtonText();
+    })
   }
 
-  updateDropdownButtonText() {
-    // get the current video category
-    // TO-DO: current category fucntionality...
-    const currentCategory = getYTVideoCategorisation();
-
-    // get the preferred quality for a given category
-    const preferredQuality =
-      this.getPreferredQualityForCategory(currentCategory);
-
-    const dropdownButton = this.querySelector(".dropdown-button");
-    dropdownButton.querySelector(".quality-text").textContent =
-      `${preferredQuality}`;
-  }
-
-  // returns the preferred quality for a given category
-  getPreferredQualityForCategory(category) {
-    return defaultPreferences.categories[category] || "480p";
+  disconnectedCallback() {
+    this.replaceWith(this.cloneNode(true));
   }
 }
 
