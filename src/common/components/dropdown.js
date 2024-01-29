@@ -6,7 +6,7 @@ import { categories } from "../categories.js";
 const generateMenuItemTemplate = (quality, selectedQuality) => {
   const isSelected = quality.toString() === selectedQuality;
   return `
-    <p class="dropdown-menu-item cursor-pointer block w-full px-4 py-3 text-base ${
+    <p class="dropdown-menu-item cursor-pointer block h-12 w-full px-4 py-3 text-base ${
       isSelected
         ? "bg-primary text-white"
         : "text-white hover:bg-lightGrey hover:text-gray-900"
@@ -42,7 +42,7 @@ const generateTemplate = (selectedQuality, category) => {
     </button>
     <!-- Dropdown menu -->
     <div class="dropdown-menu absolute right-0 top-2 z-10 mt-0 w-36 origin-top-right rounded-md bg-secondary_variant shadow-lg ring-2 ring-lightGrey ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-      <div class="overflow-y-scroll scrollbar-thin scrollbar-thumb-grey" style="height: 295px;" role="none">
+      <div class="overflow-y-scroll h-60 scrollbar-thin scrollbar-thumb-grey" role="none">
         <div class="dropdown-item-container" role="none">
           <!-- Insert quality items HTML here -->
           ${qualityItemsHtml}
@@ -89,6 +89,16 @@ class Dropdown extends HTMLElement {
           await setPreferences(preferences);
           // console.log("set preferences", preferences)
         })
+
+        // remove the 'bg-primary' class from all items
+        this.querySelectorAll(".dropdown-menu-item").forEach(item => {
+          item.classList.remove("bg-primary", "text-white");
+          item.classList.add("text-white", "hover:bg-lightGrey", "hover:text-gray-900");
+        });
+
+        // highlight the selected item
+        event.target.classList.add("bg-primary", "text-white");
+        event.target.classList.remove("text-white", "hover:bg-lightGrey", "hover:text-gray-900");
 
         // hide dropdown after selection
         this.querySelector(".dropdown-button").setAttribute("aria-expanded", "false");
