@@ -13,13 +13,19 @@ export const defaultPreferences = {
     podcast: "144",
     gaming: "144",
     news: "144",
+    coding: "144",
     sports: "144",
+    graphics: "144",
+    food: "144",
+    nature: "144",
+    demo: "144",
   },
   audioOnly: false,
-  something: false,
-  another: false,
-  idek: true,
-  offlineMode: false,
+  lowBackgroundResolution: false,
+  userInitiatedPlayback: false,
+  thumbnailHoverBlocking: false,
+  blockThumbnailLoad: true,
+  blockHomePageLoad: false,
 };
 
 export const categoryKeywords = {
