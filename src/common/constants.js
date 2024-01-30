@@ -33,6 +33,10 @@ export const categoryKeywords = {
   podcast: ["podcast"],
 };
 
+export const currentCategory = {
+  currentVideoCategory: "coding",
+};
+
 // taken from https://github.com/sameernyaupane/simple-auto-hd/
 export const qualityTitles = [
   "Quality",

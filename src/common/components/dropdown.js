@@ -27,7 +27,7 @@ const generateTemplate = (selectedQuality, category) => {
   <div class="flex items-center @[400px]/dropdown:h-20">
   <div class="dropdown relative text-left w-full">
     <!-- Button to trigger the dropdown -->
-    <button type="button" category-id="${category}" class="dropdown-button flex h-16 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] text-base shadow-sm" aria-expanded="false" aria-haspopup="true">
+    <button type="button" category-id="${category}" class="dropdown-button flex h-14 @[400px]/dropdown:h-16 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] text-base shadow-sm" aria-expanded="false" aria-haspopup="true">
       <!-- Category name -->
       <p class="category-text">${category.categoryName}</p>
       <!-- Selected quality and dropdown icon -->
