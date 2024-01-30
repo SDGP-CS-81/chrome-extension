@@ -27,7 +27,7 @@ const generateTemplate = (selectedQuality, category) => {
   <div class="flex items-center @[400px]/dropdown:h-20">
   <div class="dropdown relative text-left w-full">
     <!-- Button to trigger the dropdown -->
-    <button type="button" category-id="${category}" class="dropdown-button flex h-14 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] text-base shadow-sm" aria-expanded="false" aria-haspopup="true">
+    <button type="button" category-id="${category}" class="dropdown-button flex h-16 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] text-base shadow-sm" aria-expanded="false" aria-haspopup="true">
       <!-- Category name -->
       <p class="category-text">${category.categoryName}</p>
       <!-- Selected quality and dropdown icon -->
@@ -56,9 +56,9 @@ const generateTemplate = (selectedQuality, category) => {
     <svg class="h-6 w-full cursor-pointer text-white dropdown-info-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
     </svg> 
-    <div class="flex absolute z-[10] right-0 top-0 bg-secondary_variant popup hidden w-72 p-2 rounded-md transform translate-x-[300px] -translate-y-[75px]">
-      <p class="text-white text-sm">Description of the category</p>
-      <img src="https://images.unsplash.com/photo-1544928147-79a2dbc1f389?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dGVhbSUyMGJ1aWxkaW5nfGVufDB8fDB8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60" alt="Information" class="w-64 h-32 ml-2 rounded-md" />
+    <div class="flex absolute z-[10] right-0 top-0 bg-secondary_variant popup hidden w-72 p-2 rounded-md transform translate-x-[300px] -translate-y-[70px] items-center">
+      <p class="text-white text-sm">${category.desc}</p>
+      <img src="${category.decscImg}" alt="Category type" class="w-28 h-28 ml-6 rounded-md" />
     </div>
   </div>
 </div>
