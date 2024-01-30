@@ -32,14 +32,20 @@
     <!-- contains all the settings and clamps them to a given width -->
     <div class="flex flex-col items-center gap-y-12 py-12 @container">
       <div
-        class="flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
+        class="flex z-[10] w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Categories</h1>
+        <dropdown-el category-id="coding"></dropdown-el>
         <dropdown-el category-id="music"></dropdown-el>
         <dropdown-el category-id="podcast"></dropdown-el>
         <dropdown-el category-id="gaming"></dropdown-el>
         <dropdown-el category-id="sports"></dropdown-el>
+        <dropdown-el category-id="graphics"></dropdown-el>
+        <dropdown-el category-id="food"></dropdown-el>
+        <dropdown-el category-id="nature"></dropdown-el>
+        <dropdown-el category-id="lifestyle"></dropdown-el>
         <dropdown-el category-id="news"></dropdown-el>
+        <dropdown-el category-id="demo"></dropdown-el>
       </div>
       
       <!-- wrap any setting groups into a div like this one -->
@@ -48,6 +54,11 @@
       >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
+        <feature-btn toggle-id="lowBackgroundResolution"></feature-btn>
+        <feature-btn toggle-id="userInitiatedPlayback"></feature-btn>
+        <feature-btn toggle-id="thumbnailHoverBlocking"></feature-btn>
+        <feature-btn toggle-id="blockThumbnailLoad"></feature-btn>
+        <feature-btn toggle-id="blockHomePageLoad"></feature-btn>
       </div>
     </div>
   </body>
