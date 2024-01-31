@@ -23,6 +23,7 @@ export const html = (staticText, ...values) => {
 export const preprocessText = (text) => {
   return text
     .trim()
+    .replace(/(?:https?|ftp):\/\/[\n\S]+/g, "") // remove url's
     .replace(/[^a-zA-Z0-9]/g, " ") // replace all non-alphabets with whitespace
     .replace(/\s+/g, " ") // replace all consecutive whitespace with a single whitespace
     .toLowerCase();
