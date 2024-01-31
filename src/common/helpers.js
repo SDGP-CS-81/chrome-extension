@@ -1,4 +1,4 @@
-import { defaultPreferences, apiURL } from "./constants.js";
+import { defaultPreferences, apiURL, currentCategory } from "./constants.js";
 import { getYTVideoCategorisation } from "./htmlParsers.js";
 
 export const setPreferences = async (preferences) => {  
@@ -79,6 +79,13 @@ export const calcOptimumQuality = async (videoScores) => {
   //   return (optimumQuality = preferences.categories[ytVideoCategorisation]);
 
   return optimumQuality;
+};
+
+export const getCurrentVideoCategory = async () => {
+  const currentVideoCategory = await chrome.storage.local.get({
+    currentVideoCategory: currentCategory,
+  });
+  return currentVideoCategory;
 };
 
 // export function replaceSlots(parent) {
