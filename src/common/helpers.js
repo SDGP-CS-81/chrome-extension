@@ -1,7 +1,7 @@
 import { defaultPreferences, apiURL, currentCategory } from "./constants.js";
 import { getYTVideoCategorisation } from "./htmlParsers.js";
 
-export const setPreferences = async (preferences) => {  
+export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
 };
 
@@ -21,12 +21,11 @@ export const html = (staticText, ...values) => {
 };
 
 export const preprocessText = (text) => {
-  // remove all characters that are not alphanumeric
-  let preprocessedText = text
+  return text
     .trim()
-    .replace(/[^a-zA-Z0-9]/g, " ")
+    .replace(/[^a-zA-Z0-9]/g, " ") // replace all non-alphabets with whitespace
+    .replace(/\s+/g, " ") // replace all consecutive whitespace with a single whitespace
     .toLowerCase();
-  return preprocessedText;
 };
 
 export const getKeywordScores = (textToSearch, categoryKeywords) => {
