@@ -59,10 +59,7 @@ class ToggleBtn extends HTMLElement {
     this.toggleID = "offlineMode";
     this.appendChild(generateTemplate().content.cloneNode(true));
 
-    getPreferences().then((object) => {
-      const preferences = object.preferences;
-      // console.log(preferences);
-
+    getPreferences().then((preferences) => {
       this.checked = preferences[this.toggleID];
     });
 

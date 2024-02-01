@@ -10,9 +10,10 @@ export const setPreferences = async (preferences) => {
 };
 
 export const getPreferences = async () => {
-  return await chrome.storage.local.get({
+  const obj = await chrome.storage.local.get({
     preferences: defaultPreferences,
   });
+  return obj.preferences;
 };
 
 export const html = (staticText, ...values) => {
