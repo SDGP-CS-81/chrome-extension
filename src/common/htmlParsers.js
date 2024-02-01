@@ -15,13 +15,13 @@ export const getYTVideoCategorisation = () => {
 // limit to first 20 lines?? full description for keyword search
 // but for backend transfer limit, to reduce data waste and unnecessary desc info like sponsor and timelines
 export const getVideoDescription = () => {
-  const descriptionArray = Array.from(
+  const description = Array.from(
     document.querySelectorAll(".yt-core-attributed-string--link-inherit-color")
-  ).map((el) => {
-    return window.helpers.preprocessText(el.innerText);
-  });
-  console.log(descriptionArray);
-  return descriptionArray.join("\n");
+  )
+    .map((el) => el.innerText)
+    .join(" ");
+
+  return window.helpers.preprocessText(description);
 };
 
 export const getVideoTitle = () => {
