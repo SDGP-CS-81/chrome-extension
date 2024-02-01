@@ -76,14 +76,14 @@ export const calcOptimumQuality = async (videoScores) => {
   // const ytVideoCategorisation = getYTVideoCategorisation();
   // if (ytVideoCategorisation)
   //   return (optimumQuality = preferences.categories[ytVideoCategorisation]);
-  //  - -- - - -to delete
-  // let videoScore = {
-  //   categoryScores: {
-  //     coding: 2,
-  //     music: 1,
-  //     podcast: 25,
-  //   },
-  // };
+  //  - -- - - -to delete---for testing purpose
+  let videoScore = {
+    categoryScores: {
+      coding: 2,
+      music: 1,
+      podcast: 25,
+    },
+  };
 
   const sortedCategoryScores = Object.entries(videoScore.categoryScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
@@ -91,6 +91,13 @@ export const calcOptimumQuality = async (videoScores) => {
   const videoCategory = sortedCategoryScores[0][0];
   setCurrentVideoCategory(videoCategory);
 
+  // map user facing categories to underlying categories
+
+  const preferredQuality = preferences.categories[videoCategory];
+  // take 2nd/3rd and ratings?
+  // use detail and similarity score to alter quality
+
+  optimumQuality = preferredQuality;
   return optimumQuality;
 };
 
