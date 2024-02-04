@@ -30,7 +30,15 @@ export const defaultPreferences = {
 
 export const categoryKeywords = {
   music: ["music", "song", "lyrics"],
-  podcast: ["podcast"],
+  podcast: ["podcast","conversation","interview","Episode"],
+  gaming:["gameplay","walkthrough","PC","PS","game","live"],
+  news:["news","update","breaking","headlines","politics","world"],
+  coding:["python","programming","tutorial","software","develop"],
+  sports:["football","score","highlights","match","vs"],
+  graphics:["design","animation","art","digital","creative"],
+  food:["cook","ingredients","baking","muckbang","food"],
+  nature:["wild","animals","survival","Scenic","nature","ocean"],
+  demo:["repair","guide","how","instructions"]
 };
 
 export const defaultCurrentVideoCategory = "coding";
