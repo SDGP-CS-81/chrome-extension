@@ -35,9 +35,7 @@ class ToggleBtn extends HTMLElement {
     this.toggleID = this.getAttribute("toggle-id");
     this.appendChild(generateTemplate(this.toggleID).content.cloneNode(true));
 
-    getPreferences().then((object) => {
-      const preferences = object.preferences;
-
+    getPreferences().then((preferences) => {
       this.checked = preferences[this.toggleID];
     });
 

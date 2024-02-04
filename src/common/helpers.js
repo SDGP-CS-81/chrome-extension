@@ -1,4 +1,8 @@
-import { defaultPreferences, apiURL, currentCategory } from "./constants.js";
+import {
+  defaultPreferences,
+  apiURL,
+  defaultCurrentVideoCategory,
+} from "./constants.js";
 import { getYTVideoCategorisation } from "./htmlParsers.js";
 
 export const setPreferences = async (preferences) => {
@@ -6,18 +10,16 @@ export const setPreferences = async (preferences) => {
 };
 
 export const getPreferences = async () => {
-  const preferences = await chrome.storage.local.get({
+  const obj = await chrome.storage.local.get({
     preferences: defaultPreferences,
   });
-  return preferences;
+  return obj.preferences;
 };
 
 export const html = (staticText, ...values) => {
-  const fullText = staticText.reduce((acc, text, index) => {
+  return staticText.reduce((acc, text, index) => {
     return acc + text + (values[index] ?? "");
   }, "");
-
-  return fullText;
 };
 
 export const preprocessText = (text) => {
@@ -54,7 +56,7 @@ export const keywordSearch = (videotextInfo, keywords) => {
 };
 
 export const getVideoScores = async (videoID) => {
-  const vidScores = await fetch(`${apiURL}/api/vid/${videoID}`, {
+  return await fetch(`${apiURL}/api/vid/${videoID}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -62,13 +64,11 @@ export const getVideoScores = async (videoID) => {
   })
     .then((res) => res.json())
     .catch((err) => console.log(err));
-
-  return vidScores;
 };
 
 export const calcOptimumQuality = async (videoScores) => {
   let optimumQuality = "144p"; // get default quality
-  if (!videoScores) return optimumQuality;
+  // if (!videoScores) return optimumQuality;
 
   const preferences = await getPreferences();
 
@@ -77,15 +77,42 @@ export const calcOptimumQuality = async (videoScores) => {
   // const ytVideoCategorisation = getYTVideoCategorisation();
   // if (ytVideoCategorisation)
   //   return (optimumQuality = preferences.categories[ytVideoCategorisation]);
+  //  - -- - - -to delete---for testing purpose
+  let videoScore = {
+    categoryScores: {
+      coding: 2,
+      music: 1,
+      podcast: 25,
+    },
+  };
 
+  const sortedCategoryScores = Object.entries(videoScore.categoryScores).sort(
+    (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
+  );
+  const videoCategory = sortedCategoryScores[0][0];
+  setCurrentVideoCategory(videoCategory);
+
+  // map user facing categories to underlying categories
+
+  const preferredQuality = preferences.categories[videoCategory];
+  // take 2nd/3rd and ratings?
+  // use detail and similarity score to alter quality
+
+  optimumQuality = preferredQuality;
   return optimumQuality;
 };
 
-export const getCurrentVideoCategory = async () => {
-  const currentVideoCategory = await chrome.storage.local.get({
-    currentVideoCategory: currentCategory,
+export const setCurrentVideoCategory = async (currentVideoCategory) => {
+  await chrome.storage.local.set({
+    currentVideoCategory: currentVideoCategory,
   });
-  return currentVideoCategory;
+};
+
+export const getCurrentVideoCategory = async () => {
+  const obj = await chrome.storage.local.get({
+    currentVideoCategory: defaultCurrentVideoCategory,
+  });
+  return obj.currentVideoCategory;
 };
 
 // export function replaceSlots(parent) {

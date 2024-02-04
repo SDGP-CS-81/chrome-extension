@@ -11,14 +11,14 @@ export const defaultPreferences = {
   categories: {
     music: "144",
     podcast: "144",
-    gaming: "144",
-    news: "144",
-    coding: "144",
-    sports: "144",
-    graphics: "144",
+    gaming: "1080",
+    news: "480",
+    coding: "1080",
+    sports: "720",
+    graphics: "240",
     food: "144",
-    nature: "144",
-    demo: "144",
+    nature: "720",
+    demo: "480",
   },
   audioOnly: false,
   lowBackgroundResolution: false,
@@ -33,9 +33,7 @@ export const categoryKeywords = {
   podcast: ["podcast"],
 };
 
-export const currentCategory = {
-  currentVideoCategory: "coding",
-};
+export const defaultCurrentVideoCategory = "coding";
 
 // taken from https://github.com/sameernyaupane/simple-auto-hd/
 export const qualityTitles = [

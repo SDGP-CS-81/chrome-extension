@@ -58,7 +58,9 @@ const generateTemplate = (selectedQuality, category) => {
     </svg> 
     <div class="flex absolute z-[10] right-0 top-0 bg-secondary_variant popup hidden w-72 p-2 rounded-md transform translate-x-[300px] -translate-y-[70px] items-center">
       <p class="text-white text-sm">${category.desc}</p>
-      <img src="${category.decscImg}" alt="Category type" class="w-28 h-28 ml-6 rounded-md" />
+      <img src="${
+        category.decscImg
+      }" alt="Category type" class="w-28 h-28 ml-6 rounded-md" />
     </div>
   </div>
 </div>
@@ -73,8 +75,7 @@ class Dropdown extends HTMLElement {
 
   connectedCallback() {
     // initial load
-    getPreferences().then(async (object) => {
-      const preferences = object.preferences;
+    getPreferences().then(async (preferences) => {
       // console.log("initial preferences", preferences)
       this.currentSelectedQuality =
         preferences.categories[this.getAttribute("category-id")];
