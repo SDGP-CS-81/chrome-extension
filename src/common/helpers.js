@@ -74,35 +74,27 @@ export const getVideoScores = async (videoID) => {
 
 export const calcOptimumQuality = async (videoScores) => {
   let optimumQuality = "144p"; // get default quality
-  // if (!videoScores) return optimumQuality;
+  if (!videoScores) return optimumQuality;
 
   const preferences = await getPreferences();
 
-  // doesnt work because same problem as getting description, may have to do serverside
-  // if video has yt categorisation, get quality from preferences
-  // const ytVideoCategorisation = getYTVideoCategorisation();
-  // if (ytVideoCategorisation)
-  //   return (optimumQuality = preferences.categories[ytVideoCategorisation]);
-  //  - -- - - -to delete---for testing purpose
-  let videoScore = {
-    categoryScores: {
-      coding: 2,
-      music: 1,
-      podcast: 25,
-    },
-  };
-
-  const sortedCategoryScores = Object.entries(videoScore.categoryScores).sort(
+  const sortedCategoryScores = Object.entries(videoScores.categoryScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   );
-  const videoCategory = sortedCategoryScores[0][0];
-  setCurrentVideoCategory(videoCategory);
+  const mostLikelyvideoCategory = sortedCategoryScores[0][0];
+  setCurrentVideoCategory(mostLikelyvideoCategory);
 
   // map user facing categories to underlying categories
 
-  const preferredQuality = preferences.categories[videoCategory];
+  const preferredQuality = preferences.categories[mostLikelyvideoCategory];
   // take 2nd/3rd and ratings?
+
   // use detail and similarity score to alter quality
+
+  // keyword scores
+  const sortedKeywordScores = Object.entries(videoScores.keywordScores).sort(
+    (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
+  );
 
   optimumQuality = preferredQuality;
   return optimumQuality;
