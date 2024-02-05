@@ -2,6 +2,7 @@ import {
   defaultPreferences,
   apiURL,
   defaultCurrentVideoCategory,
+  categoryKeywords,
 } from "./constants.js";
 import { getYTVideoCategorisation } from "./htmlParsers.js";
 
@@ -56,12 +57,17 @@ export const keywordSearch = (videotextInfo, keywords) => {
 };
 
 export const getVideoScores = async (videoID) => {
-  return await fetch(`${apiURL}/api/vid/${videoID}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  return await fetch(
+    `${apiURL}/api/vid/${videoID}?categoryKeywords=${encodeURIComponent(
+      JSON.stringify(categoryKeywords)
+    )}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then((res) => res.json())
     .catch((err) => console.log(err));
 };
