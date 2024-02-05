@@ -1,11 +1,11 @@
 export const features = {
   audioOnly: {
     featureName: "Audio Only Video",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    description: "Enables playback of only the audio stream of the video",
   },
-  lowBackgroundResolution: { featureName: "Low Background", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
-  userInitiatedPlayback: { featureName: "User-initiated Playback", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
-  thumbnailHoverBlocking: { featureName: "Block Thumbnail Hover", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
-  blockThumbnailLoad: { featureName: "Block Thumbnail Load", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
-  blockHomePageLoad: { featureName: "Block Home Page Loading", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
+  lowBackgroundResolution: { featureName: "Low Background", description: "Reduces video quality to the lowest when the video is playing in the background" },
+  userInitiatedPlayback: { featureName: "User-initiated Playback", description: "Stops videos from loading until you start playing the video" },
+  thumbnailHoverBlocking: { featureName: "Block Thumbnail Hover", description: " Prevents video previews from playing when hovering over a thumbnail" },
+  blockThumbnailLoad: { featureName: "Block Thumbnail Load", description: "Stops the loading of video thumbnails" },
+  blockHomePageLoad: { featureName: "Block Home Page Loading", description: " Stops automatic loading of the YouTube home page" },
 };
