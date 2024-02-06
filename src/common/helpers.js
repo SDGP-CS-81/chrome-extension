@@ -2,14 +2,12 @@ import {
   defaultPreferences,
   apiURL,
   defaultCurrentVideoCategory,
-  categoryKeywords,
+  categories,
 } from "./constants.js";
-import { getYTVideoCategorisation } from "./htmlParsers.js";
 
 export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
 };
-
 
 export const getPreferences = async () => {
   const obj = await chrome.storage.local.get({
@@ -58,6 +56,12 @@ export const keywordSearch = (videotextInfo, keywords) => {
 };
 
 export const getVideoScores = async (videoID) => {
+  const categoryKeywords = Object.fromEntries(
+    Object.entries(categories).map(([category, obj]) => [
+      category,
+      obj.keywords,
+    ])
+  );
   return await fetch(
     `${apiURL}/api/vid/${videoID}?categoryKeywords=${encodeURIComponent(
       JSON.stringify(categoryKeywords)
@@ -74,13 +78,10 @@ export const getVideoScores = async (videoID) => {
 };
 
 export const calcOptimumQuality = async (videoScores) => {
-  //let optimumQuality = "144p"; // get default quality
   const preferences = await getPreferences();
   let optimumQuality = preferences.categories.defaultQuality;
 
   if (!videoScores) return optimumQuality;
-
-
 
   const sortedCategoryScores = Object.entries(videoScores.categoryScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
@@ -116,18 +117,3 @@ export const getCurrentVideoCategory = async () => {
   });
   return obj.currentVideoCategory;
 };
-
-// export function replaceSlots(parent) {
-//   const slots = {};
-//   parent.querySelectorAll("[slot]").forEach((el) => {
-//     // convert 'nick-name' into 'nickName' for easy JS access
-//     // set the *DOM node* as data property value
-//     slots[
-//       el.getAttribute("slot").replace(/-(\w)/g, ($0, $1) => $1.toUpperCase())
-//     ] = el; // <- this is a DOM node, not a string ;-)
-//     el.removeAttribute("slot"); // <- remove attribute to avoid duplicates
-//   });
-//   parent.querySelectorAll("slot").forEach((slot) => {
-//     slot.replaceWith(slots[slot.name]);
-//   });
-// }

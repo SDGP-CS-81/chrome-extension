@@ -1,5 +1,5 @@
 import { html } from "../helpers.js";
-import { features } from "../features.js";
+import { features } from "../constants.js";
 
 const generateTemplate = (toggleID, feature) => {
   const template = document.createElement("template");
