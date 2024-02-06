@@ -1,9 +1,4 @@
-import {
-  defaultPreferences,
-  apiURL,
-  defaultCurrentVideoCategory,
-  categories,
-} from "./constants.js";
+import { defaultPreferences, apiURL, categories } from "./constants.js";
 
 export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
@@ -16,6 +11,9 @@ export const getPreferences = async () => {
   return obj.preferences;
 };
 
+// doesn't really do anything
+// a hack to get prettier-plugin-tailwindcss to work
+// it's plugin bug
 export const html = (staticText, ...values) => {
   return staticText.reduce((acc, text, index) => {
     return acc + text + (values[index] ?? "");
@@ -37,22 +35,17 @@ export const getKeywordScores = (textToSearch, categoryKeywords) => {
   Object.entries(categoryKeywords).forEach(([category, keywords]) => {
     const matchedScores = keywords.map(
       (keyword) =>
-        (textToSearch.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
+        (textToSearch.match(new RegExp(`\\W${keyword}\\W`, "g")) || []).length
     );
+
     const numKeywordsMatched = matchedScores.filter(
       (matchCount) => matchCount > 0
     ).length;
+
     keywordScores[category] = numKeywordsMatched;
   });
 
   return keywordScores;
-};
-
-export const keywordSearch = (videotextInfo, keywords) => {
-  return keywords.map(
-    (keyword) =>
-      (videotextInfo.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
-  );
 };
 
 export const getVideoScores = async (videoID) => {
@@ -62,6 +55,7 @@ export const getVideoScores = async (videoID) => {
       obj.keywords,
     ])
   );
+
   return await fetch(
     `${apiURL}/api/vid/${videoID}?categoryKeywords=${encodeURIComponent(
       JSON.stringify(categoryKeywords)
@@ -87,14 +81,11 @@ export const calcOptimumQuality = async (videoScores) => {
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   );
   const mostLikelyvideoCategory = sortedCategoryScores[0][0];
-  setCurrentVideoCategory(mostLikelyvideoCategory);
 
   // map user facing categories to underlying categories
+  setCurrentVideoCategory(mostLikelyvideoCategory);
 
   const preferredQuality = preferences.categories[mostLikelyvideoCategory];
-  // take 2nd/3rd and ratings?
-
-  // use detail and similarity score to alter quality
 
   // keyword scores
   const sortedKeywordScores = Object.entries(videoScores.keywordScores).sort(
@@ -113,7 +104,7 @@ export const setCurrentVideoCategory = async (currentVideoCategory) => {
 
 export const getCurrentVideoCategory = async () => {
   const obj = await chrome.storage.local.get({
-    currentVideoCategory: defaultCurrentVideoCategory,
+    currentVideoCategory: Object.keys(categories).pop(),
   });
   return obj.currentVideoCategory;
 };

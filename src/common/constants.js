@@ -2,9 +2,9 @@ export const apiURL = "http://localhost:5000";
 export const qualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 export const closestQualityToScreen =
   qualities[
-    qualities.indexOf(
-      qualities.find((quality) => quality >= window.screen.height)
-    ) - 1
+    qualities
+      .reverse()
+      .indexOf(qualities.find((quality) => quality <= window.screen.height))
   ];
 
 export const defaultPreferences = {
@@ -19,7 +19,7 @@ export const defaultPreferences = {
     food: "144",
     nature: "720",
     demo: "480",
-    defaultQuality: "144",
+    defaultQuality: "480",
   },
   audioOnly: false,
   lowBackgroundResolution: false,
@@ -104,7 +104,7 @@ export const features = {
     description: "Enables playback of only the audio stream of the video",
   },
   lowBackgroundResolution: {
-    featureName: "Low Background",
+    featureName: "Lower Quality for Background Playback",
     description:
       "Reduces video quality to the lowest when the video is playing in the background",
   },
@@ -126,8 +126,6 @@ export const features = {
     description: " Stops automatic loading of the YouTube home page",
   },
 };
-
-export const defaultCurrentVideoCategory = "coding";
 
 // taken from https://github.com/sameernyaupane/simple-auto-hd/
 export const qualityTitles = [
