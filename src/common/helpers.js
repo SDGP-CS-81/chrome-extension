@@ -72,27 +72,60 @@ export const getVideoScores = async (videoID) => {
 };
 
 export const calcOptimumQuality = async (videoScores) => {
+  // simple object to map confidence scores
+  const categoryConfidence = Object.fromEntries(
+    Object.entries(categories).map(([key, _obj]) => [key, 0])
+  );
+
   const preferences = await getPreferences();
   let optimumQuality = preferences.categories.defaultQuality;
+  await setCurrentVideoCategory("defaultQuality");
 
   if (!videoScores) return optimumQuality;
 
   const sortedCategoryScores = Object.entries(videoScores.categoryScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   );
-  const mostLikelyvideoCategory = sortedCategoryScores[0][0];
 
-  // map user facing categories to underlying categories
-  setCurrentVideoCategory(mostLikelyvideoCategory);
+  const visualCategory = sortedCategoryScores[0][0];
+  const { detailScore, diffScore } = videoScores.frameScores;
+  const keywordScores = videoScores.keywordScores;
 
-  const preferredQuality = preferences.categories[mostLikelyvideoCategory];
+  Object.entries(categories).forEach(([key, obj]) => {
+    // check if visual category is present in conditions
+    if (obj.selectionConditions.backendCategories.includes(visualCategory)) {
+      console.log(`${key} Visual Hit`);
+      categoryConfidence[key]++;
+    }
 
-  // keyword scores
-  const sortedKeywordScores = Object.entries(videoScores.keywordScores).sort(
+    // check if keyword occurences meet threshold
+    if (keywordScores[key] >= obj.selectionConditions.keywordThreshold) {
+      console.log(`${key} Keyword Hit`);
+      categoryConfidence[key]++;
+    }
+
+    if (categoryConfidence[key] > 0) {
+      // check if analysis scores meet conditions
+      if (obj.selectionConditions.analysisScores(detailScore, diffScore)) {
+        console.log(`${key} Analysis Hit`);
+        categoryConfidence[key]++;
+      }
+    }
+  });
+
+  // select category with highest confidence
+  const confidentCategory = Object.entries(categoryConfidence).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
-  );
+  )[0];
 
-  optimumQuality = preferredQuality;
+  // ensure that default category is used if no confidence
+  if (confidentCategory[1] > 0) {
+    optimumQuality = preferences.categories[confidentCategory[0]];
+    setCurrentVideoCategory(confidentCategory[0]);
+  }
+
+  console.log(categoryConfidence);
+
   return optimumQuality;
 };
 
