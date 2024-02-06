@@ -9,5 +9,9 @@ export const categories = {
   food: { categoryName: "Food", decscImg: "../assets/userface_categories/food.png", desc: "Food includes cooking tutorials, muckbangs and food reviews" },
   nature: { categoryName: "Nature", decscImg: "../assets/userface_categories/nature.png", desc: "Nature is for wildlife documentaries, scenic travel vlogs, and nature exploration videos" },
   demo: { categoryName: "Demo", decscImg: "../assets/userface_categories/demo.png", desc: "Demo covers all types of demonstration videos, such as product unboxings and practical guides" },
-
+  defaultQuality: {
+    categoryName: "Default Quality",
+    decscImg: "../assets/userface_categories/default.png",
+    desc: "Default quality for all video categories",
+  },
 };

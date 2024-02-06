@@ -10,6 +10,7 @@ export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
 };
 
+
 export const getPreferences = async () => {
   const obj = await chrome.storage.local.get({
     preferences: defaultPreferences,
@@ -73,10 +74,13 @@ export const getVideoScores = async (videoID) => {
 };
 
 export const calcOptimumQuality = async (videoScores) => {
-  let optimumQuality = "144p"; // get default quality
+  //let optimumQuality = "144p"; // get default quality
+  const preferences = await getPreferences();
+  let optimumQuality = preferences.categories.defaultQuality;
+
   if (!videoScores) return optimumQuality;
 
-  const preferences = await getPreferences();
+
 
   const sortedCategoryScores = Object.entries(videoScores.categoryScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]

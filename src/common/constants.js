@@ -19,6 +19,7 @@ export const defaultPreferences = {
     food: "144",
     nature: "720",
     demo: "480",
+    defaultQuality: "144",
   },
   audioOnly: false,
   lowBackgroundResolution: false,
