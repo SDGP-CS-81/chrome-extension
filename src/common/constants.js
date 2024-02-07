@@ -30,15 +30,15 @@ export const defaultPreferences = {
 };
 
 export const categoryKeywords = {
-  music: ["music", "song", "lyrics","feat"],
-  podcast: ["podcast","conversation","interview","Episode","roundtable","disscussion","interview","talkshow"],
-  gaming:["gameplay","walkthrough","PC","PS","game","fortnite","xbox","4K","fortnite","gta"],
-  news:["news","update","breaking","headlines","politics","world","today","reports","latest"],
-  coding:["python","programming","tutorial","code","software","develop","java","web","learn","beginners"],
-  sports:["football","score","highlights","match","vs","sports","cup","race","league","match"],
-  graphics:["design","animation","graphics","art","digital","creative","drawing","2D","3D","illustration","sketch"],
-  food:["cook","ingredients","baking","muckbang","food","recipe","baking","homemade","healthy","make"],
-  nature:["wild","animals","survival","Scenic","nature","ocean","rainforest","camping","outdoor","tropical","earth","coastal"],
+  music: ["music", "song", "lyrics"],
+  podcast: ["podcast","conversation","interview","Episode"],
+  gaming:["gameplay","walkthrough","PC","PS","game","live"],
+  news:["news","update","breaking","headlines","politics","world"],
+  coding:["python","programming","tutorial","software","develop"],
+  sports:["football","score","highlights","match","vs"],
+  graphics:["design","animation","art","digital","creative"],
+  food:["cook","ingredients","baking","muckbang","food"],
+  nature:["wild","animals","survival","Scenic","nature","ocean"],
   demo:["repair","guide","how","instructions"]
 };
 
