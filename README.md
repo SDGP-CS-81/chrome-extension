@@ -12,8 +12,6 @@ Enable the extension and head over to Youtube.
 
 ## Development
 
-Please read this [article](https://cbea.ms/git-commit/) to learn how to write good commit messages.
-
 ### Dependencies
 
 - `nodejs` >= 20.0
