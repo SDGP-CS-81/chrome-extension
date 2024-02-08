@@ -16,7 +16,8 @@ export const defaultPreferences = {
     coding: "1080",
     sports: "720",
     graphics: "240",
-    food: "144",
+    lifestyle: "480",
+    // food: "144",
     nature: "720",
     demo: "480",
     defaultQuality: "480",
@@ -28,7 +29,6 @@ export const defaultPreferences = {
   blockThumbnailLoad: true,
   blockHomePageLoad: false,
 };
-
 
 export const categories = {
   music: {
@@ -112,17 +112,38 @@ export const categories = {
       keywordThreshold: 1,
     },
   },
-  food: {
-    categoryName: "Food",
-    decscImg: "../assets/userface_categories/food.png",
-    desc: "Food includes cooking tutorials, muckbangs and food reviews",
-    keywords: ["cook", "ingredients", "baking", "muckbang", "food"],
+  lifestyle: {
+    categoryName: "Lifestyle",
+    decscImg: "../assets/userface_categories/podcast.png",
+    desc: "Lifetyle covers vlogs and a variety of content where people are the subject",
+    keywords: [
+      "vlog",
+      "tour",
+      "mukbang",
+      "travel",
+      "weekly",
+      "daily",
+      "vlogging",
+      "comedy",
+    ],
     selectionConditions: {
-      backendCategories: ["food"],
-      analysisScores: (detailScore, diffScore) => false,
+      backendCategories: ["person"],
+      analysisScores: (detailScore, diffScore) =>
+        detailScore <= 1000 && diffScore <= 1200000,
       keywordThreshold: 1,
     },
   },
+  // food: {
+  //   categoryName: "Food",
+  //   decscImg: "../assets/userface_categories/food.png",
+  //   desc: "Food includes cooking tutorials, muckbangs and food reviews",
+  //   keywords: ["cook", "ingredients", "baking", "muckbang", "food"],
+  //   selectionConditions: {
+  //     backendCategories: ["food"],
+  //     analysisScores: (detailScore, diffScore) => false,
+  //     keywordThreshold: 1,
+  //   },
+  // },
   nature: {
     categoryName: "Nature",
     decscImg: "../assets/userface_categories/nature.png",
