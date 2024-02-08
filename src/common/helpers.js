@@ -1,15 +1,8 @@
-import {
-  defaultPreferences,
-  apiURL,
-  defaultCurrentVideoCategory,
-  categoryKeywords,
-} from "./constants.js";
-import { getYTVideoCategorisation } from "./htmlParsers.js";
+import { defaultPreferences, apiURL, categories } from "./constants.js";
 
 export const setPreferences = async (preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
 };
-
 
 export const getPreferences = async () => {
   const obj = await chrome.storage.local.get({
@@ -18,6 +11,9 @@ export const getPreferences = async () => {
   return obj.preferences;
 };
 
+// doesn't really do anything
+// a hack to get prettier-plugin-tailwindcss to work
+// it's plugin bug
 export const html = (staticText, ...values) => {
   return staticText.reduce((acc, text, index) => {
     return acc + text + (values[index] ?? "");
@@ -39,25 +35,27 @@ export const getKeywordScores = (textToSearch, categoryKeywords) => {
   Object.entries(categoryKeywords).forEach(([category, keywords]) => {
     const matchedScores = keywords.map(
       (keyword) =>
-        (textToSearch.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
+        (textToSearch.match(new RegExp(`\\W${keyword}\\W`, "g")) || []).length
     );
+
     const numKeywordsMatched = matchedScores.filter(
       (matchCount) => matchCount > 0
     ).length;
+
     keywordScores[category] = numKeywordsMatched;
   });
 
   return keywordScores;
 };
 
-export const keywordSearch = (videotextInfo, keywords) => {
-  return keywords.map(
-    (keyword) =>
-      (videotextInfo.match(new RegExp(`\\s${keyword}\\s`, "g")) || []).length
-  );
-};
-
 export const getVideoScores = async (videoID) => {
+  const categoryKeywords = Object.fromEntries(
+    Object.entries(categories).map(([category, obj]) => [
+      category,
+      obj.keywords,
+    ])
+  );
+
   return await fetch(
     `${apiURL}/api/vid/${videoID}?categoryKeywords=${encodeURIComponent(
       JSON.stringify(categoryKeywords)
@@ -74,33 +72,60 @@ export const getVideoScores = async (videoID) => {
 };
 
 export const calcOptimumQuality = async (videoScores) => {
-  //let optimumQuality = "144p"; // get default quality
+  // simple object to map confidence scores
+  const categoryConfidence = Object.fromEntries(
+    Object.entries(categories).map(([key, _obj]) => [key, 0])
+  );
+
   const preferences = await getPreferences();
   let optimumQuality = preferences.categories.defaultQuality;
+  await setCurrentVideoCategory("defaultQuality");
 
   if (!videoScores) return optimumQuality;
-
-
 
   const sortedCategoryScores = Object.entries(videoScores.categoryScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   );
-  const mostLikelyvideoCategory = sortedCategoryScores[0][0];
-  setCurrentVideoCategory(mostLikelyvideoCategory);
 
-  // map user facing categories to underlying categories
+  const visualCategory = sortedCategoryScores[0][0];
+  const { detailScore, diffScore } = videoScores.frameScores;
+  const keywordScores = videoScores.keywordScores;
 
-  const preferredQuality = preferences.categories[mostLikelyvideoCategory];
-  // take 2nd/3rd and ratings?
+  Object.entries(categories).forEach(([key, obj]) => {
+    // check if visual category is present in conditions
+    if (obj.selectionConditions.backendCategories.includes(visualCategory)) {
+      console.log(`${key} Visual Hit`);
+      categoryConfidence[key]++;
+    }
 
-  // use detail and similarity score to alter quality
+    // check if keyword occurences meet threshold
+    if (keywordScores[key] >= obj.selectionConditions.keywordThreshold) {
+      console.log(`${key} Keyword Hit`);
+      categoryConfidence[key]++;
+    }
 
-  // keyword scores
-  const sortedKeywordScores = Object.entries(videoScores.keywordScores).sort(
+    if (categoryConfidence[key] > 0) {
+      // check if analysis scores meet conditions
+      if (obj.selectionConditions.analysisScores(detailScore, diffScore)) {
+        console.log(`${key} Analysis Hit`);
+        categoryConfidence[key]++;
+      }
+    }
+  });
+
+  // select category with highest confidence
+  const confidentCategory = Object.entries(categoryConfidence).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
-  );
+  )[0];
 
-  optimumQuality = preferredQuality;
+  // ensure that default category is used if no confidence
+  if (confidentCategory[1] > 0) {
+    optimumQuality = preferences.categories[confidentCategory[0]];
+    setCurrentVideoCategory(confidentCategory[0]);
+  }
+
+  console.log(categoryConfidence);
+
   return optimumQuality;
 };
 
@@ -112,22 +137,7 @@ export const setCurrentVideoCategory = async (currentVideoCategory) => {
 
 export const getCurrentVideoCategory = async () => {
   const obj = await chrome.storage.local.get({
-    currentVideoCategory: defaultCurrentVideoCategory,
+    currentVideoCategory: Object.keys(categories).pop(),
   });
   return obj.currentVideoCategory;
 };
-
-// export function replaceSlots(parent) {
-//   const slots = {};
-//   parent.querySelectorAll("[slot]").forEach((el) => {
-//     // convert 'nick-name' into 'nickName' for easy JS access
-//     // set the *DOM node* as data property value
-//     slots[
-//       el.getAttribute("slot").replace(/-(\w)/g, ($0, $1) => $1.toUpperCase())
-//     ] = el; // <- this is a DOM node, not a string ;-)
-//     el.removeAttribute("slot"); // <- remove attribute to avoid duplicates
-//   });
-//   parent.querySelectorAll("slot").forEach((slot) => {
-//     slot.replaceWith(slots[slot.name]);
-//   });
-// }

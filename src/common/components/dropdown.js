@@ -1,6 +1,6 @@
 import { setPreferences, getPreferences } from "../helpers.js";
 import { qualities } from "../constants.js";
-import { categories } from "../categories.js";
+import { categories } from "../constants.js";
 
 // template for each dropdown menu item
 const generateMenuItemTemplate = (quality, selectedQuality) => {
