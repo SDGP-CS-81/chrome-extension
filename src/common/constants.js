@@ -29,7 +29,6 @@ export const defaultPreferences = {
   blockHomePageLoad: false,
 };
 
-
 export const categories = {
   music: {
     categoryName: "Music",
@@ -46,7 +45,15 @@ export const categories = {
     categoryName: "Podcast",
     decscImg: "../assets/userface_categories/podcast.png",
     desc: "Podcast is about all podcast content including interviews and panel discussions",
-    keywords: ["podcast", "conversation", "interview", "Episode"],
+    keywords: [
+      "podcast",
+      "conversation",
+      "interview",
+      "Episode",
+      "roundtable",
+      "disscussion",
+      "talkshow",
+    ],
     selectionConditions: {
       backendCategories: ["person"],
       analysisScores: (detailScore, diffScore) => diffScore <= 1000000,
@@ -57,7 +64,18 @@ export const categories = {
     categoryName: "Gaming",
     decscImg: "../assets/userface_categories/game.png",
     desc: "Gaming focuses on in-game content, including gameplays and walkthroughs",
-    keywords: ["gameplay", "walkthrough", "PC", "PS", "game", "live"],
+    keywords: [
+      "gameplay",
+      "walkthrough",
+      "PC",
+      "PS",
+      "game",
+      "fortnite",
+      "xbox",
+      "4K",
+      "cod",
+      "gta",
+    ],
     selectionConditions: {
       backendCategories: ["person"],
       analysisScores: (detailScore, diffScore) =>
@@ -69,7 +87,17 @@ export const categories = {
     categoryName: "News",
     decscImg: "../assets/userface_categories/news.png",
     desc: "News focuses on news headlines and videos that include worldwide updates",
-    keywords: ["news", "update", "breaking", "headlines", "politics", "world"],
+    keywords: [
+      "news",
+      "update",
+      "breaking",
+      "headlines",
+      "politics",
+      "world",
+      "today",
+      "reports",
+      "latest",
+    ],
     selectionConditions: {
       backendCategories: ["news"],
       analysisScores: (detailScore, diffScore) => detailScore >= 1000,
@@ -80,7 +108,18 @@ export const categories = {
     categoryName: "Coding",
     decscImg: "../assets/userface_categories/coding.png",
     desc: "Coding includes programming and coding content, such as coding tutorials",
-    keywords: ["python", "programming", "tutorial", "software", "develop"],
+    keywords: [
+      "python",
+      "programming",
+      "tutorial",
+      "code",
+      "software",
+      "develop",
+      "java",
+      "web",
+      "learn",
+      "beginners",
+    ],
     selectionConditions: {
       backendCategories: ["textHeavy"],
       analysisScores: (detailScore, diffScore) =>
@@ -92,7 +131,18 @@ export const categories = {
     categoryName: "Sports",
     decscImg: "../assets/userface_categories/sports.png",
     desc: "Sports is for all sports-related content, such as match highlights and in-game moments",
-    keywords: ["football", "score", "highlights", "match", "vs"],
+    keywords: [
+      "football",
+      "score",
+      "highlights",
+      "match",
+      "vs",
+      "sports",
+      "cup",
+      "race",
+      "league",
+      "match",
+    ],
     selectionConditions: {
       backendCategories: ["sports"],
       analysisScores: (detailScore, diffScore) =>
@@ -104,7 +154,19 @@ export const categories = {
     categoryName: "Graphics",
     decscImg: "../assets/userface_categories/graphics.png",
     desc: "Graphics covers animations and a variety of visually creative videos",
-    keywords: ["design", "animation", "art", "digital", "creative"],
+    keywords: [
+      "design",
+      "animation",
+      "graphics",
+      "art",
+      "digital",
+      "creative",
+      "drawing",
+      "2D",
+      "3D",
+      "illustration",
+      "sketch",
+    ],
     selectionConditions: {
       backendCategories: ["lowGraphics"],
       analysisScores: (detailScore, diffScore) =>
@@ -127,7 +189,20 @@ export const categories = {
     categoryName: "Nature",
     decscImg: "../assets/userface_categories/nature.png",
     desc: "Nature is for wildlife documentaries, scenic travel vlogs, and nature exploration videos",
-    keywords: ["wild", "animals", "survival", "Scenic", "nature", "ocean"],
+    keywords: [
+      "wild",
+      "animals",
+      "survival",
+      "Scenic",
+      "nature",
+      "ocean",
+      "rainforest",
+      "camping",
+      "outdoor",
+      "tropical",
+      "earth",
+      "coastal",
+    ],
     selectionConditions: {
       backendCategories: ["nature"],
       analysisScores: (detailScore, diffScore) =>
