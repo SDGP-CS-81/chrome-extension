@@ -2,7 +2,13 @@
 
 ## Usage
 
-TBD
+Go to chrome extensions page at [chrome://extensions/](chrome://extensions/)
+
+Turn on developer mode.
+
+Click 'Load Unpacked' and select the 'src' directory of the project.
+
+Enable the extension and head over to Youtube.
 
 ## Development
 
