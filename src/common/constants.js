@@ -31,8 +31,8 @@ export const defaultPreferences = {
 
 export const categoryKeywords = {
   music: ["music", "song", "lyrics","feat"],
-  podcast: ["podcast","conversation","interview","Episode","roundtable","disscussion","interview","talkshow"],
-  gaming:["gameplay","walkthrough","PC","PS","game","fortnite","xbox","4K","fortnite","gta"],
+  podcast: ["podcast","conversation","interview","Episode","roundtable","disscussion",,"talkshow"],
+  gaming:["gameplay","walkthrough","PC","PS","game","fortnite","xbox","4K","cod","gta"],
   news:["news","update","breaking","headlines","politics","world","today","reports","latest"],
   coding:["python","programming","tutorial","code","software","develop","java","web","learn","beginners"],
   sports:["football","score","highlights","match","vs","sports","cup","race","league","match"],
