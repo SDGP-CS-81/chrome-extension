@@ -29,6 +29,7 @@ export const defaultPreferences = {
   blockHomePageLoad: false,
 };
 
+
 export const categories = {
   music: {
     categoryName: "Music",
