@@ -47,7 +47,7 @@
     if (
       document
         .querySelector(".ytp-menu-label-secondary")
-        ?.innerText?.includes(quality)
+        ?.innerText?.includes(quality + "p")
     )
       return vidSettingsButton.click();
 
@@ -71,7 +71,7 @@
     let hasQualityBeenSet = false;
     for (const qualityElement of availableQualities) {
       // check if quality is in innertext ex: "1080p" in "1080p HD"
-      if (qualityElement.innerText.includes(quality)) {
+      if (qualityElement.innerText.includes(quality + "p")) {
         hasQualityBeenSet = true;
         qualityElement.click();
         break;
