@@ -104,6 +104,12 @@ export const calcOptimumQuality = async (videoScores) => {
       categoryConfidence[key]++;
     }
 
+    // quick hack to use the yt categorization
+    if (keywordScores[key] >= 1000) {
+      console.log(`${key} YT Categorization Hit`);
+      categoryConfidence[key] += 100;
+    }
+
     if (categoryConfidence[key] > 0) {
       // check if analysis scores meet conditions
       if (obj.selectionConditions.analysisScores(detailScore, diffScore)) {
