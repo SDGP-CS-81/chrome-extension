@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="dark">
   <head>
     <title>ByteSense - Options</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../output.css" rel="stylesheet" />
 
+    <script type="module" src="../common/components/themeBtn.js"></script>
     <script type="module" src="../common/components/textLogo.js"></script>
     <script type="module" src="../common/components/toggleBtn.js"></script>
     <script type="module" src="../common/components/featureBtn.js"></script>
@@ -13,9 +14,9 @@
     <script type="module" src="../common/components/offlineBtn.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
   </head>
-  <body class="bg-secondary">
+  <body class="dark:bg-secondary-dark">
     <header
-      class="flex items-center justify-center border-b border-grey p-8 @container"
+      class="relative flex items-center justify-center border-b border-grey p-8 @container"
     >
       <!-- clamp header items to a maximum width -->
       <div class="flex w-full items-center justify-between @[900px]:w-[900px]">
@@ -26,6 +27,8 @@
           <offline-btn></offline-btn>
         </div>
       </div>
+
+      <theme-btn class="absolute right-0 top-0"></theme-btn>
     </header>
 
     <!-- contains all the settings and clamps them to a given width -->

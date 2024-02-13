@@ -8,8 +8,8 @@ const generateMenuItemTemplate = (quality, selectedQuality) => {
   return `
     <p class="dropdown-menu-item cursor-pointer z-[99] block h-12 w-full px-4 py-3 text-base text-right ${
       isSelected
-        ? "bg-primary text-white"
-        : "text-white hover:bg-lightGrey hover:text-gray-900"
+        ? "bg-primary-dark text-white"
+        : "text-white hover:bg-grey-low hover:text-gray-900"
     }" data-quality="${quality}">
       ${quality}p
     </p>
@@ -27,7 +27,7 @@ const generateTemplate = (selectedQuality, category) => {
   <div class="flex items-center @[400px]/dropdown:h-20">
   <div class="dropdown relative text-left w-full">
     <!-- Button to trigger the dropdown -->
-    <button type="button" category-id="${category}" class="dropdown-button flex h-14 @[400px]/dropdown:h-16 w-full items-center justify-between rounded-lg bg-secondary_variant px-[18px] text-base shadow-sm" aria-expanded="false" aria-haspopup="true">
+    <button type="button" category-id="${category}" class="dropdown-button flex h-14 @[400px]/dropdown:h-16 w-full items-center justify-between rounded-lg bg-grey-high px-[18px] text-base shadow-sm" aria-expanded="false" aria-haspopup="true">
       <!-- Category name -->
       <p class="category-text">${category.categoryName}</p>
       <!-- Selected quality and dropdown icon -->
@@ -41,8 +41,8 @@ const generateTemplate = (selectedQuality, category) => {
       </div>
     </button>
     <!-- Dropdown menu -->
-    <div class="dropdown-menu absolute right-0 top-3 z-[99] mt-0 w-[200px] origin-top-right rounded-md bg-secondary_variant shadow-lg ring-1 ring-grey focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-      <div class="overflow-y-scroll h-60 mt-2 mb-2 scrollbar-thin scrollbar-thumb-grey" role="none">
+    <div class="dropdown-menu absolute right-0 top-3 z-[99] mt-0 w-[200px] origin-top-right rounded-md bg-grey-high shadow-lg ring-1 ring-grey-mid focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+      <div class="overflow-y-scroll h-60 mt-2 mb-2 scrollbar-thin scrollbar-thumb-grey-mid" role="none">
         <div class="dropdown-item-container z-auto" role="none">
           <!-- Insert quality items HTML here -->
           ${qualityItemsHtml}
@@ -56,7 +56,7 @@ const generateTemplate = (selectedQuality, category) => {
     <svg class="h-6 w-full cursor-pointer text-white dropdown-info-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
     </svg> 
-    <div class="flex absolute z-[10] right-0 top-0 bg-secondary_variant popup hidden w-72 p-2 rounded-md transform translate-x-[300px] -translate-y-[70px] items-center">
+    <div class="flex absolute z-[10] right-0 top-0 bg-grey-high popup hidden w-72 p-2 rounded-md transform translate-x-[300px] -translate-y-[70px] items-center">
       <p class="text-white text-sm">${category.desc}</p>
       <img src="${
         category.decscImg
@@ -93,29 +93,29 @@ class Dropdown extends HTMLElement {
         (event) => {
           const selectedQuality = event.target.getAttribute("data-quality");
           // console.log(selectedQuality)
-          getPreferences().then(async (object) => {
-            const preferences = object.preferences;
+          getPreferences().then(async (preferences) => {
             preferences.categories[this.getAttribute("category-id")] =
               selectedQuality;
             await setPreferences(preferences);
             // console.log("set preferences", preferences)
           });
 
-          // remove the 'bg-primary' class from all items
+          // remove the 'bg-primary-dark' class from all items
           this.querySelectorAll(".dropdown-menu-item").forEach((item) => {
-            item.classList.remove("bg-primary", "text-white");
+            item.classList.remove("bg-primary-dark", "text-white");
+            item.classList.remove("bg-primary-light", "text-white");
             item.classList.add(
               "text-white",
-              "hover:bg-lightGrey",
+              "hover:bg-grey-low",
               "hover:text-gray-900"
             );
           });
 
           // highlight the selected item
-          event.target.classList.add("bg-primary", "text-white");
+          event.target.classList.add("bg-primary-dark", "text-white");
           event.target.classList.remove(
             "text-white",
-            "hover:bg-lightGrey",
+            "hover:bg-grey-low",
             "hover:text-gray-900"
           );
 
