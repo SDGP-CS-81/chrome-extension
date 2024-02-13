@@ -75,8 +75,7 @@ class ToggleBtn extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "checked") {
-      getPreferences().then(async (object) => {
-        const preferences = object.preferences;
+      getPreferences().then(async (preferences) => {
         preferences[this.toggleID] = this.checked;
         await setPreferences(preferences);
         this.querySelector("input").checked = this.checked;

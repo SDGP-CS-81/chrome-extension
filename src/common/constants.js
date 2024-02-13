@@ -17,16 +17,16 @@ export const defaultPreferences = {
     sports: "720",
     graphics: "240",
     lifestyle: "480",
-    // food: "144",
     nature: "720",
     demo: "480",
     defaultQuality: "480",
   },
+  offlineMode: false,
   audioOnly: false,
-  lowBackgroundResolution: false,
+  lowBackgroundResolution: true,
   userInitiatedPlayback: false,
   thumbnailHoverBlocking: false,
-  blockThumbnailLoad: true,
+  blockThumbnailLoad: false,
   blockHomePageLoad: false,
 };
 
@@ -196,17 +196,6 @@ export const categories = {
       keywordThreshold: 1,
     },
   },
-  // food: {
-  //   categoryName: "Food",
-  //   decscImg: "../assets/userface_categories/food.png",
-  //   desc: "Food includes cooking tutorials, muckbangs and food reviews",
-  //   keywords: ["cook", "ingredients", "baking", "muckbang", "food"],
-  //   selectionConditions: {
-  //     backendCategories: ["food"],
-  //     analysisScores: (detailScore, diffScore) => false,
-  //     keywordThreshold: 1,
-  //   },
-  // },
   nature: {
     categoryName: "Nature",
     decscImg: "../assets/userface_categories/nature.jpg",
