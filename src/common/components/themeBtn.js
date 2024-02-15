@@ -1,4 +1,4 @@
-import { getPreferences, html, setPreferences } from "../helpers.js";
+import { getPreferences, html, setPreferences, setTheme } from "../helpers.js";
 
 const generateTemplate = () => {
   const template = document.createElement("template");
@@ -79,7 +79,8 @@ class ToggleBtn extends HTMLElement {
         preferences[this.toggleID] = this.checked;
         await setPreferences(preferences);
         this.querySelector("input").checked = this.checked;
-        console.log(preferences);
+
+        setTheme(this.checked);
       });
     }
   }
@@ -88,10 +89,6 @@ class ToggleBtn extends HTMLElement {
 customElements.define("theme-btn", ToggleBtn);
 
 // set the mode for the page
-(async () => {
-  const theme = (await getPreferences())?.theme;
-  if (theme) document.documentElement.setAttribute("data-mode", "dark");
-  if (!theme) document.documentElement.setAttribute("data-mode", "light");
-})();
+setTheme();
 
 // chrome.storage.onChanged.addListener((changes, namespace) => {
