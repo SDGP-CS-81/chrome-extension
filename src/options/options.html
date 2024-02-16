@@ -26,11 +26,12 @@
         <!-- explicit offline button -->
         <div class="flex items-center justify-between">
           <label for="offlineBtn" class="pe-3 text-lg">Offline Mode</label>
-          <offline-btn></offline-btn>
+          <div class="flex gap-5">
+            <offline-btn></offline-btn>
+            <theme-btn></theme-btn>
+          </div>
         </div>
       </div>
-
-      <theme-btn class="absolute right-0 top-0"></theme-btn>
     </header>
 
     <!-- contains all the settings and clamps them to a given width -->
