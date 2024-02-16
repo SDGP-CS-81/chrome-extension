@@ -259,7 +259,7 @@ export const features = {
   lowBackgroundResolution: {
     featureName: "Lower Quality for Background Playback",
     description:
-      "Reduces video quality to the lowest when the video is playing in the background",
+      "Drops video quality when the video is playing in the background",
   },
   userInitiatedPlayback: {
     featureName: "User-initiated Playback",
@@ -268,7 +268,7 @@ export const features = {
   thumbnailHoverBlocking: {
     featureName: "Block Thumbnail Hover",
     description:
-      " Prevents video previews from playing when hovering over a thumbnail",
+      "Prevents video previews from playing when hovering over a thumbnail",
   },
   blockThumbnailLoad: {
     featureName: "Block Thumbnail Load",

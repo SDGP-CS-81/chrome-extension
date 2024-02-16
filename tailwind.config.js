@@ -12,9 +12,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: { dark: "#1f8505", light: "#1f8505" },
-        secondary: { dark: "#121212", light: "#121212" },
-        grey: { high: "#3b3d3b", mid: "#6f6f76", low: "#aaaaaa" },
+        primary: { dark: "#1F8505", light: "#1F8505" },
+        secondary: { dark: "#121212", light: "#FBFBFD" },
+        grey: { high: "#3B3D3B", mid: "#6F6F76", low: "#AAAAAA" },
       },
     },
   },

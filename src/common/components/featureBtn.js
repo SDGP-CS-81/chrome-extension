@@ -5,11 +5,13 @@ const generateTemplate = (toggleID, feature) => {
   const template = document.createElement("template");
   template.innerHTML = html`
     <div
-      class="bg-grey-high flex h-14 w-full items-center justify-between rounded-lg px-[18px] @container/main @[400px]/features:h-20 @[400px]/features:px-[22px]"
+      class="flex h-14 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] @container/main @[400px]/features:h-20 @[400px]/features:px-[22px] dark:border-grey-high dark:bg-grey-high"
     >
       <div class="flex flex-col">
-        <p class="text-base">${feature.featureName}</p>
-        <p class="text-grey-low hidden text-sm @[400px]/main:block">
+        <p class="text-base ">${feature.featureName}</p>
+        <p
+          class="hidden text-sm text-grey-mid @[400px]/main:block dark:text-grey-low"
+        >
           ${feature.description}
         </p>
       </div>
