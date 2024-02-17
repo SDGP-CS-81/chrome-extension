@@ -1,4 +1,4 @@
-const plugin = require('tailwind-scrollbar');
+const plugin = require("tailwind-scrollbar");
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,14 +8,13 @@ export default {
     "./src/**/*.{html,js}",
     "./src/**/**/*.{html,js}",
   ],
+  darkMode: ["class", '[data-mode="dark"]'],
   theme: {
     extend: {
       colors: {
-        primary: "#1f8505",
-        secondary: "#121212",
-        secondary_variant: "#3b3d3b",
-        grey: "#6f6f76",
-        lightGrey: "#aaaaaa",
+        primary: { dark: "#1F8505", light: "#1F8505" },
+        secondary: { dark: "#121212", light: "#FBFBFD" },
+        grey: { high: "#3B3D3B", mid: "#6F6F76", low: "#AAAAAA" },
       },
     },
   },

@@ -1,22 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="dark">
   <head>
     <title>ByteSense - Options</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../output.css" rel="stylesheet" />
 
+    <script type="module" src="../common/components/themeBtn.js"></script>
     <script type="module" src="../common/components/textLogo.js"></script>
     <script type="module" src="../common/components/toggleBtn.js"></script>
     <script type="module" src="../common/components/featureBtn.js"></script>
     <script type="module" src="../common/components/dropdown.js"></script>
     <script type="module" src="../common/components/offlineBtn.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
-    <script type="module" src="../common/features.js"></script>
   </head>
-  <body class="bg-secondary">
+  <body
+    class="bg-secondary-light text-black dark:bg-secondary-dark dark:text-white"
+  >
     <header
-      class="flex items-center justify-center border-b border-grey p-8 @container"
+      class="relative flex items-center justify-center border-b border-grey-mid p-8 @container"
     >
       <!-- clamp header items to a maximum width -->
       <div class="flex w-full items-center justify-between @[900px]:w-[900px]">
@@ -24,7 +26,10 @@
         <!-- explicit offline button -->
         <div class="flex items-center justify-between">
           <label for="offlineBtn" class="pe-3 text-lg">Offline Mode</label>
-          <offline-btn></offline-btn>
+          <div class="flex gap-5">
+            <offline-btn></offline-btn>
+            <theme-btn></theme-btn>
+          </div>
         </div>
       </div>
     </header>

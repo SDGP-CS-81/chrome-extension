@@ -1,11 +1,5 @@
 export const apiURL = "http://localhost:5000";
 export const qualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
-export const closestQualityToScreen =
-  qualities[
-    qualities
-      .reverse()
-      .indexOf(qualities.find((quality) => quality <= window.screen.height))
-  ];
 
 export const defaultPreferences = {
   categories: {
@@ -17,16 +11,17 @@ export const defaultPreferences = {
     sports: "720",
     graphics: "240",
     lifestyle: "480",
-    // food: "144",
     nature: "720",
     demo: "480",
     defaultQuality: "480",
   },
+  theme: true, // true for dark
+  offlineMode: false,
   audioOnly: false,
-  lowBackgroundResolution: false,
+  lowBackgroundResolution: true,
   userInitiatedPlayback: false,
   thumbnailHoverBlocking: false,
-  blockThumbnailLoad: true,
+  blockThumbnailLoad: false,
   blockHomePageLoad: false,
 };
 
@@ -196,17 +191,6 @@ export const categories = {
       keywordThreshold: 1,
     },
   },
-  // food: {
-  //   categoryName: "Food",
-  //   decscImg: "../assets/userface_categories/food.png",
-  //   desc: "Food includes cooking tutorials, muckbangs and food reviews",
-  //   keywords: ["cook", "ingredients", "baking", "muckbang", "food"],
-  //   selectionConditions: {
-  //     backendCategories: ["food"],
-  //     analysisScores: (detailScore, diffScore) => false,
-  //     keywordThreshold: 1,
-  //   },
-  // },
   nature: {
     categoryName: "Nature",
     decscImg: "../assets/userface_categories/nature.jpg",
@@ -275,7 +259,7 @@ export const features = {
   lowBackgroundResolution: {
     featureName: "Lower Quality for Background Playback",
     description:
-      "Reduces video quality to the lowest when the video is playing in the background",
+      "Drops video quality when the video is playing in the background",
   },
   userInitiatedPlayback: {
     featureName: "User-initiated Playback",
@@ -284,7 +268,7 @@ export const features = {
   thumbnailHoverBlocking: {
     featureName: "Block Thumbnail Hover",
     description:
-      " Prevents video previews from playing when hovering over a thumbnail",
+      "Prevents video previews from playing when hovering over a thumbnail",
   },
   blockThumbnailLoad: {
     featureName: "Block Thumbnail Load",

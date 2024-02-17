@@ -9,7 +9,7 @@ const generateTemplate = () => {
         alt="ByteSense Logo"
         class="mr-[0.5em] w-[1.4em]"
       />
-      <h5 class="font-medium">ByteSense</h5>
+      <h5 class="font-medium text-black dark:text-white">ByteSense</h5>
     </a>
   `;
   return template;

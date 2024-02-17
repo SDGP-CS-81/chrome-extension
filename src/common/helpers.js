@@ -147,3 +147,10 @@ export const getCurrentVideoCategory = async () => {
   });
   return obj.currentVideoCategory;
 };
+
+export const setTheme = async (theme) => {
+  // To avoid async call if theme is known already
+  const themeToSet = theme != null ? theme : (await getPreferences())?.theme;
+  if (themeToSet) document.documentElement.setAttribute("data-mode", "dark");
+  if (!themeToSet) document.documentElement.setAttribute("data-mode", "light");
+};
