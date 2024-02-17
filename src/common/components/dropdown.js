@@ -1,6 +1,5 @@
 import { setPreferences, getPreferences, html } from "../helpers.js";
-import { qualities } from "../constants.js";
-import { categories } from "../constants.js";
+import { qualities, categories } from "../constants.js";
 
 // template for each dropdown menu item
 const generateMenuItemTemplate = (quality, selectedQuality) => {
@@ -58,16 +57,13 @@ const generateTemplate = (selectedQuality, category) => {
         </button>
         <!-- Dropdown menu -->
         <div
-          class="dropdown-menu absolute right-0 top-3 z-[99] mt-0 hidden w-[200px] origin-top-right rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus:outline-none dark:bg-grey-high"
+          class="dropdown-menu absolute right-2 top-12 z-50 hidden w-48 origin-top-right overflow-hidden rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus:outline-none dark:bg-grey-high"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
           tabindex="-1"
         >
-          <div
-            class="mb-2 mt-2 h-60 overflow-y-scroll scrollbar-thin scrollbar-thumb-grey-mid"
-            role="none"
-          >
+          <div class="custom-scroll h-60 overflow-y-scroll" role="none">
             <div class="dropdown-item-container z-auto" role="none">
               <!-- Insert quality items HTML here -->
               ${qualityItemsHtml}
