@@ -22,10 +22,6 @@ const generateTemplate = (toggleID, feature) => {
 };
 
 class FeatureBtn extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     this.toggleID = this.getAttribute("toggle-id");
     this.feature = features[this.toggleID];

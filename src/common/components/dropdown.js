@@ -104,10 +104,6 @@ const generateTemplate = (selectedQuality, category) => {
 };
 
 class Dropdown extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     this.setAttribute("data-element", "custom");
 

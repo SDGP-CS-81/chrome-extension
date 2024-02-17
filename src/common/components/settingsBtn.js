@@ -20,10 +20,6 @@ const generateTemplate = () => {
 };
 
 class SettingsBtn extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     this.appendChild(generateTemplate().content.cloneNode(true));
 

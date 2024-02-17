@@ -6,6 +6,8 @@
     <title>ByteSense</title>
     <link rel="stylesheet" href="../output.css" />
 
+    <script type="module" src="popup.js"></script>
+    <script type="module" src="../svg.js"></script>
     <script type="module" src="../common/components/themeBtn.js"></script>
     <script type="module" src="../common/components/textLogo.js"></script>
     <script type="module" src="../common/components/toggleBtn.js"></script>
@@ -13,7 +15,6 @@
     <script type="module" src="../common/components/featureBtn.js"></script>
     <script type="module" src="../common/components/offlineBtn.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
-    <script type="module" src="popup.js"></script>
   </head>
 
   <body class="h-[500px] max-h-[500px] w-80 overflow-hidden">
@@ -25,7 +26,7 @@
       >
         <text-logo class="text-base"></text-logo>
         <div class="flex gap-x-3">
-          <offline-btn></offline-btn>
+          <offline-btn toggle-id="offlineMode"></offline-btn>
           <settings-btn></settings-btn>
         </div>
       </div>

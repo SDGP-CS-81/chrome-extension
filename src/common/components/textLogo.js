@@ -16,10 +16,6 @@ const generateTemplate = (url) => {
 };
 
 class TextLogo extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     const url = "https://www.example.com";
     this.appendChild(generateTemplate(url).content.cloneNode(true));
