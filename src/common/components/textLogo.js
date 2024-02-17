@@ -1,9 +1,9 @@
 import { html } from "../helpers.js";
 
-const generateTemplate = () => {
+const generateTemplate = (url) => {
   const template = document.createElement("template");
   template.innerHTML = html`
-    <a href="https://www.example.com" target="_blank" class="flex items-center">
+    <a href="${url}" target="_blank" title="${url}" class="flex items-center">
       <img
         src="../../assets/icons/logo.png"
         alt="ByteSense Logo"
@@ -21,7 +21,8 @@ class TextLogo extends HTMLElement {
   }
 
   connectedCallback() {
-    this.appendChild(generateTemplate().content.cloneNode(true));
+    const url = "https://www.example.com";
+    this.appendChild(generateTemplate(url).content.cloneNode(true));
   }
 
   disconnectedCallback() {

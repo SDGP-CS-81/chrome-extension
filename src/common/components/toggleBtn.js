@@ -6,7 +6,7 @@ const generateTemplate = (toggleID) => {
     <div class="relative flex cursor-pointer items-center ">
       <input type="checkbox" id="${toggleID}" class="peer/toggle sr-only " />
       <div
-        class="peer-checked/toggle:bg-primary-dark bg-grey-mid h-6 w-10 rounded-full @[400px]/main:h-7 @[400px]/main:w-12"
+        class="h-6 w-10 rounded-full bg-grey-mid peer-checked/toggle:bg-primary-dark @[400px]/main:h-7 @[400px]/main:w-12"
       ></div>
       <div
         class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @[400px]/main:h-6 @[400px]/main:w-6"
@@ -32,6 +32,8 @@ class ToggleBtn extends HTMLElement {
   }
 
   connectedCallback() {
+    this.setAttribute("data-element", "custom");
+
     this.toggleID = this.getAttribute("toggle-id");
     this.appendChild(generateTemplate(this.toggleID).content.cloneNode(true));
 
@@ -54,7 +56,8 @@ class ToggleBtn extends HTMLElement {
       getPreferences().then(async (preferences) => {
         preferences[this.toggleID] = this.checked;
         await setPreferences(preferences);
-        this.querySelector("input").checked = this.checked;
+        const hiddenInput = this.querySelector("input");
+        if (hiddenInput) hiddenInput.checked = this.checked;
       });
     }
   }

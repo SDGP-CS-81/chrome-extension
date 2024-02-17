@@ -53,6 +53,7 @@ class ToggleBtn extends HTMLElement {
   }
 
   connectedCallback() {
+    this.setAttribute("data-element", "custom");
     this.toggleID = "theme";
     this.appendChild(generateTemplate().content.cloneNode(true));
 
@@ -75,7 +76,8 @@ class ToggleBtn extends HTMLElement {
       getPreferences().then(async (preferences) => {
         preferences[this.toggleID] = this.checked;
         await setPreferences(preferences);
-        this.querySelector("input").checked = this.checked;
+        const hiddenInput = this.querySelector("input");
+        if (hiddenInput) hiddenInput.checked = this.checked;
 
         setTheme(this.checked);
       });
@@ -87,5 +89,3 @@ customElements.define("theme-btn", ToggleBtn);
 
 // set the mode for the page
 setTheme();
-
-// chrome.storage.onChanged.addListener((changes, namespace) => {

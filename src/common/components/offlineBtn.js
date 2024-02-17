@@ -54,6 +54,7 @@ class ToggleBtn extends HTMLElement {
   }
 
   connectedCallback() {
+    this.setAttribute("data-element", "custom");
     this.toggleID = "offlineMode";
     this.appendChild(generateTemplate().content.cloneNode(true));
 
@@ -76,8 +77,8 @@ class ToggleBtn extends HTMLElement {
       getPreferences().then(async (preferences) => {
         preferences[this.toggleID] = this.checked;
         await setPreferences(preferences);
-        this.querySelector("input").checked = this.checked;
-        console.log(preferences);
+        const hiddenInput = this.querySelector("input");
+        if (hiddenInput) hiddenInput.checked = this.checked;
       });
     }
   }
