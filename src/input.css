@@ -19,14 +19,13 @@
 
   .custom-scroll::-webkit-scrollbar-track {
     border-radius: 20px;
-    background-color: rgb(231, 222, 222);
+    background-color: rgb(245, 239, 239);
     margin-top: 2px;
     margin-bottom: 2px;
   }
 
   .custom-scroll::-webkit-scrollbar-thumb {
-    /* background: rgb(0, 0, 0, 0.2); */
-    background-color: rgb(72, 196, 41);
+    background: rgb(0, 0, 0, 0.3);
     border-radius: 20px;
   }
 }

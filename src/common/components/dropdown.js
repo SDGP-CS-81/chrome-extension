@@ -57,7 +57,7 @@ const generateTemplate = (selectedQuality, category) => {
         </button>
         <!-- Dropdown menu -->
         <div
-          class="dropdown-menu absolute right-2 top-12 z-50 hidden w-48 origin-top-right overflow-hidden rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus:outline-none dark:bg-grey-high"
+          class="dropdown-menu absolute right-0 top-12 z-50 hidden w-48 origin-top-right overflow-hidden rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus:outline-none dark:bg-grey-high"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
