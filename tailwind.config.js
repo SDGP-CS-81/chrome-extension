@@ -1,5 +1,3 @@
-const plugin = require("tailwind-scrollbar");
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -18,8 +16,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/container-queries"),
-    require("tailwind-scrollbar"),
-  ],
+  plugins: [require("@tailwindcss/container-queries")],
 };

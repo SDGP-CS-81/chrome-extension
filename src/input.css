@@ -10,3 +10,22 @@
 * {
   font-family: DMSans;
 }
+
+@layer utilities {
+  .custom-scroll::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 20px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-track {
+    border-radius: 20px;
+    background-color: rgb(245, 239, 239);
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: rgb(0, 0, 0, 0.3);
+    border-radius: 20px;
+  }
+}
