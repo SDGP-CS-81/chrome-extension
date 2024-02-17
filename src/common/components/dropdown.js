@@ -5,12 +5,13 @@ import { categories } from "../constants.js";
 // template for each dropdown menu item
 const generateMenuItemTemplate = (quality, selectedQuality) => {
   const isSelected = quality.toString() === selectedQuality;
-  return `
-    <p class="dropdown-menu-item cursor-pointer z-[99] block h-12 w-full px-4 py-3 text-base text-right ${
-      isSelected
+  return html`
+    <p
+      class="dropdown-menu-item ${isSelected
         ? "bg-primary-dark dark:text-white"
-        : "dark:text-white hover:bg-grey-low hover:text-gray-900"
-    }" data-quality="${quality}">
+        : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
+      data-quality="${quality}"
+    >
       ${quality}p
     </p>
   `;
