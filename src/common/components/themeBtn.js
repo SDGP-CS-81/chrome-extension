@@ -3,22 +3,15 @@ import { getPreferences, html, setPreferences, setTheme } from "../helpers.js";
 import ToggleBtn from "./toggleBtn.js";
 
 class ThemeBtn extends ToggleBtn {
-  constructor() {
-    super();
-    this.generateTemplate = () => {
-      const template = document.createElement("template");
-      template.innerHTML = html`
-        <div class="relative flex cursor-pointer items-center ">
-          <input
-            type="checkbox"
-            id="offlineMode"
-            class="peer/toggle sr-only "
-          />
-          ${moon} ${sun}
-        </div>
-      `;
-      return template;
-    };
+  generateTemplate() {
+    const template = document.createElement("template");
+    template.innerHTML = html`
+      <div class="relative flex cursor-pointer items-center ">
+        <input type="checkbox" id="offlineMode" class="peer/toggle sr-only " />
+        ${moon} ${sun}
+      </div>
+    `;
+    return template;
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
