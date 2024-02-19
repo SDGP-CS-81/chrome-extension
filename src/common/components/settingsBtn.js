@@ -21,7 +21,7 @@ class SettingsBtn extends HTMLElement {
   }
 
   connectedCallback() {
-    this.appendChild(generateTemplate().content.cloneNode(true));
+    this.appendChild(this.generateTemplate().content.cloneNode(true));
 
     this.addEventListener("click", this.defaultClickHandler);
   }
