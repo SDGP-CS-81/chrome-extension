@@ -8,7 +8,8 @@ class InfoPopup extends HTMLElement {
       class="relative ml-2 hidden items-center @[400px]/dropdown:block"
     >
       <svg
-        class="dropdown-info-icon h-6 w-full cursor-pointer fill-none stroke-current dark:text-white"
+        id="dropdown-info-icon"
+        class="h-6 w-full cursor-pointer fill-none stroke-current dark:text-white"
         viewBox="0 0 24 24"
       >
         <path
@@ -19,7 +20,8 @@ class InfoPopup extends HTMLElement {
         />
       </svg>
       <div
-        class="popup absolute right-0 z-10 hidden w-48 transform flex-col items-center rounded-md bg-secondary-light shadow-xl dark:bg-grey-high"
+        id="popup"
+        class="absolute right-0 z-10 hidden w-48 transform flex-col items-center rounded-md bg-secondary-light shadow-xl dark:bg-grey-high"
       >
         <img
           src="${category.descImg}"
@@ -41,8 +43,8 @@ class InfoPopup extends HTMLElement {
       this.generateTemplate(categories[this.categoryId]).content.cloneNode(true)
     );
 
-    const infoIcon = this.querySelector(".dropdown-info-icon");
-    const popup = this.querySelector(".popup");
+    const infoIcon = this.querySelector("#dropdown-info-icon");
+    const popup = this.querySelector("#popup");
 
     infoIcon.addEventListener("click", () => {
       popup.classList.toggle("hidden");
