@@ -24,10 +24,12 @@
     >
       <!-- clamp header items to a maximum width -->
       <div class="flex w-full items-center justify-between @[900px]:w-[900px]">
-        <text-logo class="text-3xl"></text-logo>
+        <text-logo class="text-xl sm:text-3xl"></text-logo>
         <!-- explicit offline button -->
         <div class="flex items-center justify-between">
-          <label for="offlineBtn" class="pe-3 text-lg">Offline Mode</label>
+          <label for="offlineBtn" class="hidden pe-3 text-lg sm:block"
+            >Offline Mode</label
+          >
           <div class="flex gap-5">
             <offline-btn toggle-id="offlineMode"></offline-btn>
             <theme-btn toggle-id="theme"></theme-btn>
@@ -37,7 +39,7 @@
     </header>
 
     <!-- contains all the settings and clamps them to a given width -->
-    <div class="flex flex-col items-center gap-y-12 py-12 @container">
+    <div class="flex flex-col items-center gap-y-12 px-8 py-12 @container">
       <div
         class="z-50 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
