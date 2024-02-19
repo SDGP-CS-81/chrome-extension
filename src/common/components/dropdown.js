@@ -104,11 +104,9 @@ const generateTemplate = (selectedQuality, category) => {
 };
 
 class Dropdown extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
+    this.setAttribute("data-element", "custom");
+
     // initial load
     getPreferences().then(async (preferences) => {
       // console.log("initial preferences", preferences)
@@ -209,6 +207,7 @@ class Dropdown extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.replaceChildren();
     this.replaceWith(this.cloneNode(true));
   }
 }
