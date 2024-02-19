@@ -1,12 +1,14 @@
 import { categories } from "../constants.js";
+import { html } from "../helpers.js";
 
 class InfoPopup extends HTMLElement {
   generateTemplate(category) {
     const template = document.createElement("template");
-    template.innerHTML = `
-    <div class="relative ml-2 hidden items-center @[400px]/dropdown:block">
+    template.innerHTML = html` <div
+      class="relative ml-2 hidden items-center @[400px]/dropdown:block"
+    >
       <svg
-        class="dropdown-info-icon h-6 w-full cursor-pointer stroke-current dark:text-white"
+        class="dropdown-info-icon h-6 w-full cursor-pointer fill-none stroke-current dark:text-white"
         viewBox="0 0 24 24"
       >
         <path
@@ -17,14 +19,16 @@ class InfoPopup extends HTMLElement {
         />
       </svg>
       <div
-        class="popup absolute right-0 top-0 z-[10] flex hidden w-72 -translate-y-[70px] translate-x-[300px] transform items-center rounded-md border border-grey-low bg-secondary-light p-2 dark:border-grey-high dark:bg-grey-high"
+        class="popup absolute right-0 z-10 hidden w-48 transform flex-col items-center rounded-md bg-secondary-light shadow-xl dark:bg-grey-high"
       >
-        <p class="text-sm text-black dark:text-white">${category.desc}</p>
         <img
           src="${category.descImg}"
           alt="Category type"
-          class="ml-6 h-28 w-28 rounded-md"
+          class="h-48 w-48 rounded-t-md"
         />
+        <p class="px-4 py-3 text-sm text-black dark:text-white">
+          ${category.desc}
+        </p>
       </div>
     </div>`;
     return template;
@@ -42,6 +46,7 @@ class InfoPopup extends HTMLElement {
 
     infoIcon.addEventListener("click", () => {
       popup.classList.toggle("hidden");
+      popup.classList.toggle("flex");
     });
 
     document.addEventListener("click", (event) => {
