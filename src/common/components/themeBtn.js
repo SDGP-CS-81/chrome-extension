@@ -6,10 +6,10 @@ class ThemeBtn extends ToggleBtn {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-    <div class="relative flex cursor-pointer items-center pt-2.5 pb-2.5">
-      <input type="checkbox" id="offlineMode" class="peer/toggle sr-only " />
-      ${moon} ${sun}
-    </div>
+      <div class="relative flex cursor-pointer items-center">
+        <input type="checkbox" id="offlineMode" class="peer/toggle sr-only " />
+        ${moon} ${sun}
+      </div>
     `;
     return template;
   }

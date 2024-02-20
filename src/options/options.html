@@ -1,71 +1,77 @@
 <!doctype html>
 <html lang="en" data-mode="dark">
+  <head>
+    <title>ByteSense - Options</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../output.css" rel="stylesheet" />
 
-<head>
-  <title>ByteSense - Options</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="../output.css" rel="stylesheet" />
+    <script type="module" src="options.js"></script>
+    <script type="module" src="../svg.js"></script>
+    <script type="module" src="../common/components/themeBtn.js"></script>
+    <script type="module" src="../common/components/textLogo.js"></script>
+    <script type="module" src="../common/components/toggleBtn.js"></script>
+    <script type="module" src="../common/components/featureBtn.js"></script>
+    <script type="module" src="../common/components/dropdownEl.js"></script>
+    <script type="module" src="../common/components/offlineBtn.js"></script>
+    <script type="module" src="../common/components/settingsBtn.js"></script>
+    <script type="module" src="../common/components/infoPopup.js"></script>
+  </head>
 
-  <script type="module" src="options.js"></script>
-  <script type="module" src="../svg.js"></script>
-  <script type="module" src="../common/components/themeBtn.js"></script>
-  <script type="module" src="../common/components/textLogo.js"></script>
-  <script type="module" src="../common/components/toggleBtn.js"></script>
-  <script type="module" src="../common/components/featureBtn.js"></script>
-  <script type="module" src="../common/components/dropdownEl.js"></script>
-  <script type="module" src="../common/components/offlineBtn.js"></script>
-  <script type="module" src="../common/components/settingsBtn.js"></script>
-  <script type="module" src="../common/components/infoPopup.js"></script>
-</head>
-
-<body class="bg-secondary-light text-black dark:bg-secondary-dark dark:text-white">
-  <header class="relative flex items-center justify-center border-b border-grey-mid p-8 @container">
-    <!-- clamp header items to a maximum width -->
-    <div class="flex w-full items-center justify-between @[900px]:w-[900px]">
-      <text-logo class="text-xl sm:text-3xl"></text-logo>
-      <!-- explicit offline button -->
-      <div class="flex items-center justify-between">
-        <div class="flex gap-5">
+  <body
+    class="bg-secondary-light text-black dark:bg-secondary-dark dark:text-white"
+  >
+    <header
+      class="relative flex items-center justify-center border-b border-grey-mid p-8 @container"
+    >
+      <!-- clamp header items to a maximum width -->
+      <div class="flex w-full items-center justify-between @[900px]:w-[900px]">
+        <text-logo class="text-xl sm:text-3xl"></text-logo>
+        <!-- explicit offline button -->
+        <div class="flex items-center justify-between gap-5">
           <offline-btn toggle-id="offlineMode"></offline-btn>
           <theme-btn toggle-id="theme"></theme-btn>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- contains all the settings and clamps them to a given width -->
-  <div class="flex flex-col items-center gap-y-12 px-8 py-12 @container">
-    <div class="z-50 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]">
-      <h1 class="text-xl">Categories</h1>
-      <dropdown-el category-id="coding"></dropdown-el>
-      <dropdown-el category-id="music"></dropdown-el>
-      <dropdown-el category-id="podcast"></dropdown-el>
-      <dropdown-el category-id="gaming"></dropdown-el>
-      <dropdown-el category-id="sports"></dropdown-el>
-      <dropdown-el category-id="graphics"></dropdown-el>
-      <dropdown-el category-id="lifestyle"></dropdown-el>
-      <dropdown-el category-id="nature"></dropdown-el>
-      <dropdown-el category-id="news"></dropdown-el>
-      <dropdown-el category-id="demo"></dropdown-el>
-    </div>
+    <!-- contains all the settings and clamps them to a given width -->
+    <div class="flex flex-col items-center gap-y-12 px-8 py-12 @container">
+      <div
+        class="z-50 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+      >
+        <h1 class="text-xl">Categories</h1>
+        <dropdown-el category-id="coding"></dropdown-el>
+        <dropdown-el category-id="music"></dropdown-el>
+        <dropdown-el category-id="podcast"></dropdown-el>
+        <dropdown-el category-id="gaming"></dropdown-el>
+        <dropdown-el category-id="sports"></dropdown-el>
+        <dropdown-el category-id="graphics"></dropdown-el>
+        <dropdown-el category-id="lifestyle"></dropdown-el>
+        <dropdown-el category-id="nature"></dropdown-el>
+        <dropdown-el category-id="news"></dropdown-el>
+        <dropdown-el category-id="demo"></dropdown-el>
+      </div>
 
-    <div class="z-[10] flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]">
-      <h1 class="text-xl">Default Quality</h1>
-      <dropdown-el category-id="defaultQuality"></dropdown-el>
-    </div>
+      <div
+        class="z-[10] flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+      >
+        <h1 class="text-xl">Default Quality</h1>
+        <dropdown-el category-id="defaultQuality"></dropdown-el>
+      </div>
 
-    <!-- wrap any setting groups into a div like this one -->
-    <div class="z-[0] flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]">
-      <h1 class="text-xl">Other Features</h1>
-      <feature-btn toggle-id="audioOnly"></feature-btn>
-      <feature-btn toggle-id="lowBackgroundResolution"></feature-btn>
-      <feature-btn toggle-id="userInitiatedPlayback"></feature-btn>
-      <feature-btn toggle-id="thumbnailHoverBlocking"></feature-btn>
-      <feature-btn toggle-id="blockThumbnailLoad"></feature-btn>
-      <feature-btn toggle-id="blockHomePageLoad"></feature-btn>
+      <!-- wrap any setting groups into a div like this one -->
+      <div
+        class="z-[0] flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
+      >
+        <h1 class="text-xl">Other Features</h1>
+        <feature-btn toggle-id="audioOnly"></feature-btn>
+        <feature-btn toggle-id="lowBackgroundResolution"></feature-btn>
+        <feature-btn toggle-id="userInitiatedPlayback"></feature-btn>
+        <feature-btn toggle-id="thumbnailHoverBlocking"></feature-btn>
+        <feature-btn toggle-id="blockThumbnailLoad"></feature-btn>
+        <feature-btn toggle-id="blockHomePageLoad"></feature-btn>
+      </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
