@@ -28,7 +28,7 @@ export const defaultPreferences = {
 export const categories = {
   music: {
     categoryName: "Music",
-    descImg: "../assets/userface_categories/music.jpg",
+    descImg: "../assets/categories/music.jpg",
     desc: "Music includes music videos and live performances",
     keyWords: ["music", "song", "lyrics"],
     selectionConditions: {
@@ -39,7 +39,7 @@ export const categories = {
   },
   podcast: {
     categoryName: "Podcast",
-    descImg: "../assets/userface_categories/podcast.jpg",
+    descImg: "../assets/categories/podcast.jpg",
     desc: "Podcast is about all podcast content including interviews and panel discussions",
     keywords: [
       "podcast",
@@ -58,7 +58,7 @@ export const categories = {
   },
   gaming: {
     categoryName: "Gaming",
-    descImg: "../assets/userface_categories/game.jpg",
+    descImg: "../assets/categories/game.jpg",
     desc: "Gaming focuses on in-game content, including gameplays and walkthroughs",
     keywords: [
       "gameplay",
@@ -81,7 +81,7 @@ export const categories = {
   },
   news: {
     categoryName: "News",
-    descImg: "../assets/userface_categories/news.jpg",
+    descImg: "../assets/categories/news.jpg",
     desc: "News focuses on news headlines and videos that include worldwide updates",
     keywords: [
       "news",
@@ -102,7 +102,7 @@ export const categories = {
   },
   coding: {
     categoryName: "Coding",
-    descImg: "../assets/userface_categories/coding.jpg",
+    descImg: "../assets/categories/coding.png",
     desc: "Coding includes programming and coding content, such as coding tutorials",
     keywords: [
       "python",
@@ -125,7 +125,7 @@ export const categories = {
   },
   sports: {
     categoryName: "Sports",
-    descImg: "../assets/userface_categories/sports.jpg",
+    descImg: "../assets/categories/sports.jpg",
     desc: "Sports is for all sports-related content, such as match highlights and in-game moments",
     keywords: [
       "football",
@@ -148,7 +148,7 @@ export const categories = {
   },
   graphics: {
     categoryName: "Graphics",
-    descImg: "../assets/userface_categories/graphics.jpg",
+    descImg: "../assets/categories/graphics.jpg",
     desc: "Graphics covers animations and a variety of visually creative videos",
     keywords: [
       "design",
@@ -172,7 +172,7 @@ export const categories = {
   },
   lifestyle: {
     categoryName: "Lifestyle",
-    descImg: "../assets/userface_categories/podcast.jpg",
+    descImg: "../assets/categories/podcast.jpg",
     desc: "Lifetyle covers vlogs and a variety of content where people are the subject",
     keywords: [
       "vlog",
@@ -193,7 +193,7 @@ export const categories = {
   },
   nature: {
     categoryName: "Nature",
-    descImg: "../assets/userface_categories/nature.jpg",
+    descImg: "../assets/categories/nature.jpg",
     desc: "Nature is for wildlife documentaries, scenic travel vlogs, and nature exploration videos",
     keywords: [
       "wild",
@@ -218,7 +218,7 @@ export const categories = {
   },
   demo: {
     categoryName: "Demo",
-    descImg: "../assets/userface_categories/demo.jpg",
+    descImg: "../assets/categories/demo.jpg",
     desc: "Demo covers all types of demonstration videos, such as product unboxings and practical guides",
     keywords: [
       "repair",
@@ -240,7 +240,7 @@ export const categories = {
   },
   defaultQuality: {
     categoryName: "Default Quality",
-    descImg: "../assets/userface_categories/default.jpg",
+    descImg: "../assets/categories/default.jpg",
     desc: "Default quality for all video categories",
     keywords: [],
     selectionConditions: {
