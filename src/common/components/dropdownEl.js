@@ -1,3 +1,4 @@
+import { categoryInfo } from "../../svg.js";
 import { setPreferences, getPreferences, html } from "../helpers.js";
 import { qualities, categories } from "../constants.js";
 
@@ -7,8 +8,8 @@ class DropdownEl extends HTMLElement {
     return html`
       <p
         class="dropdown-menu-item ${isSelected
-          ? "bg-primary-dark dark:text-white"
-          : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
+        ? "bg-primary-dark dark:text-white"
+        : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
         data-quality="${quality}"
       >
         ${quality}p
@@ -40,18 +41,7 @@ class DropdownEl extends HTMLElement {
               <p id="quality-text" class="mr-2">
                 ${selectedQuality ? `${selectedQuality}p` : ""}
               </p>
-              <svg
-                class="h-6 w-6 dark:text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              ${categoryInfo}
             </div>
           </button>
           <!-- Dropdown menu -->
