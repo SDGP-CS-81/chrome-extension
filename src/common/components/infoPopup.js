@@ -21,13 +21,14 @@ class InfoPopup extends HTMLElement {
       </svg>
       <div
         id="popup"
-        class="absolute right-0 z-10 hidden w-48 transform flex-col items-center rounded-md bg-secondary-light shadow-xl dark:bg-grey-high"
+        class="absolute right-7 z-10 hidden w-60 transform flex-col items-center rounded-md bg-secondary-light shadow-2xl dark:bg-grey-high"
       >
-        <img
-          src="${category.descImg}"
-          alt="Category type"
-          class="h-48 w-48 rounded-t-md"
-        />
+        <div
+          style="background-image: url(${category.descImg});"
+          alt="Category
+          type"
+          class="aspect-video w-full rounded-t-md bg-cover bg-center bg-no-repeat"
+        ></div>
         <p class="px-4 py-3 text-sm text-black dark:text-white">
           ${category.desc}
         </p>
