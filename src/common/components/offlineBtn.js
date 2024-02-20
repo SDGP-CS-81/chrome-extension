@@ -6,6 +6,10 @@ class OfflineBtn extends ToggleBtn {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
+    <div class="@[400px]:border-2 border-solid border-grey-mid rounded-full @[400px]:p-2.5 flex cursor-pointer ">
+      <label for="offlineBtn" class="hidden pe-3 text-lg sm:block cursor-pointer">
+        Offline Mode
+      </label>
       <div
         class="relative flex cursor-pointer items-center stroke-black dark:stroke-white "
       >
@@ -13,6 +17,7 @@ class OfflineBtn extends ToggleBtn {
 
         ${wifiOn} ${wifiOff}
       </div>
+    </div>
     `;
     return template;
   }
