@@ -40,10 +40,8 @@ class ToggleBtn extends HTMLElement {
     );
 
     getPreferences().then((preferences) => {
-      if (this.toggleID in preferences) {
-        this.checked =
-          preferences.features[this.toggleID as keyof PreferenceFeatures];
-      }
+      this.checked =
+        preferences.features[this.toggleID as keyof PreferenceFeatures];
     });
 
     this.addEventListener("click", () => {
