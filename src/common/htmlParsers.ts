@@ -5,7 +5,7 @@ export const getYTVideoCategorisation = () => {
     document.querySelectorAll(
       "yt-formatted-string#title.ytd-rich-list-header-renderer"
     )
-  ).map((el) => el.innerText.toLowerCase());
+  ).map((el: HTMLElement) => el.innerText.toLowerCase());
   const ytCategories = ["music", "gaming", "sports"]; // replace with categoryKeywords.keys
   return potentialCategories.find((category) =>
     ytCategories.includes(category)
@@ -18,27 +18,32 @@ export const getVideoDescription = () => {
   const description = Array.from(
     document.querySelectorAll(".yt-core-attributed-string--link-inherit-color")
   )
-    .map((el) => el.innerText)
+    .map((el: HTMLElement) => el.innerText)
     .join(" ");
 
-  return window.helpers.preprocessText(description);
+  return (window as any).helpers.preprocessText(description);
 };
 
 export const getVideoTitle = () => {
-  return window.helpers.preprocessText(
-    document.querySelector("h1.style-scope.ytd-watch-metadata").innerText
+  return (window as any).helpers.preprocessText(
+    (document.querySelector("h1.style-scope.ytd-watch-metadata") as HTMLElement)
+      .innerText
   );
 };
 
 export const getChannelID = () => {
-  return document
-    .querySelector(".yt-simple-endpoint.style-scope.yt-formatted-string")
-    .href.split("www.youtube.com/")[1];
+  return (
+    document.querySelector(
+      ".yt-simple-endpoint.style-scope.yt-formatted-string"
+    ) as HTMLAnchorElement
+  ).href.split("www.youtube.com/")[1];
 };
 
 // will retrive first 3 comments- but user has to go to comments section...so it doesnt work
 export const getComments = () => {
   return Array.from(document.querySelectorAll("#content-text"))
     .slice(1, 4)
-    .map((el) => window.helpers.preprocessText(el.innerText));
+    .map((el: HTMLElement) =>
+      (window as any).helpers.preprocessText(el.innerText)
+    );
 };

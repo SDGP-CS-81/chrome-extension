@@ -15,22 +15,52 @@ export const defaultPreferences = {
     demo: "480",
     defaultQuality: "480",
   },
-  theme: true, // true for dark
-  offlineMode: false,
-  audioOnly: false,
-  lowBackgroundResolution: true,
-  userInitiatedPlayback: false,
-  thumbnailHoverBlocking: false,
-  blockThumbnailLoad: false,
-  blockHomePageLoad: false,
+  features: {
+    theme: true, // true for dark
+    offlineMode: false,
+    audioOnly: false,
+    lowBackgroundResolution: true,
+    userInitiatedPlayback: false,
+    thumbnailHoverBlocking: false,
+    blockThumbnailLoad: false,
+    blockHomePageLoad: false,
+  },
+};
+export type PreferenceFeatures = {
+  theme: boolean; // true for dark
+  offlineMode: boolean;
+  audioOnly: boolean;
+  lowBackgroundResolution: boolean;
+  userInitiatedPlayback: boolean;
+  thumbnailHoverBlocking: boolean;
+  blockThumbnailLoad: boolean;
+  blockHomePageLoad: boolean;
+};
+export type Preferences = {
+  categories: {
+    [key: string]: string;
+  };
+  features: PreferenceFeatures;
 };
 
-export const categories = {
+export type Category = {
+  categoryName: string;
+  descImg: string;
+  desc: string;
+  keywords: string[];
+  selectionConditions: {
+    backendCategories: string[];
+    analysisScores: (detailScore: number, diffScore: number) => boolean;
+    keywordThreshold: number;
+  };
+};
+
+export const categories: { [key: string]: Category } = {
   music: {
     categoryName: "Music",
     descImg: "../assets/categories/music.jpg",
     desc: "Music includes music videos and live performances",
-    keyWords: ["music", "song", "lyrics"],
+    keywords: ["music", "song", "lyrics"],
     selectionConditions: {
       backendCategories: [],
       analysisScores: (detailScore, diffScore) => false,
@@ -251,7 +281,9 @@ export const categories = {
   },
 };
 
-export const features = {
+export type Feature = { featureName: string; description: string };
+
+export const features: { [key: string]: Feature } = {
   audioOnly: {
     featureName: "Audio Only Video",
     description: "Enables playback of only the audio stream of the video",

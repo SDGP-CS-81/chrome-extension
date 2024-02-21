@@ -1,4 +1,5 @@
 import { moon, sun } from "../../svg.js";
+import { PreferenceFeatures } from "../constants.js";
 import { getPreferences, html, setPreferences, setTheme } from "../helpers.js";
 import ToggleBtn from "./toggleBtn.js";
 
@@ -14,10 +15,11 @@ class ThemeBtn extends ToggleBtn {
     return template;
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (name === "checked") {
       getPreferences().then(async (preferences) => {
-        preferences[this.toggleID] = this.checked;
+        preferences.features[this.toggleID as keyof PreferenceFeatures] =
+          this.checked;
         await setPreferences(preferences);
         const hiddenInput = this.querySelector("input");
         if (hiddenInput) hiddenInput.checked = this.checked;
@@ -31,4 +33,4 @@ class ThemeBtn extends ToggleBtn {
 customElements.define("theme-btn", ThemeBtn);
 
 // set the mode for the page
-setTheme();
+setTheme(null);

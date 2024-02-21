@@ -3,23 +3,29 @@ import { setPreferences, getPreferences, html } from "../helpers.js";
 import { qualities, categories } from "../constants.js";
 
 class DropdownEl extends HTMLElement {
-  generateMenuItemTemplate(quality, selectedQuality) {
+  categoryId: string;
+  categoryName: string;
+  currentSelectedQuality: string;
+
+  generateMenuItemTemplate(quality: number, selectedQuality: string) {
     const isSelected = quality.toString() === selectedQuality;
     return html`
       <p
         class="dropdown-menu-item ${isSelected
-        ? "bg-primary-dark dark:text-white"
-        : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
-        data-quality="${quality}"
+          ? "bg-primary-dark dark:text-white"
+          : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
+        data-quality="${quality.toString()}"
       >
-        ${quality}p
+        ${quality.toString()}p
       </p>
     `;
   }
 
-  generateTemplate(selectedQuality, categoryName) {
+  generateTemplate() {
     const qualityItemsHtml = qualities
-      .map((quality) => this.generateMenuItemTemplate(quality, selectedQuality))
+      .map((quality) =>
+        this.generateMenuItemTemplate(quality, this.currentSelectedQuality)
+      )
       .join("");
 
     const template = document.createElement("template");
@@ -35,11 +41,13 @@ class DropdownEl extends HTMLElement {
             aria-haspopup="true"
           >
             <!-- Category name -->
-            <p>${categoryName}</p>
+            <p>${this.categoryName}</p>
             <!-- Selected quality and dropdown icon -->
             <div class="flex items-center">
               <p id="quality-text" class="mr-2">
-                ${selectedQuality ? `${selectedQuality}p` : ""}
+                ${this.currentSelectedQuality
+                  ? `${this.currentSelectedQuality}p`
+                  : ""}
               </p>
               ${categoryInfo}
             </div>
@@ -65,15 +73,10 @@ class DropdownEl extends HTMLElement {
   async connectedCallback() {
     this.setAttribute("data-element", "custom");
     this.categoryId = this.getAttribute("category-id");
-
+    this.categoryName = categories[this.categoryId].categoryName;
     const preferences = await getPreferences();
     this.currentSelectedQuality = preferences.categories[this.categoryId];
-    this.appendChild(
-      this.generateTemplate(
-        this.currentSelectedQuality,
-        categories[this.categoryId].categoryName
-      ).content.cloneNode(true)
-    );
+    this.appendChild(this.generateTemplate().content.cloneNode(true));
 
     this.setUpEventListeners();
   }
@@ -87,20 +90,21 @@ class DropdownEl extends HTMLElement {
     // handle button clicks to toggle dropdown visibility
     dropdownButton.addEventListener("click", () => {
       const expanded = dropdownButton.getAttribute("aria-expanded") === "true";
-      dropdownButton.setAttribute("aria-expanded", !expanded);
+      dropdownButton.setAttribute("aria-expanded", (!expanded).toString());
       dropdownItemContainer.classList.toggle("hidden", expanded);
     });
 
     // global click event listener to hide the dropdown when clicking outside
     document.addEventListener("click", (event) => {
-      if (!this.contains(event.target)) {
+      if (!this.contains(event.target as HTMLElement)) {
         dropdownItemContainer.classList.add("hidden");
         dropdownButton.setAttribute("aria-expanded", "false");
       }
     });
     // handle dropdown menu item clicks
     dropdownItemContainer.addEventListener("click", async (event) => {
-      const selectedQuality = event.target.getAttribute("data-quality");
+      const target = event.target as HTMLElement;
+      const selectedQuality = target.getAttribute("data-quality");
 
       const preferences = await getPreferences();
       preferences.categories[this.categoryId] = selectedQuality;
@@ -122,12 +126,8 @@ class DropdownEl extends HTMLElement {
       });
 
       // highlight the selected item
-      event.target.classList.add(
-        "bg-primary-dark",
-        "dark:text-white",
-        "text-black"
-      );
-      event.target.classList.remove(
+      target.classList.add("bg-primary-dark", "dark:text-white", "text-black");
+      target.classList.remove(
         "dark:text-white",
         "text-black",
         "hover:bg-grey-low",

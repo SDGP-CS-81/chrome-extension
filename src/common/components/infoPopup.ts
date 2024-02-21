@@ -1,8 +1,9 @@
-import { categories } from "../constants.js";
+import { Category, categories } from "../constants.js";
 import { html } from "../helpers.js";
 
 class InfoPopup extends HTMLElement {
-  generateTemplate(category) {
+  categoryId: string;
+  generateTemplate(category: Category) {
     const template = document.createElement("template");
     template.innerHTML = html` <div
       class="relative ml-2 hidden items-center @[400px]/dropdown:block"
@@ -53,7 +54,7 @@ class InfoPopup extends HTMLElement {
     });
 
     document.addEventListener("click", (event) => {
-      if (!this.contains(event.target)) {
+      if (!this.contains(event.target as Node)) {
         popup.classList.add("hidden");
       }
     });
