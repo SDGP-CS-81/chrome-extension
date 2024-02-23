@@ -1,9 +1,6 @@
 import { getPreferences } from "../common/helpers.js";
 
 (async () => {
-  const preferences = await getPreferences();
-  console.log("get preferences", preferences.audioOnly);
-
   const audioOnlyHandler = (enable) => {
     const tabIds = new Map();
 
@@ -24,7 +21,8 @@ import { getPreferences } from "../common/helpers.js";
       return `${urlParts[0]}?${filteredParameters.join('&')}`;
     };
 
-    const processRequest = (details) => {
+    const processRequest = async (details) => {
+      const preferences = await getPreferences();
       if (preferences.audioOnly) {
         const { url, tabId } = details;
         // filter out non-audio requests
@@ -45,7 +43,8 @@ import { getPreferences } from "../common/helpers.js";
           sendMessage(tabId);
         }
       } else {
-        return;
+        // if audioOnly preference is false, remove the tab from tabIds
+        tabIds.delete(details.tabId);
       }
     };
 
