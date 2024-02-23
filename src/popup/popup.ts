@@ -9,11 +9,4 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
   const newDropdownEl = document.createElement("dropdown-el");
   newDropdownEl.setAttribute("category-id", currentVideoCategory);
   dropdownContainer.appendChild(newDropdownEl);
-
-  // const preferences = await getPreferences();
-  // console.log("get preferences", preferences.audioOnly);
-
-  // chrome.storage.local.get(["audioOnly"]).then((result) => {
-  //   console.log("popup: Value is " + result.audioOnly);
-  // });
 })();
