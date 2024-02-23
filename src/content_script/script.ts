@@ -7,10 +7,20 @@
     chrome.runtime.getURL("../common/helpers.js")
   );
 
-  document.addEventListener("yt-navigate-finish", () => {
-    if (location.pathname != "/watch") return;
-    runOnUrlChange();
-  });
+  // audio only message handler
+  chrome.runtime.onMessage.addListener((message) => {
+    console.log("message received to script");
+    const videoElement = document.querySelector("video");
+
+    if (!videoElement) return true;
+
+    videoElement.pause();
+    videoElement.src = message.url;
+    videoElement.currentTime = 0;
+    videoElement.play();
+
+    return true;
+  })
 
   const runOnUrlChange = async () => {
     const observerConfig = {
@@ -86,4 +96,9 @@
     // if quality has not been set, close settings as it is open
     if (!hasQualityBeenSet) return vidSettingsButton.click();
   };
+
+  document.addEventListener("yt-navigate-finish", () => {
+    if (location.pathname != "/watch") return;
+    runOnUrlChange();
+  });
 })();
