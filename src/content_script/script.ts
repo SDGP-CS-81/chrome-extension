@@ -9,7 +9,6 @@
 
   // audio only message handler
   chrome.runtime.onMessage.addListener((message) => {
-    console.log("message received to script");
     const videoElement = document.querySelector("video");
 
     if (!videoElement) return true;
