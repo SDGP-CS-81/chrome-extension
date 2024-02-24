@@ -8,7 +8,9 @@
     "tailwind": "tailwindcss -i ./src/input.css -o ./src/output.css",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "copy-files": "rimraf dist && copyfiles -u 1 src/**/*.* -e src/**/*.ts dist/",
+    "copy-files-linux": "mkdir -p dist && cp -r src/** dist/ && rm dist/**/*.ts dist/*.ts",
     "build": "npm run tailwind && npm run copy-files && tsc",
+    "build-linux": "npm run tailwind && npm run copy-files-linux && tsc",
     "dev": "nodemon"
   },
   "devDependencies": {
