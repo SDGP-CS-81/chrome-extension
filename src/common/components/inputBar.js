@@ -1,12 +1,27 @@
 class InputBar extends HTMLElement {
+  constructor() {
+    super();
+    this.tagCount = 0;
+  }
+
+
   addToInputBar(value) {
     const ul = this.querySelector("ul");
     const li = document.createElement("li");
-
     const inputTag = document.createElement("input-tag");
-    inputTag.text = value; // Update the text property directly
+    inputTag.text = value;
     li.appendChild(inputTag);
     ul.appendChild(li);
+  
+
+    this.tagCount++;
+  
+    if (this.tagCount >= 7) {
+      console.log("Maximum number of tags added");
+      const input = document.getElementById("default-input");
+      input.disabled = true;
+      input.placeholder = "Reached the keyword limit"; // Set placeholder text
+    }
   }
 
   generateTemplate() {
@@ -24,7 +39,7 @@ class InputBar extends HTMLElement {
   }
 
   setUpEventListeners() {
-    const input = document.getElementById("default-input"); // Target the keywords text area
+    const input = document.getElementById("default-input"); 
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === ",") {
         event.preventDefault();
@@ -36,7 +51,17 @@ class InputBar extends HTMLElement {
         }
       }
     });
+  
+
+    this.addEventListener('tag-removed', () => {
+      this.tagCount--;
+      if (this.tagCount < 7) {
+        input.disabled = false; 
+        input.placeholder = ""; 
+      }
+    });
   }
+  
 
   disconnectedCallback() {
     this.replaceChildren();
