@@ -7,3 +7,28 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     .querySelectorAll('[data-element="custom"]')
     .forEach((el) => el.replaceWith(el));
 });
+
+document.getElementById("submit-btn").addEventListener("click", () => {
+  const category = document.getElementById("large-input").value;
+  const tags = Array.from(document.querySelectorAll("input-tag")).map(tag => tag.text);
+  const submission = { category, keywords: tags };
+  
+  console.log(submission); // For now logging the keywords
+
+  
+  document.getElementById("large-input").value = ''; 
+  document.getElementById("large-input").placeholder = "Enter category name";
+
+  const inputBar = document.querySelector("input-bar");
+  inputBar.tagCount = 0; 
+  inputBar.querySelector("ul").innerHTML = ''; 
+
+  const input = document.getElementById("default-input");
+  keywordInput.disabled = false; 
+  keywordInput.placeholder = "Add relevant keywords";
+
+  // Send the submission to the background script
+});
+
+
+

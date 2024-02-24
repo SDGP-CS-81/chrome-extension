@@ -64,7 +64,7 @@
 
       <!-- wrap any setting groups into a div like this one -->
       <div
-        class="z-[0] flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
+        class="z-[0] flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px] "
       >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
@@ -76,16 +76,22 @@
       </div>
     </div>
 
-    <div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    <div style="display: flex; justify-content: center; align-items: center; height: 50vh; margin-top: 20px;">
     <div style="width: 40%;">
         <div class="mb-6">
             <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-            <input type="text" id="large-input" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            <input type="text" id="large-input" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Enter category name">
         </div>
         <div class="mb-6">
           <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keywords</label>
-          <input type="text" id="default-input" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+          <input type="text" id="default-input" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Enter relevant keywords">
           <input-bar></input-bar>
+          <div class="flex justify-center mt-4">
+          <button id="submit-btn"   class="bg-transparent hover:bg-green-800 text-green-500 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+            Submit
+          </button>
+        </div>
+
         </div>
     </div>
     </div>
