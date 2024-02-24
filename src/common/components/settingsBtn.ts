@@ -1,4 +1,4 @@
-import { html } from "../../common/helpers.js";
+import { html } from "../helpers.js";
 
 class SettingsBtn extends HTMLElement {
   generateTemplate() {
@@ -29,7 +29,7 @@ class SettingsBtn extends HTMLElement {
   disconnectedCallback() {
     this.removeEventListener("click", this.defaultClickHandler);
 
-    this.replaceChild();
+    this.replaceChildren();
     this.replaceWith(this.cloneNode(true));
   }
 

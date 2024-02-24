@@ -1,7 +1,9 @@
+import { PreferenceFeatures } from "../constants.js";
 import { getPreferences, html, setPreferences } from "../helpers.js";
 
 class ToggleBtn extends HTMLElement {
-  generateTemplate(toggleID) {
+  toggleID: string;
+  generateTemplate(toggleID: string) {
     const template = document.createElement("template");
     template.innerHTML = html`
       <div class="relative flex cursor-pointer items-center ">
@@ -32,12 +34,14 @@ class ToggleBtn extends HTMLElement {
     this.setAttribute("data-element", "custom");
 
     this.toggleID = this.getAttribute("toggle-id");
+
     this.appendChild(
       this.generateTemplate(this.toggleID).content.cloneNode(true)
     );
 
     getPreferences().then((preferences) => {
-      this.checked = preferences[this.toggleID];
+      this.checked =
+        preferences.features[this.toggleID as keyof PreferenceFeatures];
     });
 
     this.addEventListener("click", () => {
@@ -50,10 +54,11 @@ class ToggleBtn extends HTMLElement {
     this.replaceWith(this.cloneNode(true));
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (name === "checked") {
       getPreferences().then(async (preferences) => {
-        preferences[this.toggleID] = this.checked;
+        preferences.features[this.toggleID as keyof PreferenceFeatures] =
+          this.checked;
         await setPreferences(preferences);
         const hiddenInput = this.querySelector("input");
         if (hiddenInput) hiddenInput.checked = this.checked;

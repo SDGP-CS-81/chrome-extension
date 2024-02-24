@@ -1,26 +1,33 @@
-import { defaultPreferences, apiURL, categories } from "./constants.js";
+import {
+  defaultPreferences,
+  apiURL,
+  categories,
+  Preferences,
+} from "./constants.js";
 
-export const setPreferences = async (preferences) => {
+export const setPreferences = async (preferences: Preferences) => {
   await chrome.storage.local.set({ preferences: preferences });
 };
 
 export const getPreferences = async () => {
-  const obj = await chrome.storage.local.get({
-    preferences: defaultPreferences,
-  });
-  return obj.preferences;
+  const preferences: Preferences = (
+    await chrome.storage.local.get({
+      preferences: defaultPreferences,
+    })
+  ).preferences;
+  return preferences;
 };
 
 // doesn't really do anything
 // a hack to get prettier-plugin-tailwindcss to work
 // it's plugin bug
-export const html = (staticText, ...values) => {
-  return staticText.reduce((acc, text, index) => {
+export const html = (staticText: TemplateStringsArray, ...values: string[]) => {
+  return staticText.reduce((acc: string, text: string, index: number) => {
     return acc + text + (values[index] ?? "");
   }, "");
 };
 
-export const preprocessText = (text) => {
+export const preprocessText = (text: string) => {
   return text
     .trim()
     .replace(/(?:https?|ftp):\/\/[\n\S]+/g, "") // remove url's
@@ -29,8 +36,11 @@ export const preprocessText = (text) => {
     .toLowerCase();
 };
 
-export const getKeywordScores = (textToSearch, categoryKeywords) => {
-  const keywordScores = {};
+export const getKeywordScores = (
+  textToSearch: string,
+  categoryKeywords: { [key: string]: string[] }
+) => {
+  const keywordScores: { [key: string]: number } = {};
 
   Object.entries(categoryKeywords).forEach(([category, keywords]) => {
     const matchedScores = keywords.map(
@@ -48,7 +58,7 @@ export const getKeywordScores = (textToSearch, categoryKeywords) => {
   return keywordScores;
 };
 
-export const getVideoScores = async (videoID) => {
+export const getVideoScores = async (videoID: string) => {
   const categoryKeywords = Object.fromEntries(
     Object.entries(categories).map(([category, obj]) => [
       category,
@@ -71,7 +81,7 @@ export const getVideoScores = async (videoID) => {
     .catch((err) => console.log(err));
 };
 
-export const calcOptimumQuality = async (videoScores) => {
+export const calcOptimumQuality = async (videoScores: VideoScores) => {
   // simple object to map confidence scores
   const categoryConfidence = Object.fromEntries(
     Object.entries(categories).map(([key, _obj]) => [key, 0])
@@ -135,7 +145,7 @@ export const calcOptimumQuality = async (videoScores) => {
   return optimumQuality;
 };
 
-export const setCurrentVideoCategory = async (currentVideoCategory) => {
+export const setCurrentVideoCategory = async (currentVideoCategory: string) => {
   await chrome.storage.local.set({
     currentVideoCategory: currentVideoCategory,
   });
@@ -148,9 +158,16 @@ export const getCurrentVideoCategory = async () => {
   return obj.currentVideoCategory;
 };
 
-export const setTheme = async (theme) => {
+export const setTheme = async (theme: boolean | null) => {
   // To avoid async call if theme is known already
-  const themeToSet = theme != null ? theme : (await getPreferences())?.theme;
+  const themeToSet =
+    theme != null ? theme : (await getPreferences())?.features.theme;
   if (themeToSet) document.documentElement.setAttribute("data-mode", "dark");
   if (!themeToSet) document.documentElement.setAttribute("data-mode", "light");
+};
+
+export type VideoScores = {
+  categoryScores: { [key: string]: number };
+  frameScores: { [key: string]: number };
+  keywordScores: { [key: string]: number };
 };

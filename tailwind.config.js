@@ -2,9 +2,9 @@
 export default {
   content: [
     "index.html",
-    "./src/*.{html,js}",
-    "./src/**/*.{html,js}",
-    "./src/**/**/*.{html,js}",
+    "./src/*.{html,js,ts}",
+    "./src/**/*.{html,js,ts}",
+    "./src/**/**/*.{html,js,ts}",
   ],
   darkMode: ["class", '[data-mode="dark"]'],
   theme: {

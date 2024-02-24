@@ -1,7 +1,7 @@
 import { html } from "../helpers.js";
 
 class TextLogo extends HTMLElement {
-  generateTemplate(url) {
+  generateTemplate(url: string) {
     const template = document.createElement("template");
     template.innerHTML = html`
       <a href="${url}" target="_blank" title="${url}" class="flex items-center">
@@ -22,7 +22,7 @@ class TextLogo extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.replaceChild();
+    this.replaceChildren();
     this.replaceWith(this.cloneNode(true));
   }
 }
