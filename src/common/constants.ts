@@ -63,7 +63,7 @@ export const categories: { [key: string]: Category } = {
     keywords: ["music", "song", "lyrics"],
     selectionConditions: {
       backendCategories: [],
-      analysisScores: (detailScore, diffScore) => false,
+      analysisScores: (_detailScore, _diffScore) => false,
       keywordThreshold: 1,
     },
   },
@@ -82,7 +82,7 @@ export const categories: { [key: string]: Category } = {
     ],
     selectionConditions: {
       backendCategories: ["person"],
-      analysisScores: (detailScore, diffScore) => diffScore <= 1000000,
+      analysisScores: (_detailScore, diffScore) => diffScore <= 1000000,
       keywordThreshold: 1,
     },
   },
@@ -126,7 +126,7 @@ export const categories: { [key: string]: Category } = {
     ],
     selectionConditions: {
       backendCategories: ["news"],
-      analysisScores: (detailScore, diffScore) => detailScore >= 1000,
+      analysisScores: (detailScore, _diffScore) => detailScore >= 1000,
       keywordThreshold: 1,
     },
   },
@@ -264,7 +264,7 @@ export const categories: { [key: string]: Category } = {
     ],
     selectionConditions: {
       backendCategories: [],
-      analysisScores: (detailScore, diffScore) => false,
+      analysisScores: (_detailScore, _diffScore) => false,
       keywordThreshold: 1,
     },
   },
@@ -275,7 +275,7 @@ export const categories: { [key: string]: Category } = {
     keywords: [],
     selectionConditions: {
       backendCategories: [],
-      analysisScores: (detailScore, diffScore) => false,
+      analysisScores: (_detailScore, _diffScore) => false,
       keywordThreshold: 1,
     },
   },
