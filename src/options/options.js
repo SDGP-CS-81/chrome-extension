@@ -24,8 +24,8 @@ document.getElementById("submit-btn").addEventListener("click", () => {
   inputBar.querySelector("ul").innerHTML = ''; 
 
   const input = document.getElementById("default-input");
-  keywordInput.disabled = false; 
-  keywordInput.placeholder = "Add relevant keywords";
+  input.disabled = false; 
+  input.placeholder = "Add relevant keywords";
 
   // Send the submission to the background script
 });

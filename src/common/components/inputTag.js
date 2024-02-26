@@ -10,7 +10,7 @@ class InputTag extends HTMLElement {
     const template = document.createElement("template");
     template.innerHTML = `
           <p>
-            <span class="bg-gray-600 p-2 rounded inline-flex items-center m-2">
+            <span class="dark:bg-gray-600 bg-gray-200 p-2 rounded inline-flex items-center m-2">
               ${this.text}
               <span class="text-red-500 ml-2 close-icon">&#10060;</span>
             </span>
