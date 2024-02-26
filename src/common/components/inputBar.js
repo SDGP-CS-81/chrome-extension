@@ -26,6 +26,11 @@ class InputBar extends HTMLElement {
       console.log("Maximum number of tags added");
       this.dispatchEvent(new CustomEvent('tag-limit-reached')); // Emit custom event
     }
+
+    // Scroll to the submit button
+    const submitButton = document.getElementById("submit-btn");
+    submitButton.scrollIntoView({ behavior: "smooth" });
+
   }
 
   generateTemplate() {
