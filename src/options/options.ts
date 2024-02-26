@@ -8,27 +8,51 @@ chrome.storage.onChanged.addListener((_changes, _namespace) => {
     .forEach((el) => el.replaceWith(el));
 });
 
-document.getElementById("submit-btn").addEventListener("click", () => {
-  const category = document.getElementById("large-input").value;
-  const tags = Array.from(document.querySelectorAll("input-tag")).map(tag => tag.text);
-  const submission = { category, keywords: tags };
-  
-  console.log(submission); // For now logging the keywords
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Wait for the input-bar to be defined
+  customElements.whenDefined('input-bar').then(() => {
+    const inputBar = document.querySelector("input-bar");
+    const keywordInput = document.getElementById("default-input");
 
-  
-  document.getElementById("large-input").value = ''; 
-  document.getElementById("large-input").placeholder = "Enter category name";
+    // Ensure that inputBar and input are found
+    if (inputBar && keywordInput) {
+      inputBar.setInput(keywordInput);
+    } else {
+      console.error('input-bar or default-input is not found.');
+      return;
+    }
 
-  const inputBar = document.querySelector("input-bar");
-  inputBar.tagCount = 0; 
-  inputBar.querySelector("ul").innerHTML = ''; 
+    // Add click event listener to the submit button
+    document.getElementById("submit-btn").addEventListener("click", () => {
+      const category = document.getElementById("large-input").value;
+      const tags = Array.from(document.querySelectorAll("input-tag")).map(tag => tag.text);
+      const submission = { category, keywords: tags };
+      
+      console.log(submission); // For now logging the keywords
 
-  const input = document.getElementById("default-input");
-  input.disabled = false; 
-  input.placeholder = "Add relevant keywords";
+      document.getElementById("large-input").value = ''; 
+      document.getElementById("large-input").placeholder = "Enter category name";
 
-  // Send the submission to the background script
+      inputBar.tagCount = 0; 
+      inputBar.querySelector("ul").innerHTML = ''; 
+
+      keywordInput.disabled = false; 
+      keywordInput.placeholder = "Add relevant keywords";
+
+      // Send the submission to the background script
+    });
+
+    // Listen for the 'tag-limit-reached' event
+    inputBar.addEventListener('tag-limit-reached', () => {
+      keywordInput.disabled = true;
+      keywordInput.placeholder = "Reached the keyword limit";
+    });
+
+    // Listen for the 'tag-removed' event
+    inputBar.addEventListener('tag-removed', () => {
+      keywordInput.disabled = false;
+      keywordInput.placeholder = "Add relevant keywords";
+    });
+  });
 });
-
-
-
