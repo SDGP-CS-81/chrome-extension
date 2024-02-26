@@ -67,7 +67,7 @@ export const getVideoScores = async (videoID: string) => {
   );
 
   return await fetch(
-    `${apiURL}/api/vid/${videoID}?categoryKeywords=${encodeURIComponent(
+    `${apiURL}/api/video/${videoID}?categoryKeywords=${encodeURIComponent(
       JSON.stringify(categoryKeywords)
     )}`,
     {
