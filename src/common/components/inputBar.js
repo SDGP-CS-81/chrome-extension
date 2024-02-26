@@ -2,6 +2,12 @@ class InputBar extends HTMLElement {
   constructor() {
     super();
     this.tagCount = 0;
+    this.inputElement = null;
+  }
+
+  setInput(inputElement) {
+    this.inputElement = inputElement;
+    this.setUpEventListeners();
   }
 
 
@@ -18,9 +24,7 @@ class InputBar extends HTMLElement {
   
     if (this.tagCount >= 7) {
       console.log("Maximum number of tags added");
-      const input = document.getElementById("default-input");
-      input.disabled = true;
-      input.placeholder = "Reached the keyword limit"; // Set placeholder text
+      this.dispatchEvent(new CustomEvent('tag-limit-reached')); // Emit custom event
     }
   }
 
@@ -33,31 +37,41 @@ class InputBar extends HTMLElement {
     return template;
   }
 
+
   async connectedCallback() {
     this.appendChild(this.generateTemplate().content.cloneNode(true));
-    this.setUpEventListeners();
+    // Only set up event listeners if inputElement is already set
+    if (this.inputElement) {
+      this.setUpEventListeners();
+    }
   }
 
   setUpEventListeners() {
-    const input = document.getElementById("default-input"); 
-    input.addEventListener("keydown", (event) => {
+     // Ensure that the input element is not null
+     if (!this.inputElement) {
+      console.error('Input element is not set.');
+      return;
+    }
+
+
+    this.inputElement.addEventListener("keydown", (event) => {
+
       if (event.key === "Enter" || event.key === ",") {
         event.preventDefault();
-        const value = input.value.trim();
+        const value = this.inputElement.value.trim();
         if (value) {
           console.log("Entered " + value);
           this.addToInputBar(value);
-          input.value = "";
+          this.inputElement.value = "";
         }
       }
     });
   
-
     this.addEventListener('tag-removed', () => {
       this.tagCount--;
       if (this.tagCount < 7) {
-        input.disabled = false; 
-        input.placeholder = ""; 
+        this.inputElement.disabled = false; 
+        this.inputElement.placeholder = "Add relevant keywords"; 
       }
     });
   }
