@@ -1,4 +1,4 @@
-import { getCurrentVideoCategory } from "../common/helpers.js";
+import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
 
 // on document load, grab the current video category
 // then host it's dropdown element into the html document

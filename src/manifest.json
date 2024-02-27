@@ -3,7 +3,7 @@
   "name": "ByteSense",
   "description": "In Development",
   "version": "1.0",
-  "permissions": ["activeTab", "scripting", "storage", "webNavigation", "tabs"],
+  "permissions": ["activeTab", "scripting", "storage", "webNavigation", "tabs", "webRequest"],
   "icons": {
     "16": "assets/icons/bytesense_logo_dark.png",
     "32": "assets/icons/bytesense_logo_dark.png",
@@ -11,6 +11,7 @@
     "128": "assets/icons/bytesense_logo_dark.png"
   },
   "action": {
+    "default_title": "Click Me",
     "default_popup": "popup/popup.html"
   },
   "options_page": "options/options.html",
@@ -31,7 +32,8 @@
     }
   ],
   "background": {
-    "service_worker": "background/background.js"
+    "service_worker": "./background/background.js",
+    "type": "module"
   },
   "host_permissions": ["<all_urls>"]
 }

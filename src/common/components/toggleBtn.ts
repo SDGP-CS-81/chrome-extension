@@ -63,6 +63,7 @@ class ToggleBtn extends HTMLElement {
         const hiddenInput = this.querySelector("input");
         if (hiddenInput) hiddenInput.checked = this.checked;
       });
+      // console.log("checked", this.checked);
     }
   }
 }
