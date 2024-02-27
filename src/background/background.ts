@@ -10,7 +10,7 @@ import { getPreferences } from "../common/helpers.js";
       const urlParts = url.split("?");
       if (urlParts.length < 2) return;
 
-      let currentParameters = urlParts[1].split(/[&;]/g);
+      const currentParameters = urlParts[1].split(/[&;]/g);
       const encodedParameters = parameters.map(
         (para) => `${encodeURIComponent(para)}=`
       );

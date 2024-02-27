@@ -54,7 +54,7 @@ class ToggleBtn extends HTMLElement {
     this.replaceWith(this.cloneNode(true));
   }
 
-  attributeChangedCallback(name: string, _oldValue: string, _newValue: string) {
+  attributeChangedCallback(name: string) {
     if (name === "checked") {
       getPreferences().then(async (preferences) => {
         preferences.features[this.toggleID as keyof PreferenceFeatures] =
