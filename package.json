@@ -5,24 +5,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "tailwind": "tailwindcss -i ./src/input.css -o ./src/output.css",
+    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "copy-files": "rimraf dist && copyfiles -u 1 src/**/*.* -e src/**/*.ts dist/",
-    "copy-files-linux": "mkdir -p dist && cp -r src/** dist/ && rm dist/**/*.ts dist/*.ts",
-    "build": "npm run tailwind && npm run copy-files && tsc",
-    "build-linux": "npm run tailwind && npm run copy-files-linux && tsc",
-    "dev": "nodemon"
+    "dev": "npm run tailwind && swc src -D -d dist --strip-leading-paths -w"
   },
   "devDependencies": {
+    "@swc/cli": "^0.3.9",
+    "@swc/core": "^1.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/chrome": "^0.0.260",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
-    "copyfiles": "^2.4.1",
-    "nodemon": "^3.0.3",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "rimraf": "^5.0.5",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.3.3"
   }
