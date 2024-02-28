@@ -60,10 +60,7 @@ export const getKeywordScores = (
 
 export const getVideoScores = async (videoID: string) => {
   const categoryKeywords = Object.fromEntries(
-    Object.entries(categories).map(([category, obj]) => [
-      category,
-      obj.keywords,
-    ])
+    Object.entries(categories).map(([category, obj]) => [category, ["ff"]])
   );
 
   return await fetch(

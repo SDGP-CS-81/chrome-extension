@@ -1,6 +1,20 @@
 export const apiURL = "http://localhost:5000";
 export const qualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 
+export type PreferenceFeatures = {
+  theme: boolean; // true for dark
+  offlineMode: boolean;
+  audioOnly: boolean;
+  lowBackgroundResolution: boolean;
+};
+
+export type Preferences = {
+  categories: {
+    [key: string]: string;
+  };
+  features: PreferenceFeatures;
+};
+
 export const defaultPreferences = {
   categories: {
     music: "144",
@@ -20,34 +34,13 @@ export const defaultPreferences = {
     offlineMode: false,
     audioOnly: false,
     lowBackgroundResolution: true,
-    userInitiatedPlayback: false,
-    thumbnailHoverBlocking: false,
-    blockThumbnailLoad: false,
-    blockHomePageLoad: false,
   },
-};
-export type PreferenceFeatures = {
-  theme: boolean; // true for dark
-  offlineMode: boolean;
-  audioOnly: boolean;
-  lowBackgroundResolution: boolean;
-  userInitiatedPlayback: boolean;
-  thumbnailHoverBlocking: boolean;
-  blockThumbnailLoad: boolean;
-  blockHomePageLoad: boolean;
-};
-export type Preferences = {
-  categories: {
-    [key: string]: string;
-  };
-  features: PreferenceFeatures;
 };
 
 export type Category = {
   categoryName: string;
   descImg: string;
   desc: string;
-  keywords: string[];
   selectionConditions: {
     backendCategories: string[];
     analysisScores: (detailScore: number, diffScore: number) => boolean;
@@ -60,7 +53,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Music",
     descImg: "../assets/categories/music.jpg",
     desc: "Music includes music videos and live performances",
-    keywords: ["music", "song", "lyrics"],
+
     selectionConditions: {
       backendCategories: [],
       analysisScores: (_detailScore, _diffScore) => false,
@@ -71,15 +64,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Podcast",
     descImg: "../assets/categories/podcast.jpg",
     desc: "Podcast is about all podcast content including interviews and panel discussions",
-    keywords: [
-      "podcast",
-      "conversation",
-      "interview",
-      "Episode",
-      "roundtable",
-      "disscussion",
-      "talkshow",
-    ],
+
     selectionConditions: {
       backendCategories: ["person"],
       analysisScores: (_detailScore, diffScore) => diffScore <= 1000000,
@@ -90,18 +75,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Gaming",
     descImg: "../assets/categories/game.jpg",
     desc: "Gaming focuses on in-game content, including gameplays and walkthroughs",
-    keywords: [
-      "gameplay",
-      "walkthrough",
-      "PC",
-      "PS",
-      "game",
-      "fortnite",
-      "xbox",
-      "4K",
-      "cod",
-      "gta",
-    ],
+
     selectionConditions: {
       backendCategories: ["person"],
       analysisScores: (detailScore, diffScore) =>
@@ -113,17 +87,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "News",
     descImg: "../assets/categories/news.jpg",
     desc: "News focuses on news headlines and videos that include worldwide updates",
-    keywords: [
-      "news",
-      "update",
-      "breaking",
-      "headlines",
-      "politics",
-      "world",
-      "today",
-      "reports",
-      "latest",
-    ],
+
     selectionConditions: {
       backendCategories: ["news"],
       analysisScores: (detailScore, _diffScore) => detailScore >= 1000,
@@ -134,18 +98,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Coding",
     descImg: "../assets/categories/coding.png",
     desc: "Coding includes programming and coding content, such as coding tutorials",
-    keywords: [
-      "python",
-      "programming",
-      "tutorial",
-      "code",
-      "software",
-      "develop",
-      "java",
-      "web",
-      "learn",
-      "beginners",
-    ],
+
     selectionConditions: {
       backendCategories: ["textHeavy"],
       analysisScores: (detailScore, diffScore) =>
@@ -157,18 +110,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Sports",
     descImg: "../assets/categories/sports.jpg",
     desc: "Sports is for all sports-related content, such as match highlights and in-game moments",
-    keywords: [
-      "football",
-      "score",
-      "highlights",
-      "match",
-      "vs",
-      "sports",
-      "cup",
-      "race",
-      "league",
-      "match",
-    ],
+
     selectionConditions: {
       backendCategories: ["sports"],
       analysisScores: (detailScore, diffScore) =>
@@ -180,19 +122,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Graphics",
     descImg: "../assets/categories/graphics.jpg",
     desc: "Graphics covers animations and a variety of visually creative videos",
-    keywords: [
-      "design",
-      "animation",
-      "graphics",
-      "art",
-      "digital",
-      "creative",
-      "drawing",
-      "2D",
-      "3D",
-      "illustration",
-      "sketch",
-    ],
+
     selectionConditions: {
       backendCategories: ["lowGraphics"],
       analysisScores: (detailScore, diffScore) =>
@@ -204,16 +134,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Lifestyle",
     descImg: "../assets/categories/podcast.jpg",
     desc: "Lifetyle covers vlogs and a variety of content where people are the subject",
-    keywords: [
-      "vlog",
-      "tour",
-      "mukbang",
-      "travel",
-      "weekly",
-      "daily",
-      "vlogging",
-      "comedy",
-    ],
+
     selectionConditions: {
       backendCategories: ["person"],
       analysisScores: (detailScore, diffScore) =>
@@ -225,20 +146,7 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Nature",
     descImg: "../assets/categories/nature.jpg",
     desc: "Nature is for wildlife documentaries, scenic travel vlogs, and nature exploration videos",
-    keywords: [
-      "wild",
-      "animals",
-      "survival",
-      "Scenic",
-      "nature",
-      "ocean",
-      "rainforest",
-      "camping",
-      "outdoor",
-      "tropical",
-      "earth",
-      "coastal",
-    ],
+
     selectionConditions: {
       backendCategories: ["nature"],
       analysisScores: (detailScore, diffScore) =>
@@ -250,18 +158,6 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Demo",
     descImg: "../assets/categories/demo.jpg",
     desc: "Demo covers all types of demonstration videos, such as product unboxings and practical guides",
-    keywords: [
-      "repair",
-      "guide",
-      "how",
-      "instructions",
-      "unboxing",
-      "review",
-      "showcase",
-      "demo",
-      "demonstration",
-      "diy",
-    ],
     selectionConditions: {
       backendCategories: [],
       analysisScores: (_detailScore, _diffScore) => false,
@@ -272,7 +168,6 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Default Quality",
     descImg: "../assets/categories/default.jpg",
     desc: "Default quality for all video categories",
-    keywords: [],
     selectionConditions: {
       backendCategories: [],
       analysisScores: (_detailScore, _diffScore) => false,

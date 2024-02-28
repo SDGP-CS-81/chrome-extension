@@ -54,16 +54,14 @@ class ToggleBtn extends HTMLElement {
     this.replaceWith(this.cloneNode(true));
   }
 
-  attributeChangedCallback(name: string, _oldValue: string, _newValue: string) {
+  async attributeChangedCallback(name: string) {
     if (name === "checked") {
-      getPreferences().then(async (preferences) => {
-        preferences.features[this.toggleID as keyof PreferenceFeatures] =
-          this.checked;
-        await setPreferences(preferences);
-        const hiddenInput = this.querySelector("input");
-        if (hiddenInput) hiddenInput.checked = this.checked;
-      });
-      // console.log("checked", this.checked);
+      const preferences = await getPreferences();
+      preferences.features[this.toggleID as keyof PreferenceFeatures] =
+        this.checked;
+      await setPreferences(preferences);
+      const hiddenInput = this.querySelector("input");
+      if (hiddenInput) hiddenInput.checked = this.checked;
     }
   }
 }
