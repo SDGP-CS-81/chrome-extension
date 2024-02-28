@@ -18,6 +18,7 @@
     <script type="module" src="../common/components/infoPopup.js"></script>
     <script type="module" src="../common/components/inputBar.js"></script>
     <script type="module" src="../common/components/inputTag.js"></script>
+    <script type="module" src="../common/components/categoryForm.js"></script>
   </head>
 
   <body
@@ -76,22 +77,9 @@
       </div>
     </div>
 
-      <div class="flex flex-col items-center @container px-8 h-50vh mt-5">
-        <div class="mb-6 w-full @[600px]:w-[600px]">
-          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-          <input type="text" id="large-input" class="block  w-full p-4  border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-grey-high dark:border-gray-600 dark:placeholder-gray-400" placeholder="Enter category name">
-        </div>
-    
-        <div class="mb-2 w-full @[600px]:w-[600px]">
-          <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keywords</label>
-          <input type="text" id="default-input" class="block w-full p-4 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-grey-high dark:border-gray-600 dark:placeholder-gray-400" placeholder="Add relevant keywords">
-          <input-bar></input-bar>
-        </div>
-    
-        <div class="flex justify-center  w-full @[600px]:w-[600px] mt-2 mb-3">
-          <button id="submit-btn"   class="focus:outline-none text-white bg-primary-dark hover:bg-green-700  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-dark dark:hover:bg-green-700">
-            Submit
-          </button>
-        </div>
+    <div class="flex flex-col items-center @container px-8 h-50vh mt-5">
+          <category-keyword-form></category-keyword-form>
+    </div>
+        
   </body>
 </html>
