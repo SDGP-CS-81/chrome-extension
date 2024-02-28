@@ -97,6 +97,8 @@ export const calcOptimumQuality = async (videoScores: VideoScores) => {
   const visualCategory = sortedCategoryScores[0][0];
   const { detailScore, diffScore } = videoScores.frameScores;
   const keywordScores = videoScores.keywordScores;
+  const keywordScoresKeys = keywordScores ? Object.keys(keywordScores) : [];
+  console.log(`keyscorekeys: ${keywordScoresKeys}`);
 
   Object.entries(categories).forEach(([key, obj]) => {
     // check if visual category is present in conditions
@@ -105,16 +107,18 @@ export const calcOptimumQuality = async (videoScores: VideoScores) => {
       categoryConfidence[key]++;
     }
 
-    // check if keyword occurences meet threshold
-    if (keywordScores[key] >= obj.selectionConditions.keywordThreshold) {
-      console.log(`${key} Keyword Hit`);
-      categoryConfidence[key]++;
-    }
+    if (keywordScoresKeys.includes(key)) {
+      if (keywordScores[key] >= obj.selectionConditions.keywordThreshold) {
+        // check if keyword occurences meet threshold
+        console.log(`${key} Keyword Hit`);
+        categoryConfidence[key]++;
+      }
 
-    // quick hack to use the yt categorization
-    if (keywordScores[key] >= 1000) {
-      console.log(`${key} YT Categorization Hit`);
-      categoryConfidence[key] += 100;
+      // quick hack to use the yt categorization
+      if (keywordScores[key] >= 1000) {
+        console.log(`${key} YT Categorization Hit`);
+        categoryConfidence[key] += 100;
+      }
     }
 
     if (categoryConfidence[key] > 0) {
