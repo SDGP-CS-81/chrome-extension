@@ -109,15 +109,28 @@ export const getChannelInfo = async (channelId: string, category: string): Promi
       },
       body: JSON.stringify({ channelId, category }),
     });
+
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
+
     const data = await response.json();
     console.log('Data sent successfully:', data);
   } catch (error) {
     console.error('Error sending data to backend:', error);
   }
 }
+
+export const getChannelId = async () => {
+  try {
+    const channelIdElement = document.getElementById('channel-handle');
+
+    return channelIdElement ? channelIdElement.textContent.trim() : null;
+  } catch (error) {
+    console.error('Error retrieving channel ID:', error);
+    return null;
+  }
+};
 
 export const calcOptimumQuality = async (videoScores: VideoScores) => {
   const optimumCategoryId = await selectOptimumCategory(videoScores);
