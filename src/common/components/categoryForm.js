@@ -10,11 +10,11 @@ class categoryKeywordForm extends HTMLElement {
         <form id="category-keyword" class="mb-6 w-full sm:w-[600px] flex flex-row gap-0">
           <div class="flex  flex-col w-1/2">
             <label for="category-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-            <input type="text" id="category-input" name="category" class="block w-full p-4 border rounded-l-lg rounded-r-none bg-gray-50 dark:bg-grey-high dark:border-gray-600 dark:placeholder-gray-400 " placeholder="Enter category name">
+            <input type="text" id="category-input" name="category" class="block w-full p-4 border rounded-l-lg rounded-r-none bg-gray-50 dark:bg-grey-high dark:border-gray-600 dark:placeholder-gray-400 " autocomplete="off" placeholder="Enter category name">
           </div>
           <div class="flex flex-col w-full">
             <label for="keywords-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keywords</label>
-            <input type="text" id="keywords-input" name="keywords" class="block w-full p-4 border rounded-l-none rounded-r-lg bg-gray-50 dark:bg-grey-high dark:border-gray-600 dark:placeholder-gray-400 z-10" placeholder="Add relevant keywords" disabled>
+            <input type="text" id="keywords-input" name="keywords" class="block w-full p-4 border rounded-l-none rounded-r-lg bg-gray-50 dark:bg-grey-high dark:border-gray-600 dark:placeholder-gray-400 z-10" autocomplete="off" placeholder="Add relevant keywords" disabled>
           </div>
           <button type="submit" class="self-end bg-gray-high  text-black dark:text-white text-3xl py-2 pr-4 pl-2 rounded ml-2 my-1"> + </button>
         </form>
@@ -40,49 +40,6 @@ class categoryKeywordForm extends HTMLElement {
         keywordsInput.disabled = true;
       }
     });
-  }
-
-  loadDataFromLocalStorage() {
-    const categoryKeywordsContainer = this.querySelector("#category-keywords-container");
-  
-    for (let i = 0; i < localStorage.length; i++) {
-      const categoryData = localStorage.key(i);
-      const keywordDataArray = JSON.parse(localStorage.getItem(categoryData));
-  
-      keywordDataArray.forEach(data => {
-        const keywords = data.keywords.join(', '); // Convert the array back to a string
-  
-        const newRow = document.createElement("form");
-        newRow.classList.add("mb-6", "w-full", "sm:w-[600px]", "flex", "flex-row", "gap-0");
-  
-        const categoryElement = document.createElement("div");
-        categoryElement.classList.add("flex", "flex-col", "w-1/2", "p-4", "border", "rounded-l-lg", "rounded-r-none","bg-gray-50" ,"dark:bg-grey-high", "dark:border-gray-600");
-        categoryElement.style.width = "calc(50% - 10px)";
-        categoryElement.textContent = categoryData;
-  
-        const keywordsElement = document.createElement("div");
-        keywordsElement.classList.add("flex", "flex-col", "w-full", "p-4", "border", "rounded-l-none", "rounded-r-lg", "bg-gray-50", "dark:bg-grey-high", "dark:border-gray-600");
-        keywordsElement.textContent = keywords;
-  
-        const deleteButton = document.createElement("button");
-        deleteButton.classList.add("self-end", "text-black","dark:text-white", "text-lg", "py-2", "pl-3","pr-1","mb-2","mr-2" ,"rounded");
-        deleteButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-            </svg>`;
-  
-        deleteButton.addEventListener("click", () => {
-          categoryKeywordsContainer.removeChild(newRow);
-          localStorage.removeItem(categoryData);
-        });
-  
-        newRow.appendChild(categoryElement);
-        newRow.appendChild(keywordsElement);
-        newRow.appendChild(deleteButton);
-  
-        categoryKeywordsContainer.appendChild(newRow);
-      });
-    }
   }
   
 
