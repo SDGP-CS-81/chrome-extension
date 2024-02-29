@@ -100,6 +100,25 @@ export const getVideoScores = async (videoID: string) => {
     .catch((err) => console.log(err));
 };
 
+export const getChannelInfo = async (channelId: string, category: string): Promise<void> => {
+  try {
+    const response = await fetch(`${apiURL}/api/channel/save-info`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ channelId, category }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    console.log('Data sent successfully:', data);
+  } catch (error) {
+    console.error('Error sending data to backend:', error);
+  }
+}
+
 export const calcOptimumQuality = async (videoScores: VideoScores) => {
   const optimumCategoryId = await selectOptimumCategory(videoScores);
   console.log(optimumCategoryId);
