@@ -8,11 +8,11 @@ class categoryKeywordForm extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <form id="category-keyword" class="mb-6 flex flex-row gap-0 sm:w-[600px]">
-        <div class="flex w-1/2 flex-col">
+      <form id="category-keyword" class="mb-6 flex flex-row gap-0">
+        <div class="flex w-1/3 flex-col">
           <label
             for="category-input"
-            class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            class="mb-2 block text-base font-medium text-gray-900 dark:text-white"
             >Category</label
           >
           <input
@@ -24,10 +24,10 @@ class categoryKeywordForm extends HTMLElement {
             placeholder="Enter category name"
           />
         </div>
-        <div class="flex w-full flex-col">
+        <div class="flex w-2/3 flex-col">
           <label
             for="keywords-input"
-            class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            class="mb-2 block bg-red-600 text-base font-medium text-gray-900 dark:text-white"
             >Keywords</label
           >
           <input

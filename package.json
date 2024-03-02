@@ -5,9 +5,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css",
+    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css -w",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "dev": "npm run tailwind && swc src -D -d dist --strip-leading-paths -w"
+    "dev": "swc src -D -d dist --strip-leading-paths -w"
   },
   "devDependencies": {
     "@swc/cli": "^0.3.9",
