@@ -17,6 +17,7 @@
     <script type="module" src="../common/components/settingsBtn.js"></script>
     <script type="module" src="../common/components/infoPopup.js"></script>
     <script type="module" src="../common/components/categoryForm.js"></script>
+    <script type="module" src="../common/components/categoryInput.js"></script>
   </head>
 
   <body
@@ -63,7 +64,7 @@
 
       <!-- wrap any setting groups into a div like this one -->
       <div
-        class="z-[0] flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px] "
+        class="z-[0] flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
@@ -71,9 +72,8 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center @container px-8 h-50vh mt-5">
-          <category-keyword-form></category-keyword-form>
+    <div class="h-50vh mt-5 flex flex-col items-center px-8 @container">
+      <category-keyword-form></category-keyword-form>
     </div>
-        
   </body>
 </html>
