@@ -12,25 +12,27 @@ class CategoryInput extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="mb-6 flex w-full flex-row gap-0">
-        <input
-          class="flex w-1/2 flex-col rounded-l-lg rounded-r-none border border-grey-low p-4 dark:border-gray-600 dark:bg-grey-high"
-          value="${this.categoryId}"
-        />
-        <input
-          class="flex w-full flex-col rounded-l-none rounded-r-lg border border-grey-low bg-gray-50 p-4 dark:border-gray-600 dark:bg-grey-high"
-          value="${this.categoryKeywords.join(", ")}"
-        />
+      <div class="flex">
+        <div class="flex w-full gap-x-0.5">
+          <input
+            class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            value="${this.categoryId}"
+            placeholder="Enter category name"
+          />
+          <input
+            class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            value="${this.categoryKeywords.join(", ")}"
+            placeholder="Add relevant keywords"
+          />
+        </div>
+
         <button
-          class="mb-2 mr-2 self-end rounded py-2 pl-3 pr-1 text-lg text-black dark:text-white"
+          class="grid w-10 place-items-center rounded text-black dark:text-white"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="h-6 w-6"
+            class="h-6 w-6 fill-none stroke-current stroke-[1.5]"
           >
             <path
               stroke-linecap="round"
@@ -43,9 +45,11 @@ class CategoryInput extends HTMLElement {
     `;
     return template;
   }
+
   async connectedCallback() {
-    this.categoryId = this.getAttribute("category-id");
     const customCategories = await getCustomCategories();
+
+    this.categoryId = this.getAttribute("category-id");
     this.categoryKeywords = customCategories[this.categoryId];
 
     this.appendChild(this.generateTemplate().content.cloneNode(true));
@@ -53,13 +57,22 @@ class CategoryInput extends HTMLElement {
     const deleteButton = this.querySelector("button");
     deleteButton.addEventListener("click", async () => {
       this.remove();
-      // Remove the category from chrome storage
       const customCategories = await getCustomCategories();
 
       delete customCategories[this.categoryId];
       setCustomCategories(customCategories);
       console.log("Category " + this.categoryId + " is removed from storage.");
     });
+
+    const handleChange = async (e: Event) => {
+      const customCategories = await getCustomCategories();
+      const input = e.target as HTMLInputElement;
+      customCategories[this.categoryId] = input.value
+        .split(",")
+        .map((keyword) => keyword.trim().toLowerCase());
+      setCustomCategories(customCategories);
+    };
+    this.addEventListener("input", handleChange);
   }
 
   disconnectedCallback() {

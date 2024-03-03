@@ -8,59 +8,57 @@ class categoryKeywordForm extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <form id="category-keyword" class="mb-6 flex flex-row gap-0">
-        <div class="flex w-1/3 flex-col">
-          <label
-            for="category-input"
-            class="mb-2 block text-base font-medium text-gray-900 dark:text-white"
-            >Category</label
-          >
+      <div class="flex pb-5 pr-10">
+        <h5
+          for="category-input"
+          class="w-1/3 border border-transparent text-base text-gray-900 dark:text-white"
+        >
+          Category
+        </h5>
+        <h5
+          for="keywords-input"
+          class="w-2/3 border border-transparent text-base text-gray-900 dark:text-white"
+        >
+          Keywords
+        </h5>
+      </div>
+      <form class="flex flex-col gap-y-6 text-base">
+        <div class="flex gap-x-0.5">
           <input
-            type="text"
-            id="category-input"
             name="category"
-            class="block w-full rounded-l-lg rounded-r-none border border-grey-low bg-gray-50  p-4 dark:border-gray-600 dark:bg-grey-high dark:placeholder-gray-400"
-            autocomplete="off"
+            id="category-input"
+            class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Enter category name"
           />
-        </div>
-        <div class="flex w-2/3 flex-col">
-          <label
-            for="keywords-input"
-            class="mb-2 block bg-red-600 text-base font-medium text-gray-900 dark:text-white"
-            >Keywords</label
-          >
           <input
-            type="text"
-            id="keywords-input"
             name="keywords"
-            class="z-10 block w-full rounded-l-none rounded-r-lg border border-grey-low bg-gray-50 p-4 dark:border-gray-600 dark:bg-grey-high dark:placeholder-gray-400"
-            spellcheck="false"
-            autocomplete="off"
+            id="keywords-input"
+            class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Add relevant keywords"
             disabled
           />
+          <button type="submit" class="grid w-10 place-items-center">
+            <span class="text-3xl text-black dark:text-white">+</span>
+          </button>
         </div>
-        <button
-          type="submit"
-          class="bg-gray-high my-1  ml-2 self-end rounded py-2 pl-2 pr-4 text-3xl text-black dark:text-white"
-        >
-          +
-        </button>
+        <div
+          id="category-keywords-container"
+          class="flex flex-col gap-y-6"
+        ></div>
       </form>
-      <div id="category-keywords-container"></div>
     `;
     return template;
   }
 
   async connectedCallback() {
+    this.setAttribute("data-element", "custom");
     this.appendChild(this.generateTemplate().content.cloneNode(true));
     await this.setUpEventListeners();
     await this.loadDataFromLocalStorage();
   }
 
   async setUpEventListeners() {
-    const form = this.querySelector("#category-keyword");
+    const form = this.querySelector("form");
     const categoryInput = this.querySelector(
       "#category-input"
     ) as HTMLInputElement;
@@ -76,43 +74,40 @@ class categoryKeywordForm extends HTMLElement {
       }
     });
 
-    if (form) {
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-        const formData = new FormData(e.target as HTMLFormElement);
-        let categoryData = formData.get("category") as string;
-        const keywords = formData.get("keywords") as string;
+      const formData = new FormData(e.target as HTMLFormElement);
+      const categoryData = (formData.get("category") as string).toLowerCase();
+      const keywords = formData.get("keywords") as string;
 
-        categoryData = categoryData.toLowerCase();
-        const keywordData = keywords
-          .split(",")
-          .map((keyword) => keyword.trim().toLowerCase());
+      const keywordData = keywords
+        .split(",")
+        .map((keyword) => keyword.trim().toLowerCase());
 
-        // Get the existing data from chrome storage
-        const customCategories = await getCustomCategories();
+      // Get the existing data from chrome storage
+      const customCategories = await getCustomCategories();
 
-        // If the category already exists, append the new keywords
-        if (customCategories[categoryData]) {
-          customCategories[categoryData] = [
-            ...new Set([...customCategories[categoryData], ...keywordData]),
-          ];
-        } else {
-          customCategories[categoryData] = keywordData;
-        }
+      // If the category already exists, append the new keywords
+      if (customCategories[categoryData]) {
+        customCategories[categoryData] = [
+          ...new Set([...customCategories[categoryData], ...keywordData]),
+        ];
+      } else {
+        customCategories[categoryData] = keywordData;
+      }
 
-        await setCustomCategories(customCategories);
-        console.log("Value is set to " + JSON.stringify(customCategories));
+      await setCustomCategories(customCategories);
+      console.log("Value is set to " + JSON.stringify(customCategories));
 
-        (e.target as HTMLFormElement).reset();
-        (this.querySelector("#keywords-input") as HTMLInputElement).disabled =
-          true;
+      (e.target as HTMLFormElement).reset();
+      (this.querySelector("#keywords-input") as HTMLInputElement).disabled =
+        true;
 
-        // Clear the current display and load the updated data from chrome storage
-        this.querySelector("#category-keywords-container").innerHTML = "";
-        this.loadDataFromLocalStorage();
-      });
-    }
+      // Clear the current display and load the updated data from chrome storage
+      this.querySelector("#category-keywords-container").innerHTML = "";
+      this.loadDataFromLocalStorage();
+    });
   }
   disconnectedCallback() {
     this.replaceChildren();
