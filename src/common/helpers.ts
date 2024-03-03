@@ -18,6 +18,25 @@ export const getPreferences = async () => {
   return preferences;
 };
 
+export const setCustomCategories = async (
+  customCategories: CustomCategories
+) => {
+  await chrome.storage.local.set({ customCategories: customCategories });
+};
+
+export const getCustomCategories = async () => {
+  const customCategories: CustomCategories = (
+    await chrome.storage.local.get({
+      customCategories: {},
+    })
+  ).customCategories;
+  return customCategories;
+};
+
+export type CustomCategories = {
+  [key: string]: string[];
+};
+
 // doesn't really do anything
 // a hack to get prettier-plugin-tailwindcss to work
 // it's plugin bug
@@ -59,8 +78,9 @@ export const getKeywordScores = (
 };
 
 export const getVideoScores = async (videoID: string) => {
+  const customCategories = await getCustomCategories();
   const categoryKeywords = Object.fromEntries(
-    Object.entries(categories).map(([category, obj]) => [category, ["ff"]])
+    Object.entries(customCategories).map(([category, obj]) => [category, obj])
   );
 
   return await fetch(

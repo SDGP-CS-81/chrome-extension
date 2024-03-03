@@ -16,13 +16,15 @@
     <script type="module" src="../common/components/offlineBtn.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
     <script type="module" src="../common/components/infoPopup.js"></script>
+    <script type="module" src="../common/components/categoryForm.js"></script>
+    <script type="module" src="../common/components/categoryInput.js"></script>
   </head>
 
   <body
     class="bg-secondary-light text-black dark:bg-secondary-dark dark:text-white"
   >
     <header
-      class="relative flex items-center justify-center border-b border-grey-mid p-8 @container"
+      class="fixed z-50 flex w-full items-center justify-center border-b border-grey-mid bg-inherit p-8 @container"
     >
       <!-- clamp header items to a maximum width -->
       <div class="flex w-full items-center justify-between @[900px]:w-[900px]">
@@ -36,9 +38,12 @@
     </header>
 
     <!-- contains all the settings and clamps them to a given width -->
-    <div class="flex flex-col items-center gap-y-12 px-8 py-12 @container">
+    <div
+      class="flex flex-col items-center gap-y-12 px-8 py-12 pt-40 @container"
+    >
+      <!-- wrap any setting groups into a div like this one -->
       <div
-        class="z-50 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+        class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Categories</h1>
         <dropdown-el category-id="coding"></dropdown-el>
@@ -54,19 +59,23 @@
       </div>
 
       <div
-        class="z-[10] flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+        class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Default Quality</h1>
         <dropdown-el category-id="defaultQuality"></dropdown-el>
       </div>
 
-      <!-- wrap any setting groups into a div like this one -->
       <div
-        class="z-[0] flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
+        class="flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
         <feature-btn toggle-id="lowBackgroundResolution"></feature-btn>
+      </div>
+
+      <div class="flex w-full flex-col gap-y-6 @container @[600px]:w-[600px]">
+        <h1 class="text-xl">Custom Categories</h1>
+        <category-keyword-form class="w-full"></category-keyword-form>
       </div>
     </div>
   </body>
