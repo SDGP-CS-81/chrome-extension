@@ -1,4 +1,4 @@
-import { html } from "../helpers.js";
+import { getCustomCategories, html, setCustomCategories } from "../helpers.js";
 
 class categoryKeywordForm extends HTMLElement {
   constructor() {
@@ -22,17 +22,15 @@ class categoryKeywordForm extends HTMLElement {
           Keywords
         </h5>
       </div>
-      <form class="flex flex-col gap-y-6 text-base">
-        <div class="flex gap-x-0.5">
+      <div class="flex flex-col gap-y-6 text-base">
+        <form class="flex gap-x-0.5">
           <input
             name="category"
-            id="category-input"
             class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Enter category name"
           />
           <input
             name="keywords"
-            id="keywords-input"
             class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Add relevant keywords"
             disabled
@@ -40,12 +38,12 @@ class categoryKeywordForm extends HTMLElement {
           <button type="submit" class="grid w-10 place-items-center">
             <span class="text-3xl text-black dark:text-white">+</span>
           </button>
-        </div>
+        </form>
         <div
           id="category-keywords-container"
           class="flex flex-col gap-y-6"
         ></div>
-      </form>
+      </div>
     `;
     return template;
   }
@@ -60,10 +58,10 @@ class categoryKeywordForm extends HTMLElement {
   async setUpEventListeners() {
     const form = this.querySelector("form");
     const categoryInput = this.querySelector(
-      "#category-input"
+      '[name="category"]'
     ) as HTMLInputElement;
     const keywordsInput = this.querySelector(
-      "#keywords-input"
+      '[name="keywords"]'
     ) as HTMLInputElement;
 
     categoryInput.addEventListener("input", () => {
@@ -98,10 +96,9 @@ class categoryKeywordForm extends HTMLElement {
       }
 
       await setCustomCategories(customCategories);
-      console.log("Value is set to " + JSON.stringify(customCategories));
 
       (e.target as HTMLFormElement).reset();
-      (this.querySelector("#keywords-input") as HTMLInputElement).disabled =
+      (this.querySelector('[name="keywords"]') as HTMLInputElement).disabled =
         true;
 
       // Clear the current display and load the updated data from chrome storage
@@ -109,10 +106,7 @@ class categoryKeywordForm extends HTMLElement {
       this.loadDataFromLocalStorage();
     });
   }
-  disconnectedCallback() {
-    this.replaceChildren();
-    this.replaceWith(this.cloneNode(true));
-  }
+
   async loadDataFromLocalStorage() {
     const categoryKeywordsContainer = this.querySelector(
       "#category-keywords-container"
@@ -123,33 +117,21 @@ class categoryKeywordForm extends HTMLElement {
       // const keywordDataArray = customCategories[categoryData];
       const newRow = document.createElement("category-input");
       newRow.setAttribute("category-id", categoryData);
-      categoryKeywordsContainer.appendChild(newRow);
+      categoryKeywordsContainer.prepend(newRow);
     }
+  }
+
+  disconnectedCallback() {
+    this.replaceChildren();
+    this.replaceWith(this.cloneNode(true));
   }
 }
 
-// Get the data from chrome storage and log it to the console
-chrome.storage.local.get(null, function (items) {
-  console.log(items);
-});
-
 customElements.define("category-keyword-form", categoryKeywordForm);
 
-export const setCustomCategories = async (
-  customCategories: CustomCategories
-) => {
-  await chrome.storage.local.set({ customCategories: customCategories });
-};
-
-export const getCustomCategories = async () => {
-  const customCategories: CustomCategories = (
-    await chrome.storage.local.get({
-      customCategories: {},
-    })
-  ).customCategories;
-  return customCategories;
-};
-
-export type CustomCategories = {
-  [key: string]: string[];
-};
+// fix order of keyword rows
+// make the custom element refresh on update, by removing and adding it
+// fix lightmode styles
+// give the first input a slightly different look to differentiate, maybe increase spacing also
+// make header shrink on scroll
+// remove empty keywords ex- bar,,foo

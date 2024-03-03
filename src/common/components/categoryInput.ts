@@ -1,5 +1,5 @@
 import { html } from "../helpers.js";
-import { getCustomCategories, setCustomCategories } from "./categoryForm.js";
+import { getCustomCategories, setCustomCategories } from "../helpers.js";
 
 class CategoryInput extends HTMLElement {
   categoryId: string;
@@ -15,11 +15,14 @@ class CategoryInput extends HTMLElement {
       <div class="flex">
         <div class="flex w-full gap-x-0.5">
           <input
+            name="category"
             class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             value="${this.categoryId}"
             placeholder="Enter category name"
+            disabled
           />
           <input
+            name="keywords"
             class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             value="${this.categoryKeywords.join(", ")}"
             placeholder="Add relevant keywords"
@@ -62,17 +65,22 @@ class CategoryInput extends HTMLElement {
       delete customCategories[this.categoryId];
       setCustomCategories(customCategories);
       console.log("Category " + this.categoryId + " is removed from storage.");
+      console.log(await getCustomCategories());
     });
 
     const handleChange = async (e: Event) => {
       const customCategories = await getCustomCategories();
       const input = e.target as HTMLInputElement;
+
       customCategories[this.categoryId] = input.value
         .split(",")
         .map((keyword) => keyword.trim().toLowerCase());
       setCustomCategories(customCategories);
     };
-    this.addEventListener("input", handleChange);
+    this.querySelector('[name="keywords"]').addEventListener(
+      "input",
+      handleChange
+    );
   }
 
   disconnectedCallback() {

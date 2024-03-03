@@ -1,5 +1,5 @@
 // refreshes custom elements on preferences change
-chrome.storage.onChanged.addListener((_changes, _namespace) => {
+chrome.storage.onChanged.addListener(() => {
   // if popup is not open, do not refresh components
   if (chrome.extension.getViews({ type: "popup" }).length == 0) return;
 
