@@ -18,10 +18,11 @@
     <script type="module" src="../common/components/infoPopup.js"></script>
     <script type="module" src="../common/components/categoryForm.js"></script>
     <script type="module" src="../common/components/categoryInput.js"></script>
+    <script type="module" src="../common/components/categoryEl.js"></script>
   </head>
 
   <body
-    class="bg-secondary-light text-black dark:bg-secondary-dark dark:text-white"
+    class="font-primary bg-secondary-light text-black dark:bg-secondary-dark dark:text-white"
   >
     <header
       class="fixed z-50 flex w-full items-center justify-center border-b border-grey-mid bg-inherit p-8 @container"
@@ -46,23 +47,23 @@
         class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Categories</h1>
-        <dropdown-el category-id="coding"></dropdown-el>
-        <dropdown-el category-id="music"></dropdown-el>
-        <dropdown-el category-id="podcast"></dropdown-el>
-        <dropdown-el category-id="gaming"></dropdown-el>
-        <dropdown-el category-id="sports"></dropdown-el>
-        <dropdown-el category-id="graphics"></dropdown-el>
-        <dropdown-el category-id="lifestyle"></dropdown-el>
-        <dropdown-el category-id="nature"></dropdown-el>
-        <dropdown-el category-id="news"></dropdown-el>
-        <dropdown-el category-id="demo"></dropdown-el>
+        <category-el category-id="coding"></category-el>
+        <category-el category-id="music"></category-el>
+        <category-el category-id="podcast"></category-el>
+        <category-el category-id="gaming"></category-el>
+        <category-el category-id="sports"></category-el>
+        <category-el category-id="graphics"></category-el>
+        <category-el category-id="lifestyle"></category-el>
+        <category-el category-id="nature"></category-el>
+        <category-el category-id="news"></category-el>
+        <category-el category-id="demo"></category-el>
       </div>
 
       <div
         class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Default Quality</h1>
-        <dropdown-el category-id="defaultQuality"></dropdown-el>
+        <category-el category-id="defaultQuality"></category-el>
       </div>
 
       <div

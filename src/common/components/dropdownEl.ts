@@ -1,4 +1,4 @@
-import { categoryInfo } from "../../svg.js";
+import { caretDown } from "../../svg.js";
 import { setPreferences, getPreferences, html } from "../helpers.js";
 import { qualities, categories } from "../constants.js";
 
@@ -30,41 +30,35 @@ class DropdownEl extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex items-center @[400px]/dropdown:h-20">
-        <div id="dropdown" class="relative w-full text-left">
-          <!-- Button to trigger the dropdown -->
-          <button
-            type="button"
-            id="dropdown-button"
-            class="flex h-14 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] text-base shadow-sm @[400px]/dropdown:h-16 dark:border-grey-high dark:bg-grey-high"
-            aria-expanded="false"
-            aria-haspopup="true"
-          >
-            <!-- Category name -->
-            <p>${this.categoryName}</p>
-            <!-- Selected quality and dropdown icon -->
-            <div class="flex items-center">
-              <p id="quality-text" class="mr-2">
-                ${this.currentSelectedQuality
-                  ? `${this.currentSelectedQuality}p`
-                  : ""}
-              </p>
-              ${categoryInfo}
-            </div>
-          </button>
-          <!-- Dropdown menu -->
-          <div
-            id="dropdown-item-container"
-            class="custom-scroll absolute right-0 top-12 z-50 hidden h-60 w-48 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block dark:bg-grey-high"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="menu-button"
-          >
-            <!-- Insert quality items HTML here -->
-            ${qualityItemsHtml}
-          </div>
+      <div id="dropdown" class="font-spacemono relative">
+        <!-- Button to trigger the dropdown -->
+        <button
+          type="button"
+          class="flex w-20 items-center justify-end"
+          id="dropdown-button"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <!-- Selected quality and dropdown icon -->
+          <p id="quality-text" class="mr-2">
+            ${this.currentSelectedQuality
+              ? `${this.currentSelectedQuality}p`
+              : ""}
+          </p>
+          ${caretDown}
+        </button>
+
+        <!-- Dropdown menu -->
+        <div
+          id="dropdown-item-container"
+          class="custom-scroll absolute right-0 top-12 z-50 hidden h-60 w-48 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block dark:bg-grey-high"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="menu-button"
+        >
+          <!-- Insert quality items HTML here -->
+          ${qualityItemsHtml}
         </div>
-        <info-popup category-id="${this.categoryId}"></info-popup>
       </div>
     `;
     return template;

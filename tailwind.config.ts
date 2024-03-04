@@ -16,6 +16,10 @@ export default {
         secondary: { dark: "#121212", light: "#FBFBFD" },
         grey: { high: "#3B3D3B", mid: "#6F6F76", low: "#AAAAAA" },
       },
+      fontFamily: {
+        dmsans: ["DMSans"],
+        spacemono: ["SpaceMono"],
+      },
     },
   },
   plugins: [containerQueries],

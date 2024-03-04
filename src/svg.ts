@@ -58,7 +58,7 @@ export const wifiOff = html`<svg
   />
 </svg>`;
 
-export const categoryInfo = html`<svg
+export const caretDown = html`<svg
   class="h-6 w-6 dark:text-white"
   viewBox="0 0 20 20"
   fill="currentColor"
