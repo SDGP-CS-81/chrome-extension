@@ -6,17 +6,18 @@ class DropdownEl extends HTMLElement {
   categoryId: string;
   categoryName: string;
   currentSelectedQuality: string;
+  type: "min" | "max";
 
-  generateMenuItemTemplate(quality: number, selectedQuality: string) {
-    const isSelected = quality.toString() === selectedQuality;
+  generateMenuItemTemplate(quality: string, selectedQuality: string) {
+    const isSelected = quality === selectedQuality;
     return html`
       <p
         class="dropdown-menu-item ${isSelected
           ? "bg-primary-dark dark:text-white"
           : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
-        data-quality="${quality.toString()}"
+        data-quality="${quality}"
       >
-        ${quality.toString()}p
+        ${quality}p
       </p>
     `;
   }
@@ -24,17 +25,20 @@ class DropdownEl extends HTMLElement {
   generateTemplate() {
     const qualityItemsHtml = qualities
       .map((quality) =>
-        this.generateMenuItemTemplate(quality, this.currentSelectedQuality)
+        this.generateMenuItemTemplate(
+          quality.toString(),
+          this.currentSelectedQuality
+        )
       )
       .join("");
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div id="dropdown" class="font-spacemono relative">
+      <div id="dropdown" class="font-azeretmono relative">
         <!-- Button to trigger the dropdown -->
         <button
           type="button"
-          class="flex w-20 items-center justify-end"
+          class="flex w-24 items-center justify-end"
           id="dropdown-button"
           aria-expanded="false"
           aria-haspopup="true"
@@ -67,9 +71,11 @@ class DropdownEl extends HTMLElement {
   async connectedCallback() {
     this.setAttribute("data-element", "custom");
     this.categoryId = this.getAttribute("category-id");
+    this.type = this.getAttribute("type") as typeof this.type;
     this.categoryName = categories[this.categoryId].categoryName;
     const preferences = await getPreferences();
-    this.currentSelectedQuality = preferences.categories[this.categoryId];
+    this.currentSelectedQuality =
+      preferences.categories[this.categoryId][this.type];
     this.appendChild(this.generateTemplate().content.cloneNode(true));
 
     this.setUpEventListeners();
@@ -97,11 +103,29 @@ class DropdownEl extends HTMLElement {
     });
     // handle dropdown menu item clicks
     dropdownItemContainer.addEventListener("click", async (event) => {
+      // hide dropdown after selection
+      this.querySelector("#dropdown-button").setAttribute(
+        "aria-expanded",
+        "false"
+      );
+      this.querySelector("#dropdown-item-container").classList.add("hidden");
+
       const target = event.target as HTMLElement;
       const selectedQuality = target.getAttribute("data-quality");
 
       const preferences = await getPreferences();
-      preferences.categories[this.categoryId] = selectedQuality;
+      const category = preferences.categories[this.categoryId];
+
+      // max cannot be greater than min, and min cannot be greater than max
+      if (
+        (this.type === "max" &&
+          parseInt(selectedQuality) < parseInt(category["min"])) ||
+        (this.type === "min" &&
+          parseInt(selectedQuality) > parseInt(category["max"]))
+      )
+        return;
+
+      preferences.categories[this.categoryId][this.type] = selectedQuality;
       await setPreferences(preferences);
 
       // remove the 'bg-primary-dark' class from all items
@@ -127,13 +151,6 @@ class DropdownEl extends HTMLElement {
         "hover:bg-grey-low",
         "hover:text-gray-900"
       );
-
-      // hide dropdown after selection
-      this.querySelector("#dropdown-button").setAttribute(
-        "aria-expanded",
-        "false"
-      );
-      this.querySelector("#dropdown-item-container").classList.add("hidden");
 
       // update displayed quality
       dropdownButton.querySelector("#quality-text").textContent =

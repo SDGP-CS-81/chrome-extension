@@ -19,7 +19,7 @@
     videoElement.play();
 
     return true;
-  })
+  });
 
   const runOnUrlChange = async () => {
     const observerConfig = {
@@ -32,11 +32,12 @@
     const videoScores = await (window as any).helpers.getVideoScores(
       currentVideoID
     );
+    console.log(videoScores);
+
     const qualityToSet = await (window as any).helpers.calcOptimumQuality(
       videoScores
     );
 
-    console.log(videoScores);
     // perhaps reassign a null varaible "qualityToSet" and check in observer
 
     new MutationObserver((_, observer) => {

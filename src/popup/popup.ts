@@ -6,7 +6,7 @@ import { getCurrentVideoCategory } from "../common/helpers.js";
   const currentVideoCategory = await getCurrentVideoCategory();
 
   const dropdownContainer = document.querySelector(".dropdown-popup");
-  const newDropdownEl = document.createElement("dropdown-el");
-  newDropdownEl.setAttribute("category-id", currentVideoCategory);
-  dropdownContainer.appendChild(newDropdownEl);
+  const newCategoryEl = document.createElement("category-el");
+  newCategoryEl.setAttribute("category-id", currentVideoCategory);
+  dropdownContainer.appendChild(newCategoryEl);
 })();

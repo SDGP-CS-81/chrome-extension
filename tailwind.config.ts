@@ -18,7 +18,7 @@ export default {
       },
       fontFamily: {
         dmsans: ["DMSans"],
-        spacemono: ["SpaceMono"],
+        azeretmono: ["AzeretMono"],
       },
     },
   },
