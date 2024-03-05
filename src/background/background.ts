@@ -1,5 +1,5 @@
 chrome.webRequest.onBeforeRequest.addListener(processRequest, {
-  urls: ["*://*.googlevideo.com/videoplayback*"],
+  urls: ["*://*.googlevideo.com/videoplayback*mime=audio*"],
 });
 
 function removeURLParameters(url: string, parameters: string[]) {
