@@ -20,11 +20,14 @@
     console.log(`Video Url: ${url}`);
     if (url) {
       const videoElement = document.querySelector("video");
+      const currentTime = videoElement.currentTime;
 
       videoElement.pause();
       videoElement.src = url;
-      videoElement.currentTime--;
+      videoElement.currentTime = 0;
       videoElement.play();
+
+      videoElement.currentTime = currentTime;
     }
   };
 
