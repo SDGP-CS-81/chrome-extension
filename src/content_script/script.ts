@@ -79,6 +79,9 @@
         // should we disable audioOnly after having it override the
         // background tab mode
         else if (backgroundNew || (!audioOnlyNew && backgroundOld)) {
+          // ensure that the play mode is updated
+          if (document.visibilityState === "visible") setVideoUrl(originalSrc);
+
           document.addEventListener("visibilitychange", backgroundModeListener);
         } else if (!backgroundNew) {
           document.removeEventListener(
@@ -87,8 +90,7 @@
           );
 
           setVideoUrl(originalSrc);
-        }
-        // this condition should run if we disable the features
+        } // this condition should run if we disable the features
         else {
           setVideoUrl(originalSrc);
         }
