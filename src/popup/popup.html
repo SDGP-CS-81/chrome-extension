@@ -15,9 +15,10 @@
     <script type="module" src="../common/components/featureBtn.js"></script>
     <script type="module" src="../common/components/offlineBtn.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
+    <script type="module" src="../common/components/categoryEl.js"></script>
   </head>
 
-  <body class="h-[500px] max-h-[500px] w-80 overflow-hidden">
+  <body class="font-primary h-[500px] max-h-[500px] w-80 overflow-hidden">
     <div
       class="flex h-full w-full flex-col overflow-hidden bg-secondary-light text-black shadow-sm dark:bg-secondary-dark dark:text-white"
     >
@@ -32,7 +33,7 @@
       </div>
 
       <div class="flex flex-col gap-4 p-5">
-        <div class="dropdown-popup flex flex-col">
+        <div class="dropdown-popup flex flex-col @container/dropdown">
           <h6 for="current-category" class="mb-3 text-base font-medium">
             Current Category
           </h6>

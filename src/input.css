@@ -6,9 +6,13 @@
   font-family: DMSans;
   src: url("fonts/DMSans-VariableFont_opsz,wght.ttf") format("opentype");
 }
+@font-face {
+  font-family: AzeretMono;
+  src: url("fonts/AzeretMono-VariableFont_wght.ttf") format("opentype");
+}
 
 * {
-  font-family: DMSans;
+  font-family: inherit;
 }
 
 @layer utilities {

@@ -3,6 +3,8 @@ import {
   apiURL,
   categories,
   Preferences,
+  Category,
+  qualities,
 } from "./constants.js";
 
 export const setPreferences = async (preferences: Preferences) => {
@@ -99,71 +101,96 @@ export const getVideoScores = async (videoID: string) => {
 };
 
 export const calcOptimumQuality = async (videoScores: VideoScores) => {
-  // simple object to map confidence scores
-  const categoryConfidence = Object.fromEntries(
-    Object.entries(categories).map(([key, _obj]) => [key, 0])
+  const optimumCategoryId = await selectOptimumCategory(videoScores);
+  console.log(optimumCategoryId);
+
+  const optimumQuality = await selectOptimumQuality(
+    optimumCategoryId,
+    videoScores
   );
+  return optimumQuality;
+};
 
-  const preferences = await getPreferences();
-  let optimumQuality = preferences.categories.defaultQuality;
-  await setCurrentVideoCategory("defaultQuality");
+const selectOptimumCategory = async (
+  videoScores: VideoScores
+): Promise<string> => {
+  let confidentCategoryId = "defaultQuality";
+  await setCurrentVideoCategory(confidentCategoryId);
 
-  if (!videoScores) return optimumQuality;
+  if (!videoScores) return confidentCategoryId;
 
-  const sortedCategoryScores = Object.entries(videoScores.categoryScores).sort(
+  const { imageScores, textScores } = videoScores;
+
+  const sortedCategoryScores = Object.entries(imageScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   );
 
   const visualCategory = sortedCategoryScores[0][0];
-  const { detailScore, diffScore } = videoScores.frameScores;
-  const keywordScores = videoScores.keywordScores;
-  const keywordScoresKeys = keywordScores ? Object.keys(keywordScores) : [];
-  console.log(`keyscorekeys: ${keywordScoresKeys}`);
+  const textScoresKeys = textScores ? Object.keys(textScores) : [];
+  console.log(`keyscorekeys: ${textScoresKeys}`);
 
-  Object.entries(categories).forEach(([key, obj]) => {
-    // check if visual category is present in conditions
-    if (obj.selectionConditions.backendCategories.includes(visualCategory)) {
-      console.log(`${key} Visual Hit`);
-      categoryConfidence[key]++;
-    }
-
-    if (keywordScoresKeys.includes(key)) {
-      if (keywordScores[key] >= obj.selectionConditions.keywordThreshold) {
-        // check if keyword occurences meet threshold
-        console.log(`${key} Keyword Hit`);
-        categoryConfidence[key]++;
+  const categoryConfidence: [string, number][] = Object.entries(categories).map(
+    ([key, obj]: [key: string, obj: Category]) => {
+      let confidenceScore = 0;
+      // check if visual category is present in conditions
+      if (obj.selectionConditions.backendCategories.includes(visualCategory)) {
+        console.log(`${key} Visual Hit`);
+        confidenceScore++;
       }
 
-      // quick hack to use the yt categorization
-      if (keywordScores[key] >= 1000) {
-        console.log(`${key} YT Categorization Hit`);
-        categoryConfidence[key] += 100;
-      }
-    }
+      if (textScoresKeys.includes(key)) {
+        if (textScores[key] >= obj.selectionConditions.textThreshold) {
+          // check if keyword occurences meet threshold
+          console.log(`${key} Keyword Hit`);
+          confidenceScore++;
+        }
 
-    if (categoryConfidence[key] > 0) {
-      // check if analysis scores meet conditions
-      if (obj.selectionConditions.analysisScores(detailScore, diffScore)) {
-        console.log(`${key} Analysis Hit`);
-        categoryConfidence[key]++;
+        // quick hack to use the yt categorization
+        if (textScores[key] >= 1000) {
+          console.log(`${key} YT Categorization Hit`);
+          confidenceScore += 100;
+        }
       }
+      return [key, confidenceScore];
     }
-  });
+  );
 
   // select category with highest confidence
-  const confidentCategory = Object.entries(categoryConfidence).sort(
+  const confidentCategory = categoryConfidence.sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   )[0];
 
   // ensure that default category is used if no confidence
   if (confidentCategory[1] > 0) {
-    optimumQuality = preferences.categories[confidentCategory[0]];
-    setCurrentVideoCategory(confidentCategory[0]);
+    // optimumQuality = preferences.categories[confidentCategory[0]];
+    confidentCategoryId = confidentCategory[0];
+    setCurrentVideoCategory(confidentCategoryId);
   }
+  return confidentCategoryId;
+};
 
-  console.log(categoryConfidence);
+const selectOptimumQuality = async (
+  optimumCategoryId: string,
+  videoScores: VideoScores
+): Promise<string> => {
+  const preferences = await getPreferences();
+  const minimumQuality = preferences.categories[optimumCategoryId].min;
+  const maximumQuality = preferences.categories[optimumCategoryId].max;
 
-  return optimumQuality;
+  if (minimumQuality === maximumQuality) return minimumQuality;
+
+  const { diffScore } = videoScores.frameScores;
+
+  const minIndex = qualities.find(
+    (quality) => quality === parseInt(minimumQuality)
+  );
+  const maxIndex = qualities.find(
+    (quality) => quality === parseInt(maximumQuality)
+  );
+
+  const numLevels = maxIndex - minIndex + 1;
+  const closestIndex = numLevels + Math.round(diffScore * numLevels);
+  return qualities[closestIndex].toString();
 };
 
 export const setCurrentVideoCategory = async (currentVideoCategory: string) => {
@@ -188,7 +215,19 @@ export const setTheme = async (theme: boolean | null) => {
 };
 
 export type VideoScores = {
-  categoryScores: { [key: string]: number };
-  frameScores: { [key: string]: number };
-  keywordScores: { [key: string]: number };
+  imageScores: ImageScores;
+  frameScores: FrameScores;
+  textScores: TextScores;
 };
+
+export type ImageScores = {
+  graphics: number;
+  lowLight: number;
+  nature: number;
+  person: number;
+  sports: number;
+  textHeavy: number;
+  news: number;
+};
+export type FrameScores = { [key: string]: number };
+export type TextScores = { [key: string]: number };

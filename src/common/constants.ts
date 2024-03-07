@@ -10,24 +10,57 @@ export type PreferenceFeatures = {
 
 export type Preferences = {
   categories: {
-    [key: string]: string;
+    [key: string]: { min: string; max: string };
   };
   features: PreferenceFeatures;
 };
 
 export const defaultPreferences = {
   categories: {
-    music: "144",
-    podcast: "144",
-    gaming: "1080",
-    news: "480",
-    coding: "1080",
-    sports: "720",
-    graphics: "240",
-    lifestyle: "480",
-    nature: "720",
-    demo: "480",
-    defaultQuality: "480",
+    music: {
+      min: "144",
+      max: "144",
+    },
+    podcast: {
+      min: "144",
+      max: "144",
+    },
+    gaming: {
+      min: "1080",
+      max: "1080",
+    },
+    news: {
+      min: "480",
+      max: "480",
+    },
+    coding: {
+      min: "1080",
+      max: "1080",
+    },
+    sports: {
+      min: "720",
+      max: "720",
+    },
+    graphics: {
+      min: "240",
+      max: "240",
+    },
+    lifestyle: {
+      min: "480",
+      max: "480",
+    },
+    nature: {
+      min: "720",
+      max: "720",
+    },
+    demo: {
+      min: "480",
+      max: "480",
+    },
+    defaultQuality: {
+      min: "480",
+      max: "480",
+    },
   },
   features: {
     theme: true, // true for dark
@@ -43,8 +76,7 @@ export type Category = {
   desc: string;
   selectionConditions: {
     backendCategories: string[];
-    analysisScores: (detailScore: number, diffScore: number) => boolean;
-    keywordThreshold: number;
+    textThreshold: number;
   };
 };
 
@@ -53,105 +85,81 @@ export const categories: { [key: string]: Category } = {
     categoryName: "Music",
     descImg: "../assets/categories/music.jpg",
     desc: "Music includes music videos and live performances",
-
     selectionConditions: {
       backendCategories: [],
-      analysisScores: (_detailScore, _diffScore) => false,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   podcast: {
     categoryName: "Podcast",
     descImg: "../assets/categories/podcast.jpg",
     desc: "Podcast is about all podcast content including interviews and panel discussions",
-
     selectionConditions: {
       backendCategories: ["person"],
-      analysisScores: (_detailScore, diffScore) => diffScore <= 1000000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   gaming: {
     categoryName: "Gaming",
     descImg: "../assets/categories/game.jpg",
     desc: "Gaming focuses on in-game content, including gameplays and walkthroughs",
-
     selectionConditions: {
       backendCategories: ["person"],
-      analysisScores: (detailScore, diffScore) =>
-        detailScore >= 1200 && diffScore >= 1800000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   news: {
     categoryName: "News",
     descImg: "../assets/categories/news.jpg",
     desc: "News focuses on news headlines and videos that include worldwide updates",
-
     selectionConditions: {
       backendCategories: ["news"],
-      analysisScores: (detailScore, _diffScore) => detailScore >= 1000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   coding: {
     categoryName: "Coding",
     descImg: "../assets/categories/coding.png",
     desc: "Coding includes programming and coding content, such as coding tutorials",
-
     selectionConditions: {
       backendCategories: ["textHeavy"],
-      analysisScores: (detailScore, diffScore) =>
-        detailScore >= 1000 && diffScore <= 1600000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   sports: {
     categoryName: "Sports",
     descImg: "../assets/categories/sports.jpg",
     desc: "Sports is for all sports-related content, such as match highlights and in-game moments",
-
     selectionConditions: {
       backendCategories: ["sports"],
-      analysisScores: (detailScore, diffScore) =>
-        detailScore >= 1200 && diffScore >= 1200000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   graphics: {
     categoryName: "Graphics",
     descImg: "../assets/categories/graphics.jpg",
     desc: "Graphics covers animations and a variety of visually creative videos",
-
     selectionConditions: {
       backendCategories: ["lowGraphics"],
-      analysisScores: (detailScore, diffScore) =>
-        detailScore <= 1000 && diffScore <= 1200000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   lifestyle: {
     categoryName: "Lifestyle",
     descImg: "../assets/categories/podcast.jpg",
     desc: "Lifetyle covers vlogs and a variety of content where people are the subject",
-
     selectionConditions: {
       backendCategories: ["person"],
-      analysisScores: (detailScore, diffScore) =>
-        detailScore <= 1000 && diffScore <= 1200000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   nature: {
     categoryName: "Nature",
     descImg: "../assets/categories/nature.jpg",
     desc: "Nature is for wildlife documentaries, scenic travel vlogs, and nature exploration videos",
-
     selectionConditions: {
       backendCategories: ["nature"],
-      analysisScores: (detailScore, diffScore) =>
-        detailScore >= 1200 && diffScore >= 1000000,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   demo: {
@@ -160,8 +168,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Demo covers all types of demonstration videos, such as product unboxings and practical guides",
     selectionConditions: {
       backendCategories: [],
-      analysisScores: (_detailScore, _diffScore) => false,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   defaultQuality: {
@@ -170,8 +177,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Default quality for all video categories",
     selectionConditions: {
       backendCategories: [],
-      analysisScores: (_detailScore, _diffScore) => false,
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
 };
