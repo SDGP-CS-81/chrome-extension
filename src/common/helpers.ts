@@ -119,15 +119,15 @@ const selectOptimumCategory = async (
 
   if (!videoScores) return confidentCategoryId;
 
-  const { categoryScores, keywordScores } = videoScores;
+  const { imageScores, textScores } = videoScores;
 
-  const sortedCategoryScores = Object.entries(categoryScores).sort(
+  const sortedCategoryScores = Object.entries(imageScores).sort(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   );
 
   const visualCategory = sortedCategoryScores[0][0];
-  const keywordScoresKeys = keywordScores ? Object.keys(keywordScores) : [];
-  console.log(`keyscorekeys: ${keywordScoresKeys}`);
+  const textScoresKeys = textScores ? Object.keys(textScores) : [];
+  console.log(`keyscorekeys: ${textScoresKeys}`);
 
   const categoryConfidence: [string, number][] = Object.entries(categories).map(
     ([key, obj]: [key: string, obj: Category]) => {
@@ -138,15 +138,15 @@ const selectOptimumCategory = async (
         confidenceScore++;
       }
 
-      if (keywordScoresKeys.includes(key)) {
-        if (keywordScores[key] >= obj.selectionConditions.keywordThreshold) {
+      if (textScoresKeys.includes(key)) {
+        if (textScores[key] >= obj.selectionConditions.textThreshold) {
           // check if keyword occurences meet threshold
           console.log(`${key} Keyword Hit`);
           confidenceScore++;
         }
 
         // quick hack to use the yt categorization
-        if (keywordScores[key] >= 1000) {
+        if (textScores[key] >= 1000) {
           console.log(`${key} YT Categorization Hit`);
           confidenceScore += 100;
         }
@@ -189,7 +189,7 @@ const selectOptimumQuality = async (
   );
 
   const numLevels = maxIndex - minIndex + 1;
-  const closestIndex = numLevels + diffScore * numLevels;
+  const closestIndex = numLevels + Math.round(diffScore * numLevels);
   return qualities[closestIndex].toString();
 };
 
@@ -215,11 +215,19 @@ export const setTheme = async (theme: boolean | null) => {
 };
 
 export type VideoScores = {
-  categoryScores: CategoryScores;
+  imageScores: ImageScores;
   frameScores: FrameScores;
-  keywordScores: KeywordScores;
+  textScores: TextScores;
 };
 
-export type CategoryScores = { [key: string]: number };
+export type ImageScores = {
+  graphics: number;
+  lowLight: number;
+  nature: number;
+  person: number;
+  sports: number;
+  textHeavy: number;
+  news: number;
+};
 export type FrameScores = { [key: string]: number };
-export type KeywordScores = { [key: string]: number };
+export type TextScores = { [key: string]: number };

@@ -76,7 +76,7 @@ export type Category = {
   desc: string;
   selectionConditions: {
     backendCategories: string[];
-    keywordThreshold: number;
+    textThreshold: number;
   };
 };
 
@@ -87,7 +87,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Music includes music videos and live performances",
     selectionConditions: {
       backendCategories: [],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   podcast: {
@@ -96,7 +96,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Podcast is about all podcast content including interviews and panel discussions",
     selectionConditions: {
       backendCategories: ["person"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   gaming: {
@@ -105,7 +105,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Gaming focuses on in-game content, including gameplays and walkthroughs",
     selectionConditions: {
       backendCategories: ["person"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   news: {
@@ -114,7 +114,7 @@ export const categories: { [key: string]: Category } = {
     desc: "News focuses on news headlines and videos that include worldwide updates",
     selectionConditions: {
       backendCategories: ["news"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   coding: {
@@ -123,7 +123,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Coding includes programming and coding content, such as coding tutorials",
     selectionConditions: {
       backendCategories: ["textHeavy"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   sports: {
@@ -132,7 +132,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Sports is for all sports-related content, such as match highlights and in-game moments",
     selectionConditions: {
       backendCategories: ["sports"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   graphics: {
@@ -141,7 +141,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Graphics covers animations and a variety of visually creative videos",
     selectionConditions: {
       backendCategories: ["lowGraphics"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   lifestyle: {
@@ -150,7 +150,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Lifetyle covers vlogs and a variety of content where people are the subject",
     selectionConditions: {
       backendCategories: ["person"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   nature: {
@@ -159,7 +159,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Nature is for wildlife documentaries, scenic travel vlogs, and nature exploration videos",
     selectionConditions: {
       backendCategories: ["nature"],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   demo: {
@@ -168,7 +168,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Demo covers all types of demonstration videos, such as product unboxings and practical guides",
     selectionConditions: {
       backendCategories: [],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
   defaultQuality: {
@@ -177,7 +177,7 @@ export const categories: { [key: string]: Category } = {
     desc: "Default quality for all video categories",
     selectionConditions: {
       backendCategories: [],
-      keywordThreshold: 1,
+      textThreshold: 1,
     },
   },
 };
