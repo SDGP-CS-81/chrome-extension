@@ -174,6 +174,7 @@
 
     qualityButton?.click();
 
+    // TODO Use a find method here
     // get the list of available qualities
     const availableQualities = document.querySelectorAll(
       ".ytp-quality-menu .ytp-menuitem-label"
@@ -187,6 +188,9 @@
         break;
       }
     }
+
+    // Update the original src when the quality changes
+    if (hasQualityBeenSet) storeOriginalSrcUrl();
 
     // if quality has not been set, close settings as it is open
     if (!hasQualityBeenSet) return vidSettingsButton.click();
