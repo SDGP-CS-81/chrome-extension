@@ -13,6 +13,28 @@
 
   const outBgTimeout: number = 5;
 
+  // receive message from popup
+  chrome.runtime.onMessage.addListener(function (message) {
+    if (message.url.includes("https://www.youtube.com/")) {
+      const channelHeader = document.querySelector("#channel-header-container");
+
+      if (channelHeader) {
+        const channelId = helpers.getChannelId();
+
+        const channelName = document.querySelector("#text").textContent;
+        console.log(channelName);
+
+        // send channel name to background script
+        if (channelName) {
+          chrome.runtime.sendMessage({
+            from: "channel-name",
+            channelName: channelName,
+          });
+        }
+      }
+    }
+  });
+
   const storeOriginalSrcUrl = () => {
     const videoElement = document.querySelector("video");
 
@@ -158,13 +180,13 @@
 
   // channel based category
   const createDropdown = () => {
-    const channelId = (window as any).helpers.getChannelId();
+    const channelId = helpers.getChannelId();
 
     if (channelId) {
       const header = document.getElementById("channel-header-container");
 
       if (header) {
-        const dropdownContainer = document.createElement('div');
+        const dropdownContainer = document.createElement("div");
 
         dropdownContainer.innerHTML = `
                 <select id="categoryDropdown">
@@ -177,21 +199,23 @@
 
         header.appendChild(dropdownContainer);
 
-        const submitButton = document.getElementById('submitButton');
+        const submitButton = document.getElementById("submitButton");
 
         if (submitButton) {
-          submitButton.addEventListener('click', () => {
-            const selectedCategory = (document.getElementById('categoryDropdown') as HTMLSelectElement).value;
+          submitButton.addEventListener("click", () => {
+            const selectedCategory = (
+              document.getElementById("categoryDropdown") as HTMLSelectElement
+            ).value;
 
             channelId.then((result: string) => {
-              (window as any).helpers.getChannelInfo(result, selectedCategory);
-              console.log('Category submitted:', result, "-", selectedCategory);
+              helpers.getChannelInfo(result, selectedCategory);
+              console.log("Category submitted:", result, "-", selectedCategory);
             });
           });
         }
       }
     }
-  }
+  };
 
   // check if the channel header element is available
   function checkForChannelHeader() {

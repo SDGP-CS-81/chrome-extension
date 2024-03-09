@@ -1,3 +1,19 @@
+import { getPreferences, setPreferences } from "../common/helpers.js";
+
+chrome.runtime.onMessage.addListener(async function (message) {
+  if (message.from === "channel-name") {
+    console.log(message);
+
+    // save channel name in Chrome storage
+    const preferences = await getPreferences();
+    preferences.channelName = message.channelName;
+    await setPreferences(preferences);
+    chrome.storage.local.set({
+      channelName: message.channelName,
+    });
+  }
+});
+
 const removeURLParameters = (url: string, parameters: string[]) => {
   const urlParts = url.split("?");
   if (urlParts.length < 2) return;
