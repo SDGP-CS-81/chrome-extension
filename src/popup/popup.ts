@@ -1,4 +1,4 @@
-import { getCurrentVideoCategory } from "../common/helpers.js";
+import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
 
 // send a message to content script when popup is opened on a youtube tab
 (async () => {
@@ -9,6 +9,25 @@ import { getCurrentVideoCategory } from "../common/helpers.js";
   }, function (tabs){
     const activeTab = tabs[0];
     chrome.tabs.sendMessage(activeTab.id, {"url": activeTab.url});
+});
+})();
+
+
+// 
+(async () => {
+  chrome.runtime.onMessage.addListener(async function(message) {
+    if (message.from === 'background') {
+
+      const dropdownContainer = document.querySelector(".dropdown-channel-popup");
+      const newDropdownEl = document.createElement("category-dropdown");
+
+      const preference = await getPreferences();
+      const currentSelectedCategory = preference.currentSelectedCategory;
+
+      newDropdownEl.setAttribute("channel-category-id", currentSelectedCategory);
+      console.log(newDropdownEl)
+      dropdownContainer.appendChild(newDropdownEl);
+    }
 });
 })();
 
