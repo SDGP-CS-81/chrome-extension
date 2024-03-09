@@ -13,7 +13,7 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
 })();
 
 
-// 
+// display current selected category when chnaged
 (async () => {
   chrome.runtime.onMessage.addListener(async function(message) {
     if (message.from === 'background') {

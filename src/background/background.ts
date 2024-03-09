@@ -15,8 +15,6 @@ chrome.runtime.onMessage.addListener(async function (message) {
     // send channel name and channelId to popup
     chrome.runtime.sendMessage({
       from: "background",
-      channelName: message.channelName,
-      channelId: message.channelId,
     });
   }
 });
