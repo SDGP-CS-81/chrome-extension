@@ -198,7 +198,7 @@
     if (!hasQualityBeenSet) return vidSettingsButton.click();
   };
 
-  document.addEventListener("yt-navigate-finish", async () => {
+  document.addEventListener("yt-navigate-finish", () => {
     if (location.pathname != "/watch") return;
     chrome.runtime.onMessage.addListener(audioOnlyListener);
     runOnUrlChange();

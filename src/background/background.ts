@@ -1,8 +1,4 @@
-chrome.webRequest.onBeforeRequest.addListener(processRequest, {
-  urls: ["*://*.googlevideo.com/videoplayback*mime=audio*"],
-});
-
-function removeURLParameters(url: string, parameters: string[]) {
+const removeURLParameters = (url: string, parameters: string[]) => {
   const urlParts = url.split("?");
   if (urlParts.length < 2) return;
 
@@ -15,9 +11,9 @@ function removeURLParameters(url: string, parameters: string[]) {
   );
 
   return `${urlParts[0]}?${filteredParameters.join("&")}`;
-}
+};
 
-function processRequest(details: chrome.webRequest.WebRequestBodyDetails) {
+const processRequest = (details: chrome.webRequest.WebRequestBodyDetails) => {
   const { url, tabId } = details;
 
   // handle live audio streams
@@ -30,4 +26,8 @@ function processRequest(details: chrome.webRequest.WebRequestBodyDetails) {
   if (audioURL) {
     chrome.tabs.sendMessage(tabId, { url: audioURL });
   }
-}
+};
+
+chrome.webRequest.onBeforeRequest.addListener(processRequest, {
+  urls: ["*://*.googlevideo.com/videoplayback*mime=audio*"],
+});
