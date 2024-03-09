@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "ByteSense",
-  "description": "In Development",
-  "version": "1.0",
-  "permissions": ["activeTab", "scripting", "storage", "webNavigation", "tabs", "webRequest"],
+  "description": "Save data by dynamically adjusting video quality",
+  "version": "0.5",
+  "permissions": ["storage", "tabs", "webRequest"],
   "icons": {
     "16": "assets/icons/bytesense_logo_dark.png",
     "32": "assets/icons/bytesense_logo_dark.png",
@@ -11,19 +11,19 @@
     "128": "assets/icons/bytesense_logo_dark.png"
   },
   "action": {
-    "default_title": "Click Me",
+    "default_title": "ByteSense",
     "default_popup": "popup/popup.html"
   },
   "options_page": "options/options.html",
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/*"],
+      "matches": ["*://*.youtube.com/*"],
       "js": ["content_script/script.js"]
     }
   ],
   "web_accessible_resources": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["*://*.youtube.com/*"],
       "resources": [
         "common/constants.js",
         "common/helpers.js",
@@ -35,5 +35,5 @@
     "service_worker": "./background/background.js",
     "type": "module"
   },
-  "host_permissions": ["<all_urls>"]
+  "host_permissions": ["*://*.youtube.com/*", "*://*.googlevideo.com/*"]
 }
