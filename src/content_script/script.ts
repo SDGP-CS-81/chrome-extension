@@ -21,13 +21,23 @@
     if (url) {
       const videoElement = document.querySelector("video");
       const currentTime = videoElement.currentTime;
+      const pauseState = videoElement.paused;
 
       videoElement.pause();
       videoElement.src = url;
+      videoElement.load();
       videoElement.currentTime = 0;
-      videoElement.play();
 
-      videoElement.currentTime = currentTime;
+      // use a timeout to allow the pause op to complete
+      setTimeout(() => {
+        videoElement.currentTime = currentTime;
+        videoElement.play();
+
+        // use a timeout to allow the play op to complete
+        setTimeout(() => {
+          if (pauseState) videoElement.pause();
+        }, 200);
+      }, 200);
     }
   };
 
@@ -107,7 +117,7 @@
 
     helpers
       .getPreferences()
-      .then((prefs: any) => {
+      .then((prefs: { [key: string]: { [key: string]: boolean } }) => {
         console.log(prefs);
 
         const audioOnly = prefs["features"]["audioOnly"];
@@ -202,5 +212,9 @@
     if (location.pathname != "/watch") return;
     chrome.runtime.onMessage.addListener(audioOnlyListener);
     runOnUrlChange();
+  });
+
+  document.addEventListener("yt-player-updated", () => {
+    storeOriginalSrcUrl();
   });
 })();
