@@ -107,7 +107,7 @@
 
     helpers
       .getPreferences()
-      .then((prefs: any) => {
+      .then((prefs: { [key: string]: { [key: string]: boolean } }) => {
         console.log(prefs);
 
         const audioOnly = prefs["features"]["audioOnly"];
