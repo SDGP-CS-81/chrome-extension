@@ -102,7 +102,7 @@ export const getVideoScores = async (videoID: string) => {
 
 export const getChannelInfo = async (channelId: string, category: string): Promise<void> => {
   try {
-    const response = await fetch(`${apiURL}/api/channel/save-info`, {
+    const response = await fetch(`${apiURL}/api/channel/vote-category`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

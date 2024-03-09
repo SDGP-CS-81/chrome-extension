@@ -35,6 +35,26 @@
     }
   });
 
+  // execute when the dropdown is closed
+  // revceive message from category dropdown
+  chrome.runtime.onMessage.addListener(function (message) {
+    if (message.dropdownClosed) {
+      const channelId = helpers.getChannelId();
+
+      if (channelId) {
+        channelId.then((result: string) => {
+          helpers.getChannelInfo(result, message.selectedCategory);
+          console.log(
+            "Category submitted:",
+            result,
+            "-",
+            message.selectedCategory
+          );
+        });
+      }
+    }
+  });
+
   const storeOriginalSrcUrl = () => {
     const videoElement = document.querySelector("video");
 
@@ -178,59 +198,6 @@
       });
   };
 
-  // channel based category
-  const createDropdown = () => {
-    const channelId = helpers.getChannelId();
-
-    if (channelId) {
-      const header = document.getElementById("channel-header-container");
-
-      if (header) {
-        const dropdownContainer = document.createElement("div");
-
-        dropdownContainer.innerHTML = `
-                <select id="categoryDropdown">
-                    <option value="music">Music</option>
-                    <option value="podcast">Podcast</option>
-                    <option value="gaming">Gaming</option>
-                </select>
-                <button id="submitButton">Submit</button>
-            `;
-
-        header.appendChild(dropdownContainer);
-
-        const submitButton = document.getElementById("submitButton");
-
-        if (submitButton) {
-          submitButton.addEventListener("click", () => {
-            const selectedCategory = (
-              document.getElementById("categoryDropdown") as HTMLSelectElement
-            ).value;
-
-            channelId.then((result: string) => {
-              helpers.getChannelInfo(result, selectedCategory);
-              console.log("Category submitted:", result, "-", selectedCategory);
-            });
-          });
-        }
-      }
-    }
-  };
-
-  // check if the channel header element is available
-  function checkForChannelHeader() {
-    const channelHeader = document.getElementById("channel-header-container");
-    if (channelHeader) {
-      createDropdown();
-    } else {
-      // if not found, try again after a delay
-      setTimeout(checkForChannelHeader, 1000); // check again after 1 second
-    }
-  }
-
-  // start checking for the channel header element
-  checkForChannelHeader();
-
   const runOnUrlChange = async () => {
     const observerConfig = {
       childList: true,
@@ -253,7 +220,6 @@
     if (categoryAudioOnly) setVideoUrl(audioSrc);
 
     // perhaps reassign a null varaible "qualityToSet" and check in observer
-
     new MutationObserver((_, observer) => {
       if (!document.contains(document.querySelector(".ytp-settings-button")))
         return;
