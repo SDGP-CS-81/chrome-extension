@@ -6,7 +6,7 @@ export type PreferenceFeatures = {
   theme: boolean; // true for dark
   offlineMode: boolean;
   audioOnly: boolean;
-  lowBackgroundResolution: boolean;
+  audioOnlyBackground: boolean;
 };
 
 export type Preferences = {
@@ -67,7 +67,7 @@ export const defaultPreferences = {
     theme: true, // true for dark
     offlineMode: false,
     audioOnly: false,
-    lowBackgroundResolution: true,
+    audioOnlyBackground: true,
   },
 };
 
@@ -190,10 +190,10 @@ export const features: { [key: string]: Feature } = {
     featureName: "Audio Only Video",
     description: "Enables playback of only the audio stream of the video",
   },
-  lowBackgroundResolution: {
-    featureName: "Lower Quality for Background Playback",
+  audioOnlyBackground: {
+    featureName: "Disable Video for Background Playback",
     description:
-      "Drops video quality when the video is playing in the background",
+      "Disables video stream when the video is playing in the background",
   },
   userInitiatedPlayback: {
     featureName: "User-initiated Playback",

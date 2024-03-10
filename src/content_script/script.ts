@@ -63,8 +63,8 @@
         const audioOnlyNew = newValues["audioOnly"];
         const audioOnlyOld = oldValues["audioOnly"];
 
-        const backgroundNew = newValues["lowBackgroundResolution"];
-        const backgroundOld = oldValues["lowBackgroundResolution"];
+        const backgroundNew = newValues["audioOnlyBackground"];
+        const backgroundOld = oldValues["audioOnlyBackground"];
 
         console.log(
           `audioOnlyOld: ${audioOnlyOld}, audioOnlyNew: ${audioOnlyNew}, bgOld: ${backgroundOld}, bgNew: ${backgroundNew}`
@@ -121,7 +121,7 @@
         console.log(prefs);
 
         const audioOnly = prefs["features"]["audioOnly"];
-        const bgTab = prefs["features"]["lowBackgroundResolution"];
+        const bgTab = prefs["features"]["audioOnlyBackground"];
 
         if (audioOnly) {
           setVideoUrl(audioSrc);
