@@ -7,6 +7,7 @@ export type PreferenceFeatures = {
   offlineMode: boolean;
   audioOnly: boolean;
   audioOnlyBackground: boolean;
+  audioOnlyBackgroundTimeout: number;
 };
 
 export type Preferences = {
@@ -68,6 +69,7 @@ export const defaultPreferences = {
     offlineMode: false,
     audioOnly: false,
     audioOnlyBackground: true,
+    audioOnlyBackgroundTimeout: 5,
   },
 };
 

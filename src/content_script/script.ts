@@ -6,6 +6,9 @@
   // blob url and the audio url
   let originalSrc: string = null;
   let audioSrc: string = null;
+  let bgTimeout: number = null;
+  let inBgListenerHandle: number = null;
+  let outBgListenerHandler: number = null;
 
   const storeOriginalSrcUrl = () => {
     const videoElement = document.querySelector("video");
@@ -22,6 +25,8 @@
       const videoElement = document.querySelector("video");
       const currentTime = videoElement.currentTime;
       const pauseState = videoElement.paused;
+
+      if (url === videoElement.src) return;
 
       videoElement.pause();
       videoElement.src = url;
@@ -43,9 +48,17 @@
 
   const backgroundModeListener = () => {
     if (document.visibilityState === "hidden") {
-      setVideoUrl(audioSrc);
+      window.clearTimeout(outBgListenerHandler);
+
+      inBgListenerHandle = window.setTimeout(() => {
+        setVideoUrl(audioSrc);
+      }, bgTimeout * 1000);
     } else if (document.visibilityState === "visible") {
-      setVideoUrl(originalSrc);
+      window.clearTimeout(inBgListenerHandle);
+
+      outBgListenerHandler = window.setTimeout(() => {
+        setVideoUrl(originalSrc);
+      }, bgTimeout * 1000);
     }
   };
 
@@ -60,6 +73,8 @@
       const oldValues = preferences.oldValue["features"];
 
       if (newValues && oldValues) {
+        // Update the timeout whenever it's changed
+        bgTimeout = newValues["audioOnlyBackgroundTimeout"];
         const audioOnlyNew = newValues["audioOnly"];
         const audioOnlyOld = oldValues["audioOnly"];
 
@@ -90,7 +105,9 @@
         // background tab mode
         else if (backgroundNew || (!audioOnlyNew && backgroundOld)) {
           // ensure that the play mode is updated
-          if (document.visibilityState === "visible") setVideoUrl(originalSrc);
+          if (document.visibilityState === "visible") {
+            setVideoUrl(originalSrc);
+          }
 
           document.addEventListener("visibilitychange", backgroundModeListener);
         } else if (!backgroundNew) {
@@ -117,11 +134,12 @@
 
     helpers
       .getPreferences()
-      .then((prefs: { [key: string]: { [key: string]: boolean } }) => {
+      .then((prefs: { [key: string]: { [key: string]: boolean | number } }) => {
         console.log(prefs);
 
         const audioOnly = prefs["features"]["audioOnly"];
         const bgTab = prefs["features"]["audioOnlyBackground"];
+        bgTimeout = prefs["features"]["audioOnlyBackgroundTimeout"] as number;
 
         if (audioOnly) {
           setVideoUrl(audioSrc);
