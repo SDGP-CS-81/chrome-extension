@@ -9,6 +9,7 @@
   let inBgTimeout: number = null;
   let inBgListenerHandle: number = null;
   let outBgListenerHandler: number = null;
+  let categoryAudioOnly: boolean = false;
 
   const outBgTimeout: number = 5;
 
@@ -92,7 +93,8 @@
           return;
 
         // audioOnly takes precedence over the background mode listener
-        if (audioOnlyNew) {
+        // the same goes for a category marked audioOnly
+        if (audioOnlyNew || categoryAudioOnly) {
           // remove the background listener if it exists
           // we will unconditionally remove video streams now
           document.removeEventListener(
@@ -164,6 +166,16 @@
     const currentVideoID = location.href.split("v=")[1].split("&")[0];
     const videoScores = await helpers.getVideoScores(currentVideoID);
     const qualityToSet = await helpers.calcOptimumQuality(videoScores);
+
+    // try to find a way to avoid doing this again
+    // it's already called in the calcOptimumQuality
+    // function
+    const selectedCategory = await helpers.selectOptimumCategory(videoScores);
+    categoryAudioOnly = (await helpers.getPreferences())["categories"][
+      selectedCategory
+    ]["audioOnly"];
+
+    if (categoryAudioOnly) setVideoUrl(audioSrc);
 
     // perhaps reassign a null varaible "qualityToSet" and check in observer
 
