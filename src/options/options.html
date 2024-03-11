@@ -44,7 +44,7 @@
     >
       <!-- wrap any setting groups into a div like this one -->
       <div
-        class="flex w-full z-30 flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+        class="z-30 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Categories</h1>
         <div class="flex justify-end pr-8">
@@ -64,11 +64,13 @@
       </div>
 
       <div
-        class="flex w-full z-10 flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+        class="z-10 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Default Quality</h1>
-        <p class="text-grey-mid text-sm pr-5">
-          If the video category is unclear, or if the extension cannot communicate with the server, this setting ensures videos continue to play in your preferred default quality.
+        <p class="pr-5 text-sm text-grey-mid">
+          If the video category is unclear, or if the extension cannot
+          communicate with the server, this setting ensures videos continue to
+          play in your preferred default quality.
         </p>
         <category-el category-id="defaultQuality"></category-el>
       </div>
@@ -78,7 +80,7 @@
       >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
-        <feature-btn toggle-id="lowBackgroundResolution"></feature-btn>
+        <feature-btn toggle-id="audioOnlyBackground"></feature-btn>
       </div>
 
       <div class="flex w-full flex-col gap-y-6 @container @[600px]:w-[600px]">

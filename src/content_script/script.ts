@@ -6,6 +6,11 @@
   // blob url and the audio url
   let originalSrc: string = null;
   let audioSrc: string = null;
+  let inBgTimeout: number = null;
+  let inBgListenerHandle: number = null;
+  let outBgListenerHandler: number = null;
+
+  const outBgTimeout: number = 5;
 
   const storeOriginalSrcUrl = () => {
     const videoElement = document.querySelector("video");
@@ -22,6 +27,8 @@
       const videoElement = document.querySelector("video");
       const currentTime = videoElement.currentTime;
       const pauseState = videoElement.paused;
+
+      if (url === videoElement.src) return;
 
       videoElement.pause();
       videoElement.src = url;
@@ -43,9 +50,17 @@
 
   const backgroundModeListener = () => {
     if (document.visibilityState === "hidden") {
-      setVideoUrl(audioSrc);
+      window.clearTimeout(outBgListenerHandler);
+
+      inBgListenerHandle = window.setTimeout(() => {
+        setVideoUrl(audioSrc);
+      }, inBgTimeout * 1000);
     } else if (document.visibilityState === "visible") {
-      setVideoUrl(originalSrc);
+      window.clearTimeout(inBgListenerHandle);
+
+      outBgListenerHandler = window.setTimeout(() => {
+        setVideoUrl(originalSrc);
+      }, outBgTimeout * 1000);
     }
   };
 
@@ -60,11 +75,13 @@
       const oldValues = preferences.oldValue["features"];
 
       if (newValues && oldValues) {
+        // Update the timeout whenever it's changed
+        inBgTimeout = newValues["audioOnlyBackgroundTimeout"];
         const audioOnlyNew = newValues["audioOnly"];
         const audioOnlyOld = oldValues["audioOnly"];
 
-        const backgroundNew = newValues["lowBackgroundResolution"];
-        const backgroundOld = oldValues["lowBackgroundResolution"];
+        const backgroundNew = newValues["audioOnlyBackground"];
+        const backgroundOld = oldValues["audioOnlyBackground"];
 
         console.log(
           `audioOnlyOld: ${audioOnlyOld}, audioOnlyNew: ${audioOnlyNew}, bgOld: ${backgroundOld}, bgNew: ${backgroundNew}`
@@ -90,7 +107,9 @@
         // background tab mode
         else if (backgroundNew || (!audioOnlyNew && backgroundOld)) {
           // ensure that the play mode is updated
-          if (document.visibilityState === "visible") setVideoUrl(originalSrc);
+          if (document.visibilityState === "visible") {
+            setVideoUrl(originalSrc);
+          }
 
           document.addEventListener("visibilitychange", backgroundModeListener);
         } else if (!backgroundNew) {
@@ -117,11 +136,12 @@
 
     helpers
       .getPreferences()
-      .then((prefs: { [key: string]: { [key: string]: boolean } }) => {
+      .then((prefs: { [key: string]: { [key: string]: boolean | number } }) => {
         console.log(prefs);
 
         const audioOnly = prefs["features"]["audioOnly"];
-        const bgTab = prefs["features"]["lowBackgroundResolution"];
+        const bgTab = prefs["features"]["audioOnlyBackground"];
+        inBgTimeout = prefs["features"]["audioOnlyBackgroundTimeout"] as number;
 
         if (audioOnly) {
           setVideoUrl(audioSrc);
