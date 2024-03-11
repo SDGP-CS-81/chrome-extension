@@ -6,9 +6,11 @@
   // blob url and the audio url
   let originalSrc: string = null;
   let audioSrc: string = null;
-  let bgTimeout: number = null;
+  let inBgTimeout: number = null;
   let inBgListenerHandle: number = null;
   let outBgListenerHandler: number = null;
+
+  const outBgTimeout: number = 5;
 
   const storeOriginalSrcUrl = () => {
     const videoElement = document.querySelector("video");
@@ -52,13 +54,13 @@
 
       inBgListenerHandle = window.setTimeout(() => {
         setVideoUrl(audioSrc);
-      }, bgTimeout * 1000);
+      }, inBgTimeout * 1000);
     } else if (document.visibilityState === "visible") {
       window.clearTimeout(inBgListenerHandle);
 
       outBgListenerHandler = window.setTimeout(() => {
         setVideoUrl(originalSrc);
-      }, bgTimeout * 1000);
+      }, outBgTimeout * 1000);
     }
   };
 
@@ -74,7 +76,7 @@
 
       if (newValues && oldValues) {
         // Update the timeout whenever it's changed
-        bgTimeout = newValues["audioOnlyBackgroundTimeout"];
+        inBgTimeout = newValues["audioOnlyBackgroundTimeout"];
         const audioOnlyNew = newValues["audioOnly"];
         const audioOnlyOld = oldValues["audioOnly"];
 
@@ -139,7 +141,7 @@
 
         const audioOnly = prefs["features"]["audioOnly"];
         const bgTab = prefs["features"]["audioOnlyBackground"];
-        bgTimeout = prefs["features"]["audioOnlyBackgroundTimeout"] as number;
+        inBgTimeout = prefs["features"]["audioOnlyBackgroundTimeout"] as number;
 
         if (audioOnly) {
           setVideoUrl(audioSrc);
