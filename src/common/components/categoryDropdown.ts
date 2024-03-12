@@ -1,4 +1,4 @@
-import { categoryInfo } from "../../svg.js";
+import { caretDown } from "../../svg.js";
 import { setPreferences, getPreferences, html } from "../helpers.js";
 import { categoriesList } from "../constants.js";
 
@@ -41,7 +41,6 @@ class CategoryDropdownEl extends HTMLElement {
             aria-expanded="false"
             aria-haspopup="true"
           >
-
             <!-- Channel Id -->
             <p>${this.channelName}</p>
             <!-- Selected channel category and dropdown icon -->
@@ -51,7 +50,7 @@ class CategoryDropdownEl extends HTMLElement {
                   ? `${this.currentSelectedCategory}`
                   : ""}
               </p>
-              ${categoryInfo}
+              ${caretDown}
             </div>
           </button>
           <!-- Dropdown menu -->
@@ -66,7 +65,9 @@ class CategoryDropdownEl extends HTMLElement {
             ${catgeoryItemsHtml}
           </div>
         </div>
-        <info-popup channel-category-id="${this.channelCategoryId}"></info-popup>
+        <info-popup
+          channel-category-id="${this.channelCategoryId}"
+        ></info-popup>
       </div>
     `;
     return template;
@@ -80,7 +81,7 @@ class CategoryDropdownEl extends HTMLElement {
     const preferneces = await getPreferences();
     this.channelName = preferneces.channelName;
     console.log("channel name", this.channelName);
-    
+
     this.currentSelectedCategory = preferneces.currentSelectedCategory;
     console.log("current selected category", this.currentSelectedCategory);
 
@@ -117,15 +118,18 @@ class CategoryDropdownEl extends HTMLElement {
       const preferences = await getPreferences();
       preferences.currentSelectedCategory = selectedCategory;
       await setPreferences(preferences);
-      chrome.tabs.query({ 
-        active: true,
-        currentWindow: true
-      }, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          dropdownClosed: true,
-          selectedCategory: selectedCategory
-        });
-      });
+      chrome.tabs.query(
+        {
+          active: true,
+          currentWindow: true,
+        },
+        function (tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            dropdownClosed: true,
+            selectedCategory: selectedCategory,
+          });
+        }
+      );
       console.log("set preferences", preferences);
 
       // remove the 'bg-primary-dark' class from all items
@@ -157,7 +161,9 @@ class CategoryDropdownEl extends HTMLElement {
         "aria-expanded",
         "false"
       );
-      this.querySelector("#channel-dropdown-item-container").classList.add("hidden");
+      this.querySelector("#channel-dropdown-item-container").classList.add(
+        "hidden"
+      );
 
       // update displayed quality
       dropdownButton.querySelector("#category-text").textContent =
