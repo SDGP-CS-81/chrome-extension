@@ -17,19 +17,17 @@
   chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
       console.log("got message")
-      // if on a channel page
-      if(document.location.href.includes("@")) {
-        const channelName = document.querySelector("#text").textContent;
-        console.log("channel name", channelName);
-        // send channel name to popup.js to display on dropdown
-        sendResponse({channelName: channelName})
-      }
+      const channelName = document.querySelector("#text").textContent;
+      console.log("channel name", channelName);
+      // send channel name to popup.js to display on dropdown
+      sendResponse({channelName: channelName})
     }
   );
 
   // execute when the dropdown is closed
   // revceive message from category dropdown
-  chrome.runtime.onMessage.addListener(function (message) {
+  chrome.runtime.onMessage.addListener((message) => {
+    // console.log("message", message);
     if (message.dropdownClosed) {
       const channelId = helpers.getChannelId();
 

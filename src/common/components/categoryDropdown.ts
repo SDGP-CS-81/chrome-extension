@@ -126,18 +126,22 @@ class CategoryDropdownEl extends HTMLElement {
       const preferences = await getPreferences();
       preferences.channelPreferences[this.channelName] = selectedCategory
       await setPreferences(preferences);
-      
-      // send message to script saying its closed
+
+      // send message to script when popup is closed
       chrome.tabs.query(
         {
           active: true,
           currentWindow: true,
+          url: "*://*.youtube.com/*",
         },
-        function (tabs) {
-          chrome.tabs.sendMessage(tabs[0].id, {
+        (tabs) => {
+          const activeTab = tabs[0];
+          if (activeTab) {
+            chrome.tabs.sendMessage(activeTab.id,  {
             dropdownClosed: true,
             selectedCategory: selectedCategory,
-          });
+            });
+          }
         }
       );
 

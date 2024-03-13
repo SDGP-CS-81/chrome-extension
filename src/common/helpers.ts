@@ -100,40 +100,6 @@ export const getVideoScores = async (videoID: string) => {
     .catch((err) => console.log(err));
 };
 
-export const getChannelInfo = async (channelId: string, category: string): Promise<void> => {
-  try {
-    const response = await fetch(`${apiURL}/api/channel/vote-category`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ channelId, category }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    console.log('Data sent successfully:', data);
-    console.log('Data sent successfully:');
-    
-  } catch (error) {
-    console.error('Error sending data to backend:', error);
-  }
-}
-
-export const getChannelId = async () => {
-  try {
-    const channelIdElement = document.getElementById('channel-handle');
-
-    return channelIdElement ? channelIdElement.textContent.trim() : null;
-  } catch (error) {
-    console.error('Error retrieving channel ID:', error);
-    return null;
-  }
-};
-
 export const calcOptimumQuality = async (videoScores: VideoScores) => {
   const optimumCategoryId = await selectOptimumCategory(videoScores);
   console.log(optimumCategoryId);
@@ -268,3 +234,57 @@ export type ImageScores = {
 };
 export type FrameScores = { [key: string]: number };
 export type TextScores = { [key: string]: number };
+
+export const getChannelId = async () => {
+  try {
+    // when on channel page
+    if(document.location.href.includes("@")) {
+      const channelIdElement = document.querySelector('#channel-handle');
+  
+      return channelIdElement ? channelIdElement.textContent.trim() : null;
+      // when on a video
+    } else if(document.location.href.includes("watch")) {
+
+      const ytFormatStringElement = document.querySelector('#text');
+
+      if(ytFormatStringElement) {
+        const aTagElement = ytFormatStringElement.querySelector('a');
+        console.log(aTagElement)
+
+        const hrefValue = aTagElement.getAttribute('href');
+        // split and get the last part of the URL
+        const parts = hrefValue.split('/');
+        const channelId = parts[parts.length - 1];
+        console.log(channelId);
+
+        return channelId;
+      }
+    }
+  } catch (error) {
+    console.error('Error retrieving channel ID:', error);
+    return null;
+  }
+};
+
+export const getChannelInfo = async (channelId: string, category: string): Promise<void> => {
+  try {
+    const response = await fetch(`${apiURL}/api/channel/vote-category`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ channelId, category }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log('Data sent successfully:', data);
+    console.log('Data sent successfully:');
+    
+  } catch (error) {
+    console.error('Error sending data to backend:', error);
+  }
+}
