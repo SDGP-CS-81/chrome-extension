@@ -1,6 +1,6 @@
 import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
 
-// send a message to content script when popup is opened on a youtube tab
+// send a message to content script
 (async () => {
   chrome.tabs.query(
     {
@@ -16,12 +16,10 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
     }
   );
   
-
   // host channel dropdown element
-  const newPreferences = await getPreferences()
-  console.log("curr name", newPreferences.currentChannelName)
-  const currentSelectedCategory = newPreferences.channelPreferences[newPreferences.currentChannelName];
-  console.log("curr category",currentSelectedCategory);
+  const preferneces = await getPreferences()
+  // get current selected category for current channel
+  const currentSelectedCategory = preferneces.channelPreferences[preferneces.currentChannelName];
 
   const channelDropdownContainer = document.querySelector(".channel-dropdown-popup");
   const newChannelEl = document.createElement("category-dropdown");

@@ -82,14 +82,14 @@ class CategoryDropdownEl extends HTMLElement {
 
     // get current channel name
     this.channelName = preferneces.currentChannelName;
-    console.log("current channel name", this.channelName);
+    console.log("current channel name dropdwon", this.channelName);
     
     // check if the channel name is already a key of preferneces.channelPreferences
     // if true, assign value of channel name to current selected category
     if(this.channelName in preferneces.channelPreferences) {
       // get current category for this channel
       this.currentSelectedCategory = preferneces.channelPreferences[this.channelName];
-      console.log(this.currentSelectedCategory)
+      console.log("current selected category dropdwon", this.currentSelectedCategory)
     }
 
     this.appendChild(this.generateTemplate().content.cloneNode(true));
@@ -122,11 +122,9 @@ class CategoryDropdownEl extends HTMLElement {
       const target = event.target as HTMLElement;
       const selectedCategory = target.getAttribute("data-category");
 
-      // sset selecetd category for the channel
+      // set selecetd category for the channel
       const preferences = await getPreferences();
       preferences.channelPreferences[this.channelName] = selectedCategory
-      preferences.currentSelectedCategory = selectedCategory;
-      console.log("current", preferences.currentSelectedCategory)
       await setPreferences(preferences);
 
       // send message to script when popup is closed

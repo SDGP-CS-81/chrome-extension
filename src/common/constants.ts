@@ -23,7 +23,6 @@ export type Preferences = {
     [channelName: string]: string;
   }
   currentChannelName: string;
-  currentSelectedCategory: string;
 };
 
 export const defaultPreferences = {

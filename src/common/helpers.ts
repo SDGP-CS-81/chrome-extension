@@ -239,23 +239,22 @@ export const getChannelId = async () => {
   try {
     // when on channel page
     if(document.location.href.includes("@")) {
-      const channelIdElement = document.querySelector('#channel-handle');
+      const channelIdElement = document.querySelector(".ytd-channel-name");
   
       return channelIdElement ? channelIdElement.textContent.trim() : null;
       // when on a video
     } else if(document.location.href.includes("watch")) {
 
-      const ytFormatStringElement = document.querySelector('#channel-name');
+      const ytFormatStringElement = document.querySelector("#channel-name");
 
       if(ytFormatStringElement) {
-        const aTagElement = ytFormatStringElement.querySelector('a');
-        console.log(aTagElement)
+        const aTagElement = ytFormatStringElement.querySelector("a");
 
-        const hrefValue = aTagElement.getAttribute('href');
+        const hrefValue = aTagElement.getAttribute("href");
         // split and get the last part of the URL
         const parts = hrefValue.split('/');
         const channelId = parts[parts.length - 1];
-        console.log(channelId);
+        console.log("channel id", channelId);
 
         return channelId;
       }

@@ -18,18 +18,17 @@
     async () => {
       console.log("got message")
 
-      let channelNameHeader;
+      const channelNameHeader = document.querySelector(".ytd-channel-name");
+      console.log("channelName header", channelNameHeader)
       let channelName;
       
+      // on channel page
       if(document.location.href.includes("@")) {
-        channelNameHeader = document.querySelector("#channel-name");
-        console.log("channelName header",channelNameHeader)
         channelName = channelNameHeader.querySelector("#text").textContent;
         console.log("channel name on chanel", channelName);
-        
+      // on video page
       } else if(document.location.href.includes("watch")) {
-        channelNameHeader = document.querySelector("#channel-name");
-        const aTagElement = channelNameHeader.querySelector('a');
+        const aTagElement = channelNameHeader.querySelector("a");
         console.log(aTagElement)
 
         channelName = aTagElement.textContent;
@@ -39,6 +38,7 @@
       // set current channel name
       const preferences = await helpers.getPreferences();
       preferences.currentChannelName = channelName;
+      console.log("current channel name", preferences.currentChannelName)
       await helpers.setPreferences(preferences);
     }
   );
