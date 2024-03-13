@@ -15,7 +15,7 @@
 
   // receive message from popup
   chrome.runtime.onMessage.addListener(
-    (request, sender, sendResponse) => {
+    async () => {
       console.log("got message")
 
       let channelNameHeader;
@@ -23,21 +23,23 @@
       
       if(document.location.href.includes("@")) {
         channelNameHeader = document.querySelector("#channel-name");
+        console.log("channelName header",channelNameHeader)
         channelName = channelNameHeader.querySelector("#text").textContent;
-        console.log("channel name", channelName);
+        console.log("channel name on chanel", channelName);
+        
       } else if(document.location.href.includes("watch")) {
         channelNameHeader = document.querySelector("#channel-name");
         const aTagElement = channelNameHeader.querySelector('a');
         console.log(aTagElement)
 
-        const hrefValue = aTagElement.getAttribute('href');
-        // split and get the last part of the URL
-        const parts = hrefValue.split('/');
-        const channelId = parts[parts.length - 1];
-        console.log(channelId);
+        channelName = aTagElement.textContent;
+        console.log("channel name on video", channelName)
       }
-      // send channel name to popup.js to display on dropdown
-      sendResponse({channelName: channelName})
+
+      // set current channel name
+      const preferences = await helpers.getPreferences();
+      preferences.currentChannelName = channelName;
+      await helpers.setPreferences(preferences);
     }
   );
 
