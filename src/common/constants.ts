@@ -103,8 +103,9 @@ export const defaultPreferences = {
     nature: "Nature",
     demo: "Demo",
   },
+  currentChannelName: "Alex Lee",
   channelPreferences: {
-    "Channel 1": "Category 1"
+    "Alex Lee": ""
   }
 };
 
