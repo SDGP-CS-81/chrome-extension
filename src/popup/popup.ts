@@ -16,26 +16,20 @@ import { getCurrentVideoCategory, getPreferences, setPreferences } from "../comm
           const currentChannelName = response.channelName;
           console.log("Response from content script:", currentChannelName);
 
-          // get current channel name
+          // set current channel name
           const preferences = await getPreferences();
           preferences.currentChannelName = currentChannelName;
           await setPreferences(preferences);
 
-          // const channelDropdownContainer = document.querySelector('.channel-dropdown-popup');
-          // const newDropDownElement = document.createElement('category-dropdown');
+          const newPreferences = await getPreferences()
+          const currentSelectedCategory = newPreferences.channelPreferences[currentChannelName];
+          console.log(currentSelectedCategory);
 
-          // let selectedCategory;
-          // if(currentChannelName in preferences.channelPreferences) {
-          //   selectedCategory = preferences.channelPreferences[currentChannelName];
-          //   console.log("selected category popup", selectedCategory);
-          // } else {
-          //   selectedCategory = "null";
-          // }
-          // // const currentSelectedCategory = preferences.currentSelectedCategory;
-
-          // newDropDownElement.setAttribute("channel-category-id", selectedCategory);
-          // console.log(newDropDownElement);
-          // channelDropdownContainer.appendChild(newDropDownElement)
+          const channelDropdownContainer = document.querySelector(".channel-dropdown-popup");
+          const newChannelEl = document.createElement("category-dropdown");
+          newChannelEl.setAttribute("channel-category-id", currentSelectedCategory);
+          console.log("new channel element", newChannelEl);
+          channelDropdownContainer.appendChild(newChannelEl);
         });
       }
     }

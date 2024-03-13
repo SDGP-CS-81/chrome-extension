@@ -17,8 +17,25 @@
   chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
       console.log("got message")
-      const channelName = document.querySelector("#text").textContent;
-      console.log("channel name", channelName);
+
+      let channelNameHeader;
+      let channelName;
+      
+      if(document.location.href.includes("@")) {
+        channelNameHeader = document.querySelector("#channel-name");
+        channelName = channelNameHeader.querySelector("#text").textContent;
+        console.log("channel name", channelName);
+      } else if(document.location.href.includes("watch")) {
+        channelNameHeader = document.querySelector("#channel-name");
+        const aTagElement = channelNameHeader.querySelector('a');
+        console.log(aTagElement)
+
+        const hrefValue = aTagElement.getAttribute('href');
+        // split and get the last part of the URL
+        const parts = hrefValue.split('/');
+        const channelId = parts[parts.length - 1];
+        console.log(channelId);
+      }
       // send channel name to popup.js to display on dropdown
       sendResponse({channelName: channelName})
     }
@@ -27,13 +44,12 @@
   // execute when the dropdown is closed
   // revceive message from category dropdown
   chrome.runtime.onMessage.addListener((message) => {
-    // console.log("message", message);
     if (message.dropdownClosed) {
       const channelId = helpers.getChannelId();
 
       if (channelId) {
         channelId.then((result: string) => {
-          helpers.getChannelInfo(result, message.selectedCategory);
+          helpers.postChannelInfo(result, message.selectedCategory);
           console.log(
             "Category submitted:",
             result,

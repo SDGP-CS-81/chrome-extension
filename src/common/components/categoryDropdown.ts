@@ -76,7 +76,7 @@ class CategoryDropdownEl extends HTMLElement {
   async connectedCallback() {
     this.setAttribute("channel-element", "custom");
     this.channelCategoryId = this.getAttribute("channel-category-id");
-    console.log(this.channelCategoryId)
+    console.log("this.channelCategoryId", this.channelCategoryId)
 
     const preferneces = await getPreferences();
 
@@ -125,6 +125,8 @@ class CategoryDropdownEl extends HTMLElement {
       // sset selecetd category for the channel
       const preferences = await getPreferences();
       preferences.channelPreferences[this.channelName] = selectedCategory
+      preferences.currentSelectedCategory = selectedCategory;
+      console.log("current", preferences.currentSelectedCategory)
       await setPreferences(preferences);
 
       // send message to script when popup is closed

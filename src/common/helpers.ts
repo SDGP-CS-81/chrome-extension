@@ -245,7 +245,7 @@ export const getChannelId = async () => {
       // when on a video
     } else if(document.location.href.includes("watch")) {
 
-      const ytFormatStringElement = document.querySelector('#text');
+      const ytFormatStringElement = document.querySelector('#channel-name');
 
       if(ytFormatStringElement) {
         const aTagElement = ytFormatStringElement.querySelector('a');
@@ -261,12 +261,12 @@ export const getChannelId = async () => {
       }
     }
   } catch (error) {
-    console.error('Error retrieving channel ID:', error);
+    console.error('Error retrieving channel id:', error);
     return null;
   }
 };
 
-export const getChannelInfo = async (channelId: string, category: string): Promise<void> => {
+export const postChannelInfo = async (channelId: string, category: string) => {
   try {
     const response = await fetch(`${apiURL}/api/channel/vote-category`, {
       method: 'POST',
@@ -282,7 +282,6 @@ export const getChannelInfo = async (channelId: string, category: string): Promi
 
     const data = await response.json();
     console.log('Data sent successfully:', data);
-    console.log('Data sent successfully:');
     
   } catch (error) {
     console.error('Error sending data to backend:', error);
