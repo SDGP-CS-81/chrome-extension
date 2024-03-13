@@ -116,6 +116,8 @@ export const getChannelInfo = async (channelId: string, category: string): Promi
 
     const data = await response.json();
     console.log('Data sent successfully:', data);
+    console.log('Data sent successfully:');
+    
   } catch (error) {
     console.error('Error sending data to backend:', error);
   }

@@ -1,23 +1,24 @@
 import { caretDown } from "../../svg.js";
-import { setPreferences, getPreferences, html } from "../helpers.js";
+import { getPreferences, setPreferences, html } from "../helpers.js";
 import { categoriesList } from "../constants.js";
 
 class CategoryDropdownEl extends HTMLElement {
   channelName: string;
   channelCategoryId: string;
-  categoryName: string;
+  channelCategory: string;
   currentSelectedCategory: string;
 
-  generateMenuItemTemplate(categoryName: string, selectedCategory: string) {
-    const isSelected = categoryName === selectedCategory;
+  generateMenuItemTemplate(channelCategory: string, selectedCategory: string) {
+    const isSelected = channelCategory === selectedCategory;
+    console.log("is selcted", isSelected)
     return html`
       <p
         class="channel-dropdown-menu-item ${isSelected
           ? "bg-primary-dark dark:text-white"
           : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
-        data-category="${categoryName}"
+        data-category="${channelCategory}"
       >
-        ${categoryName}
+        ${channelCategory}
       </p>
     `;
   }
@@ -28,6 +29,8 @@ class CategoryDropdownEl extends HTMLElement {
         this.generateMenuItemTemplate(category, this.currentSelectedCategory)
       )
       .join("");
+
+    console.log("after generating menu template", this.currentSelectedCategory);
 
     const template = document.createElement("template");
     template.innerHTML = html`
@@ -42,7 +45,7 @@ class CategoryDropdownEl extends HTMLElement {
             aria-haspopup="true"
           >
             <!-- Channel Id -->
-            <p>${this.channelName}</p>
+            <p id="channel-name">${this.channelName}</p>
             <!-- Selected channel category and dropdown icon -->
             <div class="flex items-center">
               <p id="category-text" class="mr-2">
@@ -65,25 +68,29 @@ class CategoryDropdownEl extends HTMLElement {
             ${catgeoryItemsHtml}
           </div>
         </div>
-        <info-popup
-          channel-category-id="${this.channelCategoryId}"
-        ></info-popup>
       </div>
     `;
     return template;
   }
 
   async connectedCallback() {
-    this.setAttribute("data-element", "custom");
+    this.setAttribute("channel-element", "custom");
     this.channelCategoryId = this.getAttribute("channel-category-id");
-    console.log("category id", this.channelCategoryId);
+    console.log(this.channelCategoryId)
 
     const preferneces = await getPreferences();
-    this.channelName = preferneces.channelName;
-    console.log("channel name", this.channelName);
 
-    this.currentSelectedCategory = preferneces.currentSelectedCategory;
-    console.log("current selected category", this.currentSelectedCategory);
+    // get current channel name
+    this.channelName = preferneces.currentChannelName;
+    console.log("current channel name", this.channelName);
+    
+    // check if the channel name is already a key of preferneces.channelPreferences
+    // if true, assign value of channel name to current selected category
+    if(this.channelName in preferneces.channelPreferences) {
+      // get current category for this channel
+      this.currentSelectedCategory = preferneces.channelPreferences[this.channelName];
+      console.log(this.currentSelectedCategory)
+    }
 
     this.appendChild(this.generateTemplate().content.cloneNode(true));
 
@@ -115,9 +122,12 @@ class CategoryDropdownEl extends HTMLElement {
       const target = event.target as HTMLElement;
       const selectedCategory = target.getAttribute("data-category");
 
+      // sset selecetd category for the channel
       const preferences = await getPreferences();
-      preferences.currentSelectedCategory = selectedCategory;
+      preferences.channelPreferences[this.channelName] = selectedCategory
       await setPreferences(preferences);
+      
+      // send message to script saying its closed
       chrome.tabs.query(
         {
           active: true,
@@ -130,7 +140,6 @@ class CategoryDropdownEl extends HTMLElement {
           });
         }
       );
-      console.log("set preferences", preferences);
 
       // remove the 'bg-primary-dark' class from all items
       this.querySelectorAll(".channel-dropdown-menu-item").forEach((item) => {

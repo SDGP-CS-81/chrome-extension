@@ -1,49 +1,45 @@
-import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
+import { getCurrentVideoCategory, getPreferences, setPreferences } from "../common/helpers.js";
 
-// send a message to content script when popup is opened on a youtube tab
 (async () => {
+  // send a message to content script when popup is opened on a youtube tab
+  // receive channel name from script
   chrome.tabs.query(
     {
       currentWindow: true,
       active: true,
       url: "*://*.youtube.com/*",
     },
-    function (tabs) {
+    (tabs) => {
       const activeTab = tabs[0];
-      console.log(tabs);
       if (activeTab) {
-        console.log(activeTab);
-        chrome.tabs.sendMessage(activeTab.id, { url: activeTab.url });
+        chrome.tabs.sendMessage(activeTab.id, null, async (response) => {
+          console.log("Response from content script:", response.channelName);
+
+          const preferences = await getPreferences();
+          preferences.currentChannelName = response.channelName
+          await setPreferences(preferences);
+          console.log("set preferences", preferences);
+
+          const channelDropdownContainer = document.querySelector('.channel-dropdown-popup');
+          const newDropDownElement = document.createElement('category-dropdown');
+
+          const selectedCategory = preferences.channelPreferences[response.channelName]
+          // const currentSelectedCategory = preferences.currentSelectedCategory;
+          console.log("selected category popup", selectedCategory)
+
+          newDropDownElement.setAttribute(
+            "channel-category-id",
+            selectedCategory
+          );
+          console.log(newDropDownElement);
+          channelDropdownContainer.appendChild(newDropDownElement)
+        });
       }
     }
   );
-})();
 
-// display current selected category when chnaged
-(async () => {
-  chrome.runtime.onMessage.addListener(async function (message) {
-    if (message.from === "background") {
-      const dropdownContainer = document.querySelector(
-        ".dropdown-channel-popup"
-      );
-      const newDropdownEl = document.createElement("category-dropdown");
-
-      const preference = await getPreferences();
-      const currentSelectedCategory = preference.currentSelectedCategory;
-
-      newDropdownEl.setAttribute(
-        "channel-category-id",
-        currentSelectedCategory
-      );
-      console.log(newDropdownEl);
-      dropdownContainer.appendChild(newDropdownEl);
-    }
-  });
-})();
-
-// on document load, grab the current video category
-// then host it's dropdown element into the html document
-(async () => {
+  // on document load, grab the current video category
+  // then host its dropdown element into the html document
   const currentVideoCategory = await getCurrentVideoCategory();
 
   console.log(currentVideoCategory);

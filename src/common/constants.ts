@@ -19,7 +19,10 @@ export type Preferences = {
   channelCategories: {
     [key: string]: string;
   };
-  channelName: string;
+  channelPreferences: {
+    [channelName: string]: string;
+  }
+  currentChannelName: string;
   currentSelectedCategory: string;
 };
 
@@ -100,8 +103,9 @@ export const defaultPreferences = {
     nature: "Nature",
     demo: "Demo",
   },
-  channelName: "Channel",
-  currentSelectedCategory: "",
+  channelPreferences: {
+    "Channel 1": "Category 1"
+  }
 };
 
 export type Category = {

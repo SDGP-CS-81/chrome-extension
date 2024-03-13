@@ -14,26 +14,34 @@
   const outBgTimeout: number = 5;
 
   // receive message from popup
-  chrome.runtime.onMessage.addListener(function (message) {
-    if (message.url.includes("https://www.youtube.com/")) {
-      const channelHeader = document.querySelector("#channel-header-container");
-
-      if (channelHeader) {
-        const channelId = helpers.getChannelId();
-
-        const channelName = document.querySelector("#text").textContent;
-        console.log(channelName);
-
-        // send channel name to background script
-        if (channelName) {
-          chrome.runtime.sendMessage({
-            from: "channel-name",
-            channelName: channelName,
-          });
-        }
-      }
+  chrome.runtime.onMessage.addListener(
+    (request, sender, sendResponse) => {
+      console.log("got message")
+      const channelName = "Cut";
+      // send channel name to popup.js to display on dropdown
+      sendResponse({channelName: channelName})
     }
-  });
+  );
+  // chrome.runtime.onMessage.addListener(function (message) {
+  //   if (message.url.includes("https://www.youtube.com/")) {
+  //     const channelHeader = document.querySelector("#channel-header-container");
+
+  //     if (channelHeader) {
+  //       const channelId = helpers.getChannelId();
+
+  //       const channelName = document.querySelector("#text").textContent;
+  //       console.log(channelName);
+
+  //       // send channel name to background script
+  //       if (channelName) {
+  //         chrome.runtime.sendMessage({
+  //           from: "channel-name",
+  //           channelName: channelName,
+  //         });
+  //       }
+  //     }
+  //   }
+  // });
 
   // execute when the dropdown is closed
   // revceive message from category dropdown
