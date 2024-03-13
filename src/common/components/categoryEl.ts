@@ -20,6 +20,7 @@ class CategoryEl extends HTMLElement {
             class="flex w-full items-center justify-between gap-x-10 @[400px]/dropdown:w-auto @[400px]/dropdown:justify-normal"
           >
             <dropdown-el
+              ${this.categoryId === "defaultQuality" ? "hidden" : ""}
               category-id="${this.categoryId}"
               type="min"
             ></dropdown-el>

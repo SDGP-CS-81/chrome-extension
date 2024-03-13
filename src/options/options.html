@@ -46,10 +46,12 @@
       <div
         class="z-30 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
-        <h1 class="text-xl">Categories</h1>
-        <div class="flex justify-end pr-8">
-          <h6 class="w-36 pr-5 text-end text-base">Min</h6>
-          <h6 class="w-36 pr-5 text-end text-base">Max</h6>
+        <div class="flex justify-between">
+          <h1 class="text-xl">Categories</h1>
+          <div class="flex justify-end pr-8">
+            <h6 class="w-36 pr-5 text-end text-lg">Min</h6>
+            <h6 class="w-36 pr-5 text-end text-lg">Max</h6>
+          </div>
         </div>
         <category-el category-id="coding"></category-el>
         <category-el category-id="music"></category-el>
@@ -67,7 +69,7 @@
         class="z-10 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Default Quality</h1>
-        <p class="pr-5 text-sm text-grey-mid">
+        <p class="pr-5 text-sm text-grey-mid dark:text-grey-low">
           If the video category is unclear, or if the extension cannot
           communicate with the server, this setting ensures videos continue to
           play in your preferred default quality.

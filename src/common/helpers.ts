@@ -177,6 +177,9 @@ const selectOptimumQuality = async (
   const minimumQuality = preferences.categories[optimumCategoryId].min;
   const maximumQuality = preferences.categories[optimumCategoryId].max;
 
+  // default quality does not have a min/max, only a single value that is represented by max
+  if (optimumCategoryId === "defaultQuality") return maximumQuality;
+
   if (minimumQuality === maximumQuality) return minimumQuality;
 
   const { diffScore } = videoScores.frameScores;
