@@ -143,7 +143,7 @@ export const categories: { [key: string]: Category } = {
     descImg: "../assets/categories/graphics.jpg",
     desc: "Graphics covers animations and a variety of visually creative videos",
     selectionConditions: {
-      backendCategories: ["lowGraphics"],
+      backendCategories: ["graphics"],
       textThreshold: 1,
     },
   },
