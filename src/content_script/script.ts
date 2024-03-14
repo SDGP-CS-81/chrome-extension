@@ -1,11 +1,17 @@
 (async () => {
   // import additional scripts
   const helpers = await import(chrome.runtime.getURL("../common/helpers.js"));
+  const htmlParsers = await import(
+    chrome.runtime.getURL("../common/htmlParsers.js")
+  );
 
   // a variable to track the original video
   // blob url and the audio url
   let originalSrc: string = null;
   let audioSrc: string = null;
+
+  // variables to store the timeouts and handlers
+  // for the bg tab feature
   let inBgTimeout: number = null;
   let inBgListenerHandle: number = null;
   let outBgListenerHandler: number = null;
@@ -13,53 +19,31 @@
 
   const outBgTimeout: number = 5;
 
-  // receive message from popup
-  chrome.runtime.onMessage.addListener(
-    async () => {
-      console.log("got message")
+  // variable to store the channel name and id
+  let channelName: string = null;
+  let channelId: string = null;
 
-      const channelNameHeader = document.querySelector(".ytd-channel-name");
-      console.log("channelName header", channelNameHeader)
-      let channelName;
-      
-      // on channel page
-      if(document.location.href.includes("@")) {
-        channelName = channelNameHeader.querySelector("#text").textContent;
-        console.log("channel name on chanel", channelName);
-      // on video page
-      } else if(document.location.href.includes("watch")) {
-        const aTagElement = channelNameHeader.querySelector("a");
-        console.log(aTagElement)
+  const extractChannelInfo = () => {
+    let channelInfo;
 
-        channelName = aTagElement.textContent;
-        console.log("channel name on video", channelName)
-      }
-
-      // set current channel name
-      const preferences = await helpers.getPreferences();
-      preferences.currentChannelName = channelName;
-      console.log("current channel name", preferences.currentChannelName)
-      await helpers.setPreferences(preferences);
+    if (document.location.href.includes("@")) {
+      channelInfo = htmlParsers.getChannelIDAndNameChannelPage();
+    } else if (document.location.href.includes("/watch?v=")) {
+      channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
     }
-  );
 
-  // execute when the dropdown is closed
-  // revceive message from category dropdown
-  chrome.runtime.onMessage.addListener((message) => {
-    if (message.dropdownClosed) {
-      const channelId = helpers.getChannelId();
+    channelId = channelInfo["channelId"];
+    channelName = channelInfo["channelName"];
+  };
 
-      if (channelId) {
-        channelId.then((result: string) => {
-          helpers.postChannelInfo(result, message.selectedCategory);
-          console.log(
-            "Category submitted:",
-            result,
-            "-",
-            message.selectedCategory
-          );
-        });
+  // receive message from popup
+  chrome.runtime.onMessage.addListener((message, _, responseCb) => {
+    if (message["type"] == "MSG_POPUP_TAB_GET_CHANNEL") {
+      if (!(channelName && channelId)) {
+        extractChannelInfo();
       }
+
+      responseCb({ channelId, channelName });
     }
   });
 
@@ -291,6 +275,7 @@
 
   document.addEventListener("yt-navigate-finish", () => {
     if (location.pathname != "/watch") return;
+
     chrome.runtime.onMessage.addListener(audioOnlyListener);
     runOnUrlChange();
   });
