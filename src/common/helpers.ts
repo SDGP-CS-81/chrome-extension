@@ -238,21 +238,20 @@ export type TextScores = { [key: string]: number };
 export const getChannelId = async () => {
   try {
     // when on channel page
-    if(document.location.href.includes("@")) {
+    if (document.location.href.includes("@")) {
       const channelIdElement = document.querySelector(".ytd-channel-name");
-  
+
       return channelIdElement ? channelIdElement.textContent.trim() : null;
       // when on a video
-    } else if(document.location.href.includes("watch")) {
-
+    } else if (document.location.href.includes("watch")) {
       const ytFormatStringElement = document.querySelector("#channel-name");
 
-      if(ytFormatStringElement) {
+      if (ytFormatStringElement) {
         const aTagElement = ytFormatStringElement.querySelector("a");
 
         const hrefValue = aTagElement.getAttribute("href");
         // split and get the last part of the URL
-        const parts = hrefValue.split('/');
+        const parts = hrefValue.split("/");
         const channelId = parts[parts.length - 1];
         console.log("channel id", channelId);
 
@@ -260,29 +259,30 @@ export const getChannelId = async () => {
       }
     }
   } catch (error) {
-    console.error('Error retrieving channel id:', error);
+    console.error("Error retrieving channel id:", error);
     return null;
   }
 };
 
 export const postChannelInfo = async (channelId: string, category: string) => {
+  console.log(`About to send, ${channelId}, ${category}`);
   try {
     const response = await fetch(`${apiURL}/api/channel/vote-category`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ channelId, category }),
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
 
     const data = await response.json();
-    console.log('Data sent successfully:', data);
-    
+    console.log("Data sent successfully:", data);
   } catch (error) {
-    console.error('Error sending data to backend:', error);
+    console.error("Error sending data to backend:", error);
   }
-}
+};
+

@@ -31,12 +31,31 @@ export const getVideoTitle = () => {
   );
 };
 
-export const getChannelID = () => {
-  return (
-    document.querySelector(
-      ".yt-simple-endpoint.style-scope.yt-formatted-string"
-    ) as HTMLAnchorElement
-  ).href.split("www.youtube.com/")[1];
+export const getChannelIDAndNameVideoPage = () => {
+  const channelLink = document.querySelector(
+    "#upload-info .yt-simple-endpoint.style-scope.yt-formatted-string"
+  ) as HTMLAnchorElement;
+
+  const channelId = channelLink.href.split("www.youtube.com/")[1].toLowerCase();
+  const channelName = channelLink.textContent;
+
+  return {
+    channelId,
+    channelName,
+  };
+};
+
+export const getChannelIDAndNameChannelPage = () => {
+  const channelId =
+    "@" + document.location.href.split("@")[1].split("/")[0].toLowerCase();
+  const channelName = document.querySelector(
+    "#channel-header-container #text"
+  ).textContent;
+
+  return {
+    channelId,
+    channelName,
+  };
 };
 
 // will retrive first 3 comments- but user has to go to comments section...so it doesnt work
