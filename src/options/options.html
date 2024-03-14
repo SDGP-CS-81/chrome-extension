@@ -8,12 +8,12 @@
 
     <script type="module" src="options.js"></script>
     <script type="module" src="../svg.js"></script>
-    <script type="module" src="../common/components/themeBtn.js"></script>
+    <script type="module" src="../common/components/themeToggle.js"></script>
     <script type="module" src="../common/components/textLogo.js"></script>
-    <script type="module" src="../common/components/toggleBtn.js"></script>
+    <script type="module" src="../common/components/featureToggle.js"></script>
     <script type="module" src="../common/components/featureBtn.js"></script>
     <script type="module" src="../common/components/dropdownEl.js"></script>
-    <script type="module" src="../common/components/offlineBtn.js"></script>
+    <script type="module" src="../common/components/offlineToggle.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
     <script type="module" src="../common/components/infoPopup.js"></script>
     <script type="module" src="../common/components/categoryForm.js"></script>
@@ -32,8 +32,8 @@
         <text-logo class="text-xl sm:text-3xl"></text-logo>
         <!-- explicit offline button -->
         <div class="flex items-center justify-between gap-5">
-          <offline-btn toggle-id="offlineMode"></offline-btn>
-          <theme-btn toggle-id="theme"></theme-btn>
+          <offline-toggle toggle-id="offlineMode"></offline-toggle>
+          <theme-toggle toggle-id="theme"></theme-toggle>
         </div>
       </div>
     </header>

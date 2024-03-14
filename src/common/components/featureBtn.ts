@@ -19,7 +19,7 @@ class FeatureBtn extends HTMLElement {
             ${this.feature.description}
           </p>
         </div>
-        <toggle-btn toggle-id="${this.toggleID}"></toggle-btn>
+        <feature-toggle toggle-id="${this.toggleID}"></feature-toggle>
       </div>
     `;
     return template;
