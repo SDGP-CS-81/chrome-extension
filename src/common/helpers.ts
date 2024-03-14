@@ -111,7 +111,7 @@ export const calcOptimumQuality = async (videoScores: VideoScores) => {
   return optimumQuality;
 };
 
-const selectOptimumCategory = async (
+export const selectOptimumCategory = async (
   videoScores: VideoScores
 ): Promise<string> => {
   let confidentCategoryId = "defaultQuality";
