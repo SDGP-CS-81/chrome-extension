@@ -19,6 +19,7 @@ class CategoryEl extends HTMLElement {
           <div
             class="flex w-full items-center justify-between gap-x-10 @[400px]/dropdown:w-auto @[400px]/dropdown:justify-normal"
           >
+            <audio-toggle toggle-id="${this.categoryId}"></audio-toggle>
             <dropdown-el
               ${this.categoryId === "defaultQuality" ? "hidden" : ""}
               category-id="${this.categoryId}"
