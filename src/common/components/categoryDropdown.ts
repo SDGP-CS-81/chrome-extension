@@ -1,16 +1,17 @@
 import { caretDown } from "../../svg.js";
-import { getPreferences, setPreferences, html } from "../helpers.js";
+import { getPreferences, html, postChannelInfo } from "../helpers.js";
 import { categoriesList } from "../constants.js";
 
 class CategoryDropdownEl extends HTMLElement {
   channelName: string;
+  channelId: string;
   channelCategoryId: string;
   channelCategory: string;
   currentSelectedCategory: string;
 
   generateMenuItemTemplate(channelCategory: string, selectedCategory: string) {
     const isSelected = channelCategory === selectedCategory;
-    console.log("is selcted", isSelected)
+    console.log("is selcted", isSelected);
     return html`
       <p
         class="channel-dropdown-menu-item ${isSelected
@@ -76,20 +77,25 @@ class CategoryDropdownEl extends HTMLElement {
   async connectedCallback() {
     this.setAttribute("channel-element", "custom");
     this.channelCategoryId = this.getAttribute("channel-category-id");
-    console.log("this.channelCategoryId", this.channelCategoryId)
+    this.channelName = this.getAttribute("channel-name");
+    this.channelId = this.getAttribute("channel-id");
+    console.log("this.channelCategoryId", this.channelCategoryId);
 
-    const preferneces = await getPreferences();
+    const preferences = await getPreferences();
 
     // get current channel name
-    this.channelName = preferneces.currentChannelName;
     console.log("current channel name dropdwon", this.channelName);
-    
+
     // check if the channel name is already a key of preferneces.channelPreferences
     // if true, assign value of channel name to current selected category
-    if(this.channelName in preferneces.channelPreferences) {
+    if (this.channelName in preferences.channelPreferences) {
       // get current category for this channel
-      this.currentSelectedCategory = preferneces.channelPreferences[this.channelName];
-      console.log("current selected category dropdwon", this.currentSelectedCategory)
+      this.currentSelectedCategory =
+        preferences.channelPreferences[this.channelName];
+      console.log(
+        "current selected category dropdwon",
+        this.currentSelectedCategory
+      );
     }
 
     this.appendChild(this.generateTemplate().content.cloneNode(true));
@@ -122,28 +128,9 @@ class CategoryDropdownEl extends HTMLElement {
       const target = event.target as HTMLElement;
       const selectedCategory = target.getAttribute("data-category");
 
-      // set selecetd category for the channel
-      const preferences = await getPreferences();
-      preferences.channelPreferences[this.channelName] = selectedCategory
-      await setPreferences(preferences);
-
-      // send message to script when popup is closed
-      chrome.tabs.query(
-        {
-          active: true,
-          currentWindow: true,
-          url: "*://*.youtube.com/*",
-        },
-        (tabs) => {
-          const activeTab = tabs[0];
-          if (activeTab) {
-            chrome.tabs.sendMessage(activeTab.id,  {
-            dropdownClosed: true,
-            selectedCategory: selectedCategory,
-            });
-          }
-        }
-      );
+      postChannelInfo(this.channelId, selectedCategory.toLowerCase())
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
 
       // remove the 'bg-primary-dark' class from all items
       this.querySelectorAll(".channel-dropdown-menu-item").forEach((item) => {
