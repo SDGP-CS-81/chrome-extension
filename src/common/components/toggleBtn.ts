@@ -36,32 +36,11 @@ class ToggleButton extends HTMLElement {
 
   async connectedCallback() {
     this.setAttribute("data-element", "custom");
-
     this.toggleID = this.getAttribute("toggle-id");
-
     this.appendChild(
       this.generateTemplate(this.toggleID).content.cloneNode(true)
     );
-
-    // const preferences = await getPreferences();
-    // this.checked =
-    //   preferences.features[this.toggleID as keyof PreferenceFeatures];
-
-    // this.addEventListener("click", () => {
-    //   this.checked = !this.checked;
-    // });
   }
-
-  // async attributeChangedCallback(name: string) {
-  //   if (name === "checked") {
-  //     const preferences = await getPreferences();
-  //     preferences.features[this.toggleID as keyof PreferenceFeatures] =
-  //       this.checked;
-  //     await setPreferences(preferences);
-  //     const hiddenInput = this.querySelector("input");
-  //     if (hiddenInput) hiddenInput.checked = this.checked;
-  //   }
-  // }
 }
 
 customElements.define("toggle-btn", ToggleButton);

@@ -32,7 +32,7 @@ class OfflineToggle extends ToggleButton {
   }
 
   async connectedCallback() {
-    super.connectedCallback();
+    await super.connectedCallback();
 
     const preferences = await getPreferences();
     this.checked =

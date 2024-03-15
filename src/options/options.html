@@ -23,7 +23,7 @@
   </head>
 
   <body
-    class="font-primary bg-secondary-light text-black dark:bg-secondary-dark dark:text-white"
+    class="font-primary bg-secondary-light text-black @container/main dark:bg-secondary-dark dark:text-white"
   >
     <header
       class="fixed z-50 flex w-full items-center justify-center border-b border-grey-mid bg-inherit p-8 @container"
@@ -50,8 +50,9 @@
         <div class="flex justify-between">
           <h1 class="text-xl">Categories</h1>
           <div class="flex justify-end pr-8">
-            <h6 class="w-36 pr-5 text-end text-lg">Min</h6>
-            <h6 class="w-36 pr-5 text-end text-lg">Max</h6>
+            <h6 class="w-32 text-end text-lg">Min</h6>
+            <h6 class="w-32 text-end text-lg">Max</h6>
+            <h6 class="ml-2 w-32 text-end text-lg">Audio Only</h6>
           </div>
         </div>
         <category-el category-id="coding"></category-el>

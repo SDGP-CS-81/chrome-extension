@@ -3,7 +3,7 @@ import ToggleButton from "./toggleBtn.js";
 
 class AudioToggle extends ToggleButton {
   async connectedCallback() {
-    super.connectedCallback();
+    await super.connectedCallback();
 
     const preferences = await getPreferences();
     this.checked = preferences.categories[this.toggleID].audioOnly;

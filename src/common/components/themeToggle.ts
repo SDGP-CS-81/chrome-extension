@@ -15,7 +15,7 @@ class ThemeToggle extends ToggleButton {
     return template;
   }
   async connectedCallback() {
-    super.connectedCallback();
+    await super.connectedCallback();
 
     const preferences = await getPreferences();
     this.checked =

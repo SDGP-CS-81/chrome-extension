@@ -3,7 +3,7 @@ import ToggleButton from "./toggleBtn.js";
 
 class FeatureToggle extends ToggleButton {
   async connectedCallback() {
-    super.connectedCallback();
+    await super.connectedCallback();
 
     const preferences = await getPreferences();
     this.checked =
