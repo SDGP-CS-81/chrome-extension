@@ -188,7 +188,7 @@ export const categories: { [key: string]: Category } = {
   defaultQuality: {
     categoryName: "Default Quality",
     descImg: "../assets/categories/default.jpg",
-    desc: "Default quality for all video categories",
+    desc: "If the video category is unclear, or if the extension cannot communicate with the server, this setting ensures videos continue to play in your preferred default quality",
     selectionConditions: {
       backendCategories: [],
       textThreshold: 1,
