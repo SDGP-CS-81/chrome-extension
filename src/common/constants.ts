@@ -122,7 +122,7 @@ export const categories: { [key: string]: Category } = {
   },
   coding: {
     categoryName: "Coding",
-    descImg: "../assets/categories/coding.png",
+    descImg: "../assets/categories/coding.Jpg",
     desc: "Coding includes programming and coding content, such as coding tutorials",
     selectionConditions: {
       backendCategories: ["textHeavy"],
@@ -149,7 +149,7 @@ export const categories: { [key: string]: Category } = {
   },
   lifestyle: {
     categoryName: "Lifestyle",
-    descImg: "../assets/categories/podcast.jpg",
+    descImg: "../assets/categories/lifestyle.jpg",
     desc: "Lifetyle covers vlogs and a variety of content where people are the subject",
     selectionConditions: {
       backendCategories: ["person"],
