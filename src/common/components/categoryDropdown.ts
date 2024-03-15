@@ -1,5 +1,5 @@
 import { caretDown } from "../../svg.js";
-import { getPreferences, html, postChannelInfo } from "../helpers.js";
+import { getPreferences, html, postChannelInfo, setPreferences } from "../helpers.js";
 import { categoriesList } from "../constants.js";
 
 class CategoryDropdownEl extends HTMLElement {
@@ -30,8 +30,6 @@ class CategoryDropdownEl extends HTMLElement {
         this.generateMenuItemTemplate(category, this.currentSelectedCategory)
       )
       .join("");
-
-    console.log("after generating menu template", this.currentSelectedCategory);
 
     const template = document.createElement("template");
     template.innerHTML = html`
@@ -79,12 +77,12 @@ class CategoryDropdownEl extends HTMLElement {
     this.channelCategoryId = this.getAttribute("channel-category-id");
     this.channelName = this.getAttribute("channel-name");
     this.channelId = this.getAttribute("channel-id");
-    console.log("this.channelCategoryId", this.channelCategoryId);
+    console.log("current selected category", this.channelCategoryId);
 
     const preferences = await getPreferences();
 
     // get current channel name
-    console.log("current channel name dropdwon", this.channelName);
+    console.log("current channel name", this.channelName);
 
     // check if the channel name is already a key of preferneces.channelPreferences
     // if true, assign value of channel name to current selected category
@@ -127,6 +125,11 @@ class CategoryDropdownEl extends HTMLElement {
     dropdownItemContainer.addEventListener("click", async (event) => {
       const target = event.target as HTMLElement;
       const selectedCategory = target.getAttribute("data-category");
+
+      // save channel name and selected category to storage
+      const preferences = await getPreferences();
+      preferences.channelPreferences[this.channelName] = selectedCategory;
+      await setPreferences(preferences);
 
       postChannelInfo(this.channelId, selectedCategory.toLowerCase())
         .then((res) => console.log(res))

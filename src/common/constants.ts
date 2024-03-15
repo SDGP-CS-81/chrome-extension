@@ -22,7 +22,6 @@ export type Preferences = {
   channelPreferences: {
     [channelName: string]: string;
   }
-  currentChannelName: string;
 };
 
 export const defaultPreferences = {

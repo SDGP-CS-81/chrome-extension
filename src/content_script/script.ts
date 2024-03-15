@@ -1,3 +1,5 @@
+console.log("SCRIPT LOADED");
+
 (async () => {
   // import additional scripts
   const helpers = await import(chrome.runtime.getURL("../common/helpers.js"));
@@ -32,7 +34,7 @@
       channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
     }
 
-    channelId = channelInfo["channelId"];
+    channelId = channelInfo["channelId"];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     channelName = channelInfo["channelName"];
   };
 
