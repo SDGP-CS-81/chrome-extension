@@ -235,39 +235,10 @@ export type ImageScores = {
 export type FrameScores = { [key: string]: number };
 export type TextScores = { [key: string]: number };
 
-export const getChannelId = async () => {
-  try {
-    // when on channel page
-    if (document.location.href.includes("@")) {
-      const channelIdElement = document.querySelector(".ytd-channel-name");
-
-      return channelIdElement ? channelIdElement.textContent.trim() : null;
-      // when on a video
-    } else if (document.location.href.includes("watch")) {
-      const ytFormatStringElement = document.querySelector("#channel-name");
-
-      if (ytFormatStringElement) {
-        const aTagElement = ytFormatStringElement.querySelector("a");
-
-        const hrefValue = aTagElement.getAttribute("href");
-        // split and get the last part of the URL
-        const parts = hrefValue.split("/");
-        const channelId = parts[parts.length - 1];
-        console.log("channel id", channelId);
-
-        return channelId;
-      }
-    }
-  } catch (error) {
-    console.error("Error retrieving channel id:", error);
-    return null;
-  }
-};
-
 export const postChannelInfo = async (channelId: string, category: string) => {
   console.log(`About to send, ${channelId}, ${category}`);
   try {
-    const response = await fetch(`${apiURL}/api/channel/vote-category`, {
+    const response = await fetch(`${apiURL}/api/channel/vote-category/${channelId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -285,4 +256,28 @@ export const postChannelInfo = async (channelId: string, category: string) => {
     console.error("Error sending data to backend:", error);
   }
 };
+
+export const getMostVotedCategory = async (channelId: string) => {
+  console.log(`About to fetch most voted category for channel ${channelId}`);
+
+  try {
+    const response = await fetch(`${apiURL}/api/channel/vote-category/${channelId}`);
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log("Most voted category received successfully:", data);
+
+    console.log("most vote category", data.mostVotedCategory)
+    return data.mostVotedCategory;
+
+  } catch (error) {
+    console.error("Error fetching most voted category:", error);
+    return null;
+    
+  }
+};
+
 
