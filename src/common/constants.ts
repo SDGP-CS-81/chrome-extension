@@ -87,7 +87,7 @@ export const defaultPreferences = {
     offlineMode: false,
     audioOnly: false,
     audioOnlyBackground: false,
-    audioOnlyBackgroundTimeout: 5,
+    audioOnlyBackgroundTimeout: 6,
   },
   channelCategories: {
     music: "Music",
