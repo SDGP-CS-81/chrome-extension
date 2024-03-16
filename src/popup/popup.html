@@ -1,60 +1,66 @@
 <!doctype html>
 <html lang="en" data-mode="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ByteSense</title>
+    <link rel="stylesheet" href="../output.css" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ByteSense</title>
-  <link rel="stylesheet" href="../output.css" />
+    <script type="module" src="popup.js"></script>
+    <script type="module" src="../svg.js"></script>
+    <script type="module" src="../common/components/themeBtn.js"></script>
+    <script type="module" src="../common/components/textLogo.js"></script>
+    <script type="module" src="../common/components/toggleBtn.js"></script>
+    <script type="module" src="../common/components/dropdownEl.js"></script>
+    <script type="module" src="../common/components/featureBtn.js"></script>
+    <script type="module" src="../common/components/featureToggle.js"></script>
+    <script type="module" src="../common/components/offlineBtn.js"></script>
+    <script type="module" src="../common/components/settingsBtn.js"></script>
+    <script type="module" src="../common/components/categoryEl.js"></script>
+    <script
+      type="module"
+      src="../common/components/categoryDropdown.js"
+    ></script>
+  </head>
 
-  <script type="module" src="popup.js"></script>
-  <script type="module" src="../svg.js"></script>
-  <script type="module" src="../common/components/themeBtn.js"></script>
-  <script type="module" src="../common/components/textLogo.js"></script>
-  <script type="module" src="../common/components/toggleBtn.js"></script>
-  <script type="module" src="../common/components/dropdownEl.js"></script>
-  <script type="module" src="../common/components/featureBtn.js"></script>
-  <script type="module" src="../common/components/offlineBtn.js"></script>
-  <script type="module" src="../common/components/settingsBtn.js"></script>
-  <script type="module" src="../common/components/categoryEl.js"></script>
-  <script type="module" src="../common/components/categoryDropdown.js"></script>
-</head>
-
-<body class="h-[500px] max-h-[500px] w-80 overflow-hidden">
-  <div
-    class="flex h-full w-full flex-col overflow-hidden bg-secondary-light text-black shadow-sm dark:bg-secondary-dark dark:text-white">
-    <div class="flex items-center justify-between border-b border-grey-mid px-5 py-3.5">
-      <text-logo class="text-base"></text-logo>
-      <div class="flex gap-x-3">
-        <offline-btn toggle-id="offlineMode"></offline-btn>
-        <settings-btn></settings-btn>
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-4 p-5">
-      <div class="dropdown-popup flex flex-col">
-        <h6 for="current-category" class="mb-3 text-base font-medium">
-          Current Category
-        </h6>
-        <!--current category dropdown hosted here-->
+  <body class="h-[500px] max-h-[500px] w-80 overflow-hidden">
+    <div
+      class="flex h-full w-full flex-col overflow-hidden bg-secondary-light text-black shadow-sm dark:bg-secondary-dark dark:text-white"
+    >
+      <div
+        class="flex items-center justify-between border-b border-grey-mid px-5 py-3.5"
+      >
+        <text-logo class="text-base"></text-logo>
+        <div class="flex gap-x-3">
+          <offline-btn toggle-id="offlineMode"></offline-btn>
+          <settings-btn></settings-btn>
+        </div>
       </div>
 
-      <div class="channel-dropdown-popup flex flex-col">
-        <h6 for="channel-based-category" class="mb-3 text-base font-medium">
-          Channel Based Category
-        </h6>
-        <!-- channel based category dropdown goes here-->
-      </div>
+      <div class="flex flex-col gap-4 p-5">
+        <div class="dropdown-popup flex flex-col">
+          <h6 for="current-category" class="mb-3 text-base font-medium">
+            Current Category
+          </h6>
+          <!--current category dropdown hosted here-->
+        </div>
 
-      <div>
-        <h6 class="mb-3 text-base font-medium">Preferences</h6>
-        <div class="flex flex-col gap-y-3 @container/features">
-          <feature-btn toggle-id="audioOnly"></feature-btn>
-          <feature-btn toggle-id="audioOnlyBackground"></feature-btn>
+        <div class="channel-dropdown-popup flex flex-col">
+          <h6 for="channel-based-category" class="mb-3 text-base font-medium">
+            Channel Based Category
+          </h6>
+          <!-- channel based category dropdown goes here-->
+        </div>
+
+        <div>
+          <h6 class="mb-3 text-base font-medium">Preferences</h6>
+          <div class="flex flex-col gap-y-3 @container/features">
+            <feature-btn toggle-id="audioOnly"></feature-btn>
+            <feature-btn toggle-id="audioOnlyBackground"></feature-btn>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
+
