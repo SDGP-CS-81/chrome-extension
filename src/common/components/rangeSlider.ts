@@ -10,7 +10,7 @@ class RangeSlider extends HTMLElement {
       <div class="flex w-full items-center gap-2">
         <p
           id="value-display"
-          class="w-10 rounded-md border border-white px-1 text-end font-azeretmono text-base"
+          class="w-10 rounded-md border border-black px-1 text-end font-azeretmono text-base dark:border-white"
         >
           ${this.value + "s"}
         </p>

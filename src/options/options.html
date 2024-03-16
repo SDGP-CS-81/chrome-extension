@@ -24,7 +24,7 @@
   </head>
 
   <body
-    class="bg-secondary-light font-dmsans text-black @container/main dark:bg-secondary-dark dark:text-white"
+    class="bg-secondary-light font-dmsans text-black dark:bg-secondary-dark dark:text-white"
   >
     <header
       class="fixed z-50 flex w-full items-center justify-center border-b border-grey-mid bg-inherit p-8 @container"
@@ -42,11 +42,11 @@
 
     <!-- contains all the settings and clamps them to a given width -->
     <div
-      class="flex flex-col items-center gap-y-12 px-8 py-12 pt-40 @container"
+      class="flex flex-col items-center gap-y-12 px-8 py-12 pt-40 @container @container/main"
     >
       <!-- wrap any setting groups into a div like this one -->
       <div
-        class="z-30 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+        class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <div class="flex justify-between">
           <h1 class="text-xl">Categories</h1>
@@ -69,7 +69,7 @@
       </div>
 
       <div
-        class="z-10 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
+        class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Default Quality</h1>
         <category-el category-id="defaultQuality"></category-el>
@@ -81,12 +81,10 @@
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
 
-        <div
-          class="flex w-full flex-col rounded-lg border border-grey-low bg-secondary-light pb-3 dark:border-grey-high dark:bg-grey-high"
-        >
+        <div class="flex w-full flex-col rounded-lg pb-3 dark:bg-grey-high">
           <feature-btn toggle-id="audioOnlyBackground"></feature-btn>
           <div
-            class="flex w-full flex-col rounded-lg border border-grey-low bg-secondary-light px-[18px] @2xl/main:flex-row @2xl/main:items-start @2xl/main:justify-between @[400px]/features:px-[22px] dark:border-grey-high dark:bg-grey-high"
+            class="mt-2 flex w-full flex-col gap-y-3 rounded-lg px-[18px] @md/features:px-[22px] @md/main:flex-row @md/main:items-start @md/main:justify-between @[400px]:px-[22px] dark:mt-0"
           >
             <h5 class="text-base">Background Mode Delay</h5>
             <range-slider range-id="audioOnlyBackgroundTimeout"></range-slider>

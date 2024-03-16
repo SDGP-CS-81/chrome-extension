@@ -26,12 +26,12 @@ class categoryKeywordForm extends HTMLElement {
         <form class="flex gap-x-0.5">
           <input
             name="category"
-            class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Enter category name"
           />
           <input
             name="keywords"
-            class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-gray-100 p-4 outline outline-1 outline-slate-300 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Add relevant keywords"
             disabled
           />
@@ -78,6 +78,8 @@ class categoryKeywordForm extends HTMLElement {
       const formData = new FormData(e.target as HTMLFormElement);
       const categoryData = (formData.get("category") as string).toLowerCase();
       const keywords = formData.get("keywords") as string;
+
+      if (!keywords) return;
 
       const keywordData = keywords
         .split(",")

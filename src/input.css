@@ -51,7 +51,10 @@
     appearance: none;
     width: 15px;
     height: 15px;
-    background: white;
+    background: #3b3d3b;
     border-radius: 20px;
+  }
+  [data-mode="dark"] .custom-slider::-webkit-slider-thumb {
+    background: white;
   }
 }
