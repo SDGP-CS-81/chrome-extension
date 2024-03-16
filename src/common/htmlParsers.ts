@@ -1,3 +1,5 @@
+import * as helpers from "./helpers.js";
+
 // gets the category type at the bottom of description ex: music, gaming
 // returns undefined if not found
 export const getYTVideoCategorisation = () => {
@@ -21,11 +23,11 @@ export const getVideoDescription = () => {
     .map((el: HTMLElement) => el.innerText)
     .join(" ");
 
-  return (window as any).helpers.preprocessText(description);
+  return helpers.preprocessText(description);
 };
 
 export const getVideoTitle = () => {
-  return (window as any).helpers.preprocessText(
+  return helpers.preprocessText(
     (document.querySelector("h1.style-scope.ytd-watch-metadata") as HTMLElement)
       .innerText
   );
@@ -62,7 +64,5 @@ export const getChannelIDAndNameChannelPage = () => {
 export const getComments = () => {
   return Array.from(document.querySelectorAll("#content-text"))
     .slice(1, 4)
-    .map((el: HTMLElement) =>
-      (window as any).helpers.preprocessText(el.innerText)
-    );
+    .map((el: HTMLElement) => helpers.preprocessText(el.innerText));
 };

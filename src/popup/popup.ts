@@ -1,7 +1,7 @@
 import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
 
 // send a message to content script
-(async () => { 
+(async () => {
   chrome.tabs.query(
     {
       currentWindow: true,
@@ -19,7 +19,6 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
           },
           async (response) => {
             const { channelId, channelName } = response;
-            console.log("channel info popup received", channelId, channelName);
 
             // get current selected category
             const preferences = await getPreferences();
@@ -29,10 +28,12 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
             );
             const newChannelEl = document.createElement("category-dropdown");
             // pass current selected category as an attribute
-            newChannelEl.setAttribute("channel-category-id", preferences.channelPreferences[channelName]);
+            newChannelEl.setAttribute(
+              "channel-category-id",
+              preferences.channelPreferences[channelName]
+            );
             newChannelEl.setAttribute("channel-name", channelName);
             newChannelEl.setAttribute("channel-id", channelId);
-            console.log("new channel element", newChannelEl);
             channelDropdownContainer.appendChild(newChannelEl);
           }
         );
@@ -43,8 +44,6 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
   // on document load, grab the current video category
   // then host its dropdown element into the html document
   const currentVideoCategory = await getCurrentVideoCategory();
-
-  console.log(currentVideoCategory);
 
   const dropdownContainer = document.querySelector(".dropdown-popup");
   const newCategoryEl = document.createElement("category-el");
