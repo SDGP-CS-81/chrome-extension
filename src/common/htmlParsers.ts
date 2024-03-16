@@ -1,3 +1,5 @@
+import * as helpers from "./helpers.js";
+
 // gets the category type at the bottom of description ex: music, gaming
 // returns undefined if not found
 export const getYTVideoCategorisation = () => {
@@ -21,29 +23,46 @@ export const getVideoDescription = () => {
     .map((el: HTMLElement) => el.innerText)
     .join(" ");
 
-  return (window as any).helpers.preprocessText(description);
+  return helpers.preprocessText(description);
 };
 
 export const getVideoTitle = () => {
-  return (window as any).helpers.preprocessText(
+  return helpers.preprocessText(
     (document.querySelector("h1.style-scope.ytd-watch-metadata") as HTMLElement)
       .innerText
   );
 };
 
-export const getChannelID = () => {
-  return (
-    document.querySelector(
-      ".yt-simple-endpoint.style-scope.yt-formatted-string"
-    ) as HTMLAnchorElement
-  ).href.split("www.youtube.com/")[1];
+export const getChannelIDAndNameVideoPage = () => {
+  const channelLink = document.querySelector(
+    "#upload-info .yt-simple-endpoint.style-scope.yt-formatted-string"
+  ) as HTMLAnchorElement;
+
+  const channelId = channelLink.href.split("www.youtube.com/")[1].toLowerCase();
+  const channelName = channelLink.textContent;
+
+  return {
+    channelId,
+    channelName,
+  };
+};
+
+export const getChannelIDAndNameChannelPage = () => {
+  const channelId =
+    "@" + document.location.href.split("@")[1].split("/")[0].toLowerCase();
+  const channelName = document.querySelector(
+    "#channel-header-container #text"
+  ).textContent;
+
+  return {
+    channelId,
+    channelName,
+  };
 };
 
 // will retrive first 3 comments- but user has to go to comments section...so it doesnt work
 export const getComments = () => {
   return Array.from(document.querySelectorAll("#content-text"))
     .slice(1, 4)
-    .map((el: HTMLElement) =>
-      (window as any).helpers.preprocessText(el.innerText)
-    );
+    .map((el: HTMLElement) => helpers.preprocessText(el.innerText));
 };

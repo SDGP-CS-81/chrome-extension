@@ -1,6 +1,7 @@
 export const apiURL =
   "https://ec2-13-233-179-121.ap-south-1.compute.amazonaws.com";
 export const qualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
+export const categoriesList = ["Music", "Coding", "Nature", "Gaming", "News", "Podcast", "Sports", "Graphics", "Lifestyle", "Demo"];
 
 export type PreferenceFeatures = {
   theme: boolean; // true for dark
@@ -15,6 +16,12 @@ export type Preferences = {
     [key: string]: { min: string; max: string; audioOnly: boolean };
   };
   features: PreferenceFeatures;
+  channelCategories: {
+    [key: string]: string;
+  };
+  channelPreferences: {
+    [channelName: string]: string;
+  }
 };
 
 export const defaultPreferences = {
@@ -82,6 +89,22 @@ export const defaultPreferences = {
     audioOnlyBackground: false,
     audioOnlyBackgroundTimeout: 6,
   },
+  channelCategories: {
+    music: "Music",
+    podcast: "Podcast",
+    gaming: "Gaming",
+    news: "News",
+    coding: "Coding",
+    sports: "Sports",
+    graphics: "Graphics",
+    lifestyle: "Lifestyle",
+    nature: "Nature",
+    demo: "Demo",
+  },
+  currentChannelName: "Alex Lee",
+  channelPreferences: {
+    "Alex Lee": ""
+  }
 };
 
 export type Category = {

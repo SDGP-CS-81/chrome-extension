@@ -95,14 +95,11 @@ export const getVideoScores = async (videoID: string) => {
         "Content-Type": "application/json",
       },
     }
-  )
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
+  );
 };
 
 export const calcOptimumQuality = async (videoScores: VideoScores) => {
   const optimumCategoryId = await selectOptimumCategory(videoScores);
-  console.log(optimumCategoryId);
 
   const optimumQuality = await selectOptimumQuality(
     optimumCategoryId,
@@ -127,27 +124,23 @@ export const selectOptimumCategory = async (
 
   const visualCategory = sortedCategoryScores[0][0];
   const textScoresKeys = textScores ? Object.keys(textScores) : [];
-  console.log(`keyscorekeys: ${textScoresKeys}`);
 
   const categoryConfidence: [string, number][] = Object.entries(categories).map(
     ([key, obj]: [key: string, obj: Category]) => {
       let confidenceScore = 0;
       // check if visual category is present in conditions
       if (obj.selectionConditions.backendCategories.includes(visualCategory)) {
-        console.log(`${key} Visual Hit`);
         confidenceScore++;
       }
 
       if (textScoresKeys.includes(key)) {
         if (textScores[key] >= obj.selectionConditions.textThreshold) {
           // check if keyword occurences meet threshold
-          console.log(`${key} Keyword Hit`);
           confidenceScore++;
         }
 
         // quick hack to use the yt categorization
         if (textScores[key] >= 1000) {
-          console.log(`${key} YT Categorization Hit`);
           confidenceScore += 100;
         }
       }
@@ -234,3 +227,41 @@ export type ImageScores = {
 };
 export type FrameScores = { [key: string]: number };
 export type TextScores = { [key: string]: number };
+
+export const postChannelInfo = async (channelId: string, category: string) => {
+  const response = await fetch(
+    `${apiURL}/api/channel/vote-category/${channelId}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ channelId, category }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  await response.json();
+};
+
+export const getMostVotedCategory = async (channelId: string) => {
+  try {
+    const response = await fetch(
+      `${apiURL}/api/channel/vote-category/${channelId}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+
+    return data.mostVotedCategory;
+  } catch (error) {
+    console.error("Error fetching most voted category:", error);
+    return null;
+  }
+};

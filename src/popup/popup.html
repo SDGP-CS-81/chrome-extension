@@ -8,15 +8,19 @@
 
     <script type="module" src="popup.js"></script>
     <script type="module" src="../svg.js"></script>
-    <script type="module" src="../common/components/audioToggle.js"></script>
-    <script type="module" src="../common/components/themeToggle.js"></script>
+    <script type="module" src="../common/components/themeBtn.js"></script>
     <script type="module" src="../common/components/textLogo.js"></script>
-    <script type="module" src="../common/components/featureToggle.js"></script>
+    <script type="module" src="../common/components/toggleBtn.js"></script>
     <script type="module" src="../common/components/dropdownEl.js"></script>
     <script type="module" src="../common/components/featureBtn.js"></script>
-    <script type="module" src="../common/components/offlineToggle.js"></script>
+    <script type="module" src="../common/components/featureToggle.js"></script>
+    <script type="module" src="../common/components/offlineBtn.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
     <script type="module" src="../common/components/categoryEl.js"></script>
+    <script
+      type="module"
+      src="../common/components/categoryDropdown.js"
+    ></script>
   </head>
 
   <body
@@ -30,17 +34,24 @@
       >
         <text-logo class="text-base"></text-logo>
         <div class="flex gap-x-3">
-          <offline-toggle toggle-id="offlineMode"></offline-toggle>
+          <offline-btn toggle-id="offlineMode"></offline-btn>
           <settings-btn></settings-btn>
         </div>
       </div>
 
       <div class="flex flex-col gap-4 p-5">
-        <div class="dropdown-popup flex flex-col @container/dropdown">
+        <div class="dropdown-popup flex flex-col">
           <h6 for="current-category" class="mb-3 text-base font-medium">
             Current Category
           </h6>
           <!--current category dropdown hosted here-->
+        </div>
+
+        <div class="channel-dropdown-popup flex flex-col">
+          <h6 for="channel-based-category" class="mb-3 text-base font-medium">
+            Channel Based Category
+          </h6>
+          <!-- channel based category dropdown goes here-->
         </div>
 
         <div>
@@ -54,3 +65,4 @@
     </div>
   </body>
 </html>
+
