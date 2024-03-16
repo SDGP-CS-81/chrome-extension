@@ -1,5 +1,5 @@
 import { caretDown } from "../../svg.js";
-import { getPreferences, html, postChannelInfo, setPreferences } from "../helpers.js";
+import { getMostVotedCategory, getPreferences, html, postChannelInfo, setPreferences } from "../helpers.js";
 import { categoriesList } from "../constants.js";
 
 class CategoryDropdownEl extends HTMLElement {
@@ -93,7 +93,16 @@ class CategoryDropdownEl extends HTMLElement {
       console.log(
         "current selected category dropdwon",
         this.currentSelectedCategory
-      );
+      )
+    } else {
+      // fetch channelInfo from server
+      const channelInfo = await getMostVotedCategory(this.channelId);
+      let mostVotedCategory = channelInfo;
+      // if most voted category is not null capitalize first letter
+      if(mostVotedCategory) {
+        mostVotedCategory = channelInfo.charAt(0).toUpperCase() + channelInfo.slice(1);
+      }
+      this.currentSelectedCategory = mostVotedCategory;
     }
 
     this.appendChild(this.generateTemplate().content.cloneNode(true));

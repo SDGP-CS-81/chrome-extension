@@ -1,5 +1,3 @@
-console.log("SCRIPT LOADED");
-
 (async () => {
   // import additional scripts
   const helpers = await import(chrome.runtime.getURL("../common/helpers.js"));
