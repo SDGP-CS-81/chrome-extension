@@ -32,7 +32,7 @@
       channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
     }
 
-    channelId = channelInfo["channelId"];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    channelId = channelInfo["channelId"];
     channelName = channelInfo["channelName"];
   };
 
@@ -52,12 +52,10 @@
 
     if (videoElement.src.includes("blob")) {
       originalSrc = videoElement.src;
-      console.log(`Original Src: ${originalSrc}`);
     }
   };
 
   const setVideoUrl = (url: string) => {
-    console.log(`Video Url: ${url}`);
     if (url) {
       const videoElement = document.querySelector("video");
       const currentTime = videoElement.currentTime;
@@ -118,10 +116,6 @@
         const backgroundNew = newValues["audioOnlyBackground"];
         const backgroundOld = oldValues["audioOnlyBackground"];
 
-        console.log(
-          `audioOnlyOld: ${audioOnlyOld}, audioOnlyNew: ${audioOnlyNew}, bgOld: ${backgroundOld}, bgNew: ${backgroundNew}`
-        );
-
         // If there were no changes to any of the required prefs
         if (audioOnlyNew == audioOnlyOld && backgroundNew == backgroundOld)
           return;
@@ -173,8 +167,6 @@
     helpers
       .getPreferences()
       .then((prefs: { [key: string]: { [key: string]: boolean | number } }) => {
-        console.log(prefs);
-
         const audioOnly = prefs["features"]["audioOnly"];
         const bgTab = prefs["features"]["audioOnlyBackground"];
         inBgTimeout = prefs["features"]["audioOnlyBackgroundTimeout"] as number;
@@ -218,7 +210,6 @@
       observer.disconnect();
 
       setTimeout(() => {
-        console.log("setQualityWhenPossible");
         setQuality(qualityToSet);
       }, 100);
     }).observe(document.body, observerConfig);

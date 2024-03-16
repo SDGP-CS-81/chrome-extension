@@ -1,5 +1,11 @@
 import { caretDown } from "../../svg.js";
-import { getMostVotedCategory, getPreferences, html, postChannelInfo, setPreferences } from "../helpers.js";
+import {
+  getMostVotedCategory,
+  getPreferences,
+  html,
+  postChannelInfo,
+  setPreferences,
+} from "../helpers.js";
 import { categoriesList } from "../constants.js";
 
 class CategoryDropdownEl extends HTMLElement {
@@ -11,7 +17,6 @@ class CategoryDropdownEl extends HTMLElement {
 
   generateMenuItemTemplate(channelCategory: string, selectedCategory: string) {
     const isSelected = channelCategory === selectedCategory;
-    console.log("is selcted", isSelected);
     return html`
       <p
         class="channel-dropdown-menu-item ${isSelected
@@ -77,12 +82,10 @@ class CategoryDropdownEl extends HTMLElement {
     this.channelCategoryId = this.getAttribute("channel-category-id");
     this.channelName = this.getAttribute("channel-name");
     this.channelId = this.getAttribute("channel-id");
-    console.log("current selected category", this.channelCategoryId);
 
     const preferences = await getPreferences();
 
     // get current channel name
-    console.log("current channel name", this.channelName);
 
     // check if the channel name is already a key of preferneces.channelPreferences
     // if true, assign value of channel name to current selected category
@@ -90,17 +93,14 @@ class CategoryDropdownEl extends HTMLElement {
       // get current category for this channel
       this.currentSelectedCategory =
         preferences.channelPreferences[this.channelName];
-      console.log(
-        "current selected category dropdwon",
-        this.currentSelectedCategory
-      )
     } else {
       // fetch channelInfo from server
       const channelInfo = await getMostVotedCategory(this.channelId);
       let mostVotedCategory = channelInfo;
       // if most voted category is not null capitalize first letter
-      if(mostVotedCategory) {
-        mostVotedCategory = channelInfo.charAt(0).toUpperCase() + channelInfo.slice(1);
+      if (mostVotedCategory) {
+        mostVotedCategory =
+          channelInfo.charAt(0).toUpperCase() + channelInfo.slice(1);
       }
       this.currentSelectedCategory = mostVotedCategory;
     }
@@ -140,9 +140,7 @@ class CategoryDropdownEl extends HTMLElement {
       preferences.channelPreferences[this.channelName] = selectedCategory;
       await setPreferences(preferences);
 
-      postChannelInfo(this.channelId, selectedCategory.toLowerCase())
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+      postChannelInfo(this.channelId, selectedCategory.toLowerCase());
 
       // remove the 'bg-primary-dark' class from all items
       this.querySelectorAll(".channel-dropdown-menu-item").forEach((item) => {

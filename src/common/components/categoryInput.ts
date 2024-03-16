@@ -64,8 +64,6 @@ class CategoryInput extends HTMLElement {
 
       delete customCategories[this.categoryId];
       setCustomCategories(customCategories);
-      console.log("Category " + this.categoryId + " is removed from storage.");
-      console.log(await getCustomCategories());
     });
 
     const handleChange = async (e: Event) => {
