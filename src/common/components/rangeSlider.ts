@@ -7,18 +7,18 @@ class RangeSlider extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex items-center gap-2">
-        <input
-          class="w-60"
-          type="range"
-          min="5"
-          max="300"
-          step="5"
-          value="${this.value.toString()}"
-        />
+      <div class="flex w-full items-center gap-2">
         <p id="value-display" class="w-[4ch] text-end font-azeretmono text-lg">
           ${this.value + "s"}
         </p>
+        <input
+          class="custom-slider w-60"
+          type="range"
+          min="0"
+          max="60"
+          step="2"
+          value="${this.value.toString()}"
+        />
       </div>
     `;
     return template;

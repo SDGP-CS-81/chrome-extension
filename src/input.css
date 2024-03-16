@@ -32,4 +32,26 @@
     background: rgb(0, 0, 0, 0.3);
     border-radius: 20px;
   }
+
+  .custom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #1f8505;
+    border-radius: 20px;
+    height: 4px;
+    cursor: pointer;
+  }
+
+  .custom-slider:hover {
+    opacity: 90%;
+  }
+
+  .custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 20px;
+  }
 }
