@@ -1,9 +1,9 @@
 import { moon, sun } from "../../svg.js";
 import { PreferenceFeatures } from "../constants.js";
 import { getPreferences, html, setPreferences, setTheme } from "../helpers.js";
-import ToggleBtn from "./toggleBtn.js";
+import ToggleButton from "./toggleBtn.js";
 
-class ThemeBtn extends ToggleBtn {
+class ThemeToggle extends ToggleButton {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
@@ -13,6 +13,17 @@ class ThemeBtn extends ToggleBtn {
       </div>
     `;
     return template;
+  }
+  async connectedCallback() {
+    await super.connectedCallback();
+
+    const preferences = await getPreferences();
+    this.checked =
+      preferences.features[this.toggleID as keyof PreferenceFeatures];
+
+    this.addEventListener("click", () => {
+      this.checked = !this.checked;
+    });
   }
 
   async attributeChangedCallback(name: string) {
@@ -29,7 +40,7 @@ class ThemeBtn extends ToggleBtn {
   }
 }
 
-customElements.define("theme-btn", ThemeBtn);
+customElements.define("theme-toggle", ThemeToggle);
 
 // set the mode for the page
 setTheme(null);

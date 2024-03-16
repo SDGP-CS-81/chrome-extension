@@ -12,7 +12,7 @@ export type PreferenceFeatures = {
 
 export type Preferences = {
   categories: {
-    [key: string]: { min: string; max: string };
+    [key: string]: { min: string; max: string; audioOnly: boolean };
   };
   features: PreferenceFeatures;
 };
@@ -22,53 +22,64 @@ export const defaultPreferences = {
     music: {
       min: "144",
       max: "144",
+      audioOnly: true,
     },
     podcast: {
       min: "144",
       max: "144",
+      audioOnly: true,
     },
     gaming: {
       min: "1080",
       max: "1080",
+      audioOnly: false,
     },
     news: {
       min: "480",
       max: "480",
+      audioOnly: false,
     },
     coding: {
       min: "1080",
       max: "1080",
+      audioOnly: false,
     },
     sports: {
       min: "720",
       max: "720",
+      audioOnly: false,
     },
     graphics: {
       min: "240",
       max: "240",
+      audioOnly: false,
     },
     lifestyle: {
       min: "480",
       max: "480",
+      audioOnly: false,
     },
     nature: {
       min: "720",
       max: "720",
+      audioOnly: false,
     },
     demo: {
       min: "480",
       max: "480",
+      audioOnly: false,
     },
     defaultQuality: {
       min: "480",
       max: "480",
+      audioOnly: false,
     },
   },
   features: {
     theme: true, // true for dark
     offlineMode: false,
     audioOnly: false,
-    audioOnlyBackground: true,
+    audioOnlyBackground: false,
     audioOnlyBackgroundTimeout: 5,
   },
 };
@@ -177,7 +188,7 @@ export const categories: { [key: string]: Category } = {
   defaultQuality: {
     categoryName: "Default Quality",
     descImg: "../assets/categories/default.jpg",
-    desc: "Default quality for all video categories",
+    desc: "If the video category is unclear, or if the extension cannot communicate with the server, this setting ensures videos continue to play in your preferred default quality",
     selectionConditions: {
       backendCategories: [],
       textThreshold: 1,

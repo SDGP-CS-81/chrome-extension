@@ -17,9 +17,10 @@ class CategoryEl extends HTMLElement {
           <p>${this.categoryName}</p>
 
           <div
-            class="flex w-full items-center justify-between gap-x-10 @[400px]/dropdown:w-auto @[400px]/dropdown:justify-normal"
+            class="flex w-full items-center justify-between gap-x-8 @[400px]/dropdown:w-auto @[400px]/dropdown:justify-normal"
           >
             <dropdown-el
+              ${this.categoryId === "defaultQuality" ? "hidden" : ""}
               category-id="${this.categoryId}"
               type="min"
             ></dropdown-el>
@@ -27,6 +28,9 @@ class CategoryEl extends HTMLElement {
               category-id="${this.categoryId}"
               type="max"
             ></dropdown-el>
+            <div class="flex w-20 items-center justify-end">
+              <audio-toggle toggle-id="${this.categoryId}"></audio-toggle>
+            </div>
           </div>
         </div>
 

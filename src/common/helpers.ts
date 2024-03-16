@@ -111,7 +111,7 @@ export const calcOptimumQuality = async (videoScores: VideoScores) => {
   return optimumQuality;
 };
 
-const selectOptimumCategory = async (
+export const selectOptimumCategory = async (
   videoScores: VideoScores
 ): Promise<string> => {
   let confidentCategoryId = "defaultQuality";
@@ -176,6 +176,9 @@ const selectOptimumQuality = async (
   const preferences = await getPreferences();
   const minimumQuality = preferences.categories[optimumCategoryId].min;
   const maximumQuality = preferences.categories[optimumCategoryId].max;
+
+  // default quality does not have a min/max, only a single value that is represented by max
+  if (optimumCategoryId === "defaultQuality") return maximumQuality;
 
   if (minimumQuality === maximumQuality) return minimumQuality;
 

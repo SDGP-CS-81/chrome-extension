@@ -8,12 +8,13 @@
 
     <script type="module" src="options.js"></script>
     <script type="module" src="../svg.js"></script>
-    <script type="module" src="../common/components/themeBtn.js"></script>
+    <script type="module" src="../common/components/audioToggle.js"></script>
+    <script type="module" src="../common/components/themeToggle.js"></script>
     <script type="module" src="../common/components/textLogo.js"></script>
-    <script type="module" src="../common/components/toggleBtn.js"></script>
+    <script type="module" src="../common/components/featureToggle.js"></script>
     <script type="module" src="../common/components/featureBtn.js"></script>
     <script type="module" src="../common/components/dropdownEl.js"></script>
-    <script type="module" src="../common/components/offlineBtn.js"></script>
+    <script type="module" src="../common/components/offlineToggle.js"></script>
     <script type="module" src="../common/components/settingsBtn.js"></script>
     <script type="module" src="../common/components/infoPopup.js"></script>
     <script type="module" src="../common/components/categoryForm.js"></script>
@@ -22,7 +23,7 @@
   </head>
 
   <body
-    class="font-primary bg-secondary-light text-black dark:bg-secondary-dark dark:text-white"
+    class="font-primary bg-secondary-light text-black @container/main dark:bg-secondary-dark dark:text-white"
   >
     <header
       class="fixed z-50 flex w-full items-center justify-center border-b border-grey-mid bg-inherit p-8 @container"
@@ -32,8 +33,8 @@
         <text-logo class="text-xl sm:text-3xl"></text-logo>
         <!-- explicit offline button -->
         <div class="flex items-center justify-between gap-5">
-          <offline-btn toggle-id="offlineMode"></offline-btn>
-          <theme-btn toggle-id="theme"></theme-btn>
+          <offline-toggle toggle-id="offlineMode"></offline-toggle>
+          <theme-toggle toggle-id="theme"></theme-toggle>
         </div>
       </div>
     </header>
@@ -46,10 +47,13 @@
       <div
         class="z-30 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
-        <h1 class="text-xl">Categories</h1>
-        <div class="flex justify-end pr-8">
-          <h6 class="w-36 pr-5 text-end text-base">Min</h6>
-          <h6 class="w-36 pr-5 text-end text-base">Max</h6>
+        <div class="flex justify-between">
+          <h1 class="text-xl">Categories</h1>
+          <div class="flex justify-end pr-8">
+            <h6 class="w-32 text-end text-lg">Min</h6>
+            <h6 class="w-32 text-end text-lg">Max</h6>
+            <h6 class="ml-2 w-32 text-end text-lg">Audio Only</h6>
+          </div>
         </div>
         <category-el category-id="coding"></category-el>
         <category-el category-id="music"></category-el>
@@ -67,11 +71,6 @@
         class="z-10 flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Default Quality</h1>
-        <p class="pr-5 text-sm text-grey-mid">
-          If the video category is unclear, or if the extension cannot
-          communicate with the server, this setting ensures videos continue to
-          play in your preferred default quality.
-        </p>
         <category-el category-id="defaultQuality"></category-el>
       </div>
 

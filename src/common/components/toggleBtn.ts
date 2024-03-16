@@ -1,7 +1,6 @@
-import { PreferenceFeatures } from "../constants.js";
-import { getPreferences, html, setPreferences } from "../helpers.js";
+import { html } from "../helpers.js";
 
-class ToggleBtn extends HTMLElement {
+class ToggleButton extends HTMLElement {
   toggleID: string;
   generateTemplate(toggleID: string) {
     const template = document.createElement("template");
@@ -30,42 +29,20 @@ class ToggleBtn extends HTMLElement {
     return ["checked"];
   }
 
-  connectedCallback() {
-    this.setAttribute("data-element", "custom");
-
-    this.toggleID = this.getAttribute("toggle-id");
-
-    this.appendChild(
-      this.generateTemplate(this.toggleID).content.cloneNode(true)
-    );
-
-    getPreferences().then((preferences) => {
-      this.checked =
-        preferences.features[this.toggleID as keyof PreferenceFeatures];
-    });
-
-    this.addEventListener("click", () => {
-      this.checked = !this.checked;
-    });
-  }
-
   disconnectedCallback() {
     this.replaceChildren();
     this.replaceWith(this.cloneNode(true));
   }
 
-  async attributeChangedCallback(name: string) {
-    if (name === "checked") {
-      const preferences = await getPreferences();
-      preferences.features[this.toggleID as keyof PreferenceFeatures] =
-        this.checked;
-      await setPreferences(preferences);
-      const hiddenInput = this.querySelector("input");
-      if (hiddenInput) hiddenInput.checked = this.checked;
-    }
+  async connectedCallback() {
+    this.setAttribute("data-element", "custom");
+    this.toggleID = this.getAttribute("toggle-id");
+    this.appendChild(
+      this.generateTemplate(this.toggleID).content.cloneNode(true)
+    );
   }
 }
 
-customElements.define("toggle-btn", ToggleBtn);
+customElements.define("toggle-btn", ToggleButton);
 
-export default ToggleBtn;
+export default ToggleButton;
