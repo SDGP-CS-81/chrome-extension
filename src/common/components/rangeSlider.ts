@@ -8,11 +8,14 @@ class RangeSlider extends HTMLElement {
     const template = document.createElement("template");
     template.innerHTML = html`
       <div class="flex w-full items-center gap-2">
-        <p id="value-display" class="w-[4ch] text-end font-azeretmono text-lg">
+        <p
+          id="value-display"
+          class="w-10 rounded-md border border-white px-1 text-end font-azeretmono text-base"
+        >
           ${this.value + "s"}
         </p>
         <input
-          class="custom-slider w-60"
+          class="custom-slider w-40"
           type="range"
           min="0"
           max="60"

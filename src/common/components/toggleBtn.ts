@@ -8,10 +8,10 @@ class ToggleButton extends HTMLElement {
       <div class="relative flex cursor-pointer items-center ">
         <input type="checkbox" id="${toggleID}" class="peer/toggle sr-only " />
         <div
-          class="h-6 w-10 rounded-full bg-grey-mid peer-checked/toggle:bg-primary-dark @[400px]/main:h-7 @[400px]/main:w-12"
+          class="h-6 w-10 rounded-full bg-grey-mid peer-checked/toggle:bg-primary-dark @md/main:h-7 @md/main:w-12"
         ></div>
         <div
-          class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @[400px]/main:h-6 @[400px]/main:w-6"
+          class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @md/main:h-6 @md/main:w-6"
         ></div>
       </div>
     `;

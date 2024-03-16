@@ -14,7 +14,7 @@ class FeatureBtn extends HTMLElement {
         <div class="flex flex-col">
           <p class="text-base ">${this.feature.featureName}</p>
           <p
-            class="hidden text-sm text-grey-mid @[400px]/main:block dark:text-grey-low"
+            class="hidden text-sm text-grey-mid @xl/main:block dark:text-grey-low"
           >
             ${this.feature.description}
           </p>

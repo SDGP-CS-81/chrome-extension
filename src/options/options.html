@@ -80,12 +80,17 @@
       >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
-        <feature-btn toggle-id="audioOnlyBackground"></feature-btn>
+
         <div
-          class="flex flex-col px-1 @2xl/main:flex-row @2xl/main:items-center @2xl/main:justify-between"
+          class="flex w-full flex-col rounded-lg border border-grey-low bg-secondary-light pb-3 dark:border-grey-high dark:bg-grey-high"
         >
-          <h5 class="w-max text-base">Disable video in background after</h5>
-          <range-slider range-id="audioOnlyBackgroundTimeout"></range-slider>
+          <feature-btn toggle-id="audioOnlyBackground"></feature-btn>
+          <div
+            class="flex w-full flex-col rounded-lg border border-grey-low bg-secondary-light px-[18px] @2xl/main:flex-row @2xl/main:items-start @2xl/main:justify-between @[400px]/features:px-[22px] dark:border-grey-high dark:bg-grey-high"
+          >
+            <h5 class="text-base">Background Mode Delay</h5>
+            <range-slider range-id="audioOnlyBackgroundTimeout"></range-slider>
+          </div>
         </div>
       </div>
 
