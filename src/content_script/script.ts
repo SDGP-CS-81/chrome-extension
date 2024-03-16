@@ -1,17 +1,51 @@
 (async () => {
   // import additional scripts
   const helpers = await import(chrome.runtime.getURL("../common/helpers.js"));
+  const htmlParsers = await import(
+    chrome.runtime.getURL("../common/htmlParsers.js")
+  );
 
   // a variable to track the original video
   // blob url and the audio url
   let originalSrc: string = null;
   let audioSrc: string = null;
+
+  // variables to store the timeouts and handlers
+  // for the bg tab feature
   let inBgTimeout: number = null;
   let inBgListenerHandle: number = null;
   let outBgListenerHandler: number = null;
   let categoryAudioOnly: boolean = false;
 
   const outBgTimeout: number = 5;
+
+  // variable to store the channel name and id
+  let channelName: string = null;
+  let channelId: string = null;
+
+  const extractChannelInfo = () => {
+    let channelInfo;
+
+    if (document.location.href.includes("@")) {
+      channelInfo = htmlParsers.getChannelIDAndNameChannelPage();
+    } else if (document.location.href.includes("/watch?v=")) {
+      channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
+    }
+
+    channelId = channelInfo["channelId"];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    channelName = channelInfo["channelName"];
+  };
+
+  // receive message from popup
+  chrome.runtime.onMessage.addListener((message, _, responseCb) => {
+    if (message["type"] == "MSG_POPUP_TAB_GET_CHANNEL") {
+      if (!(channelName && channelId)) {
+        extractChannelInfo();
+      }
+
+      responseCb({ channelId, channelName });
+    }
+  });
 
   const storeOriginalSrcUrl = () => {
     const videoElement = document.querySelector("video");
@@ -178,7 +212,6 @@
     if (categoryAudioOnly) setVideoUrl(audioSrc);
 
     // perhaps reassign a null varaible "qualityToSet" and check in observer
-
     new MutationObserver((_, observer) => {
       if (!document.contains(document.querySelector(".ytp-settings-button")))
         return;
@@ -242,6 +275,7 @@
 
   document.addEventListener("yt-navigate-finish", () => {
     if (location.pathname != "/watch") return;
+
     chrome.runtime.onMessage.addListener(audioOnlyListener);
     runOnUrlChange();
   });

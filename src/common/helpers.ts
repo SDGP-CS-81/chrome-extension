@@ -234,3 +234,50 @@ export type ImageScores = {
 };
 export type FrameScores = { [key: string]: number };
 export type TextScores = { [key: string]: number };
+
+export const postChannelInfo = async (channelId: string, category: string) => {
+  console.log(`About to send, ${channelId}, ${category}`);
+  try {
+    const response = await fetch(`${apiURL}/api/channel/vote-category/${channelId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ channelId, category }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log("Data sent successfully:", data);
+  } catch (error) {
+    console.error("Error sending data to backend:", error);
+  }
+};
+
+export const getMostVotedCategory = async (channelId: string) => {
+  console.log(`About to fetch most voted category for channel ${channelId}`);
+
+  try {
+    const response = await fetch(`${apiURL}/api/channel/vote-category/${channelId}`);
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log("Most voted category received successfully:", data);
+
+    console.log("most vote category", data.mostVotedCategory)
+    return data.mostVotedCategory;
+
+  } catch (error) {
+    console.error("Error fetching most voted category:", error);
+    return null;
+    
+  }
+};
+
+
