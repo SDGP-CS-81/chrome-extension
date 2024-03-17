@@ -9,6 +9,7 @@ class AudioToggle extends ToggleButton {
     this.checked = preferences.categories[this.toggleID].audioOnly;
 
     this.addEventListener("click", () => {
+      console.log(`AudioToggle: Toggled, new state: ${!this.checked}`);
       this.checked = !this.checked;
     });
   }

@@ -34,6 +34,7 @@ class SettingsBtn extends HTMLElement {
   }
 
   defaultClickHandler() {
+    console.log(`SettingsBtn: Opening options page`);
     chrome.runtime.openOptionsPage();
   }
 }

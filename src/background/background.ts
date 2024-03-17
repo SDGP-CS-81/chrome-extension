@@ -2,6 +2,8 @@ const removeURLParameters = (url: string, parameters: string[]) => {
   const urlParts = url.split("?");
   if (urlParts.length < 2) return;
 
+  console.log(`BG: Cleaning parameters from url`);
+
   const currentParameters = urlParts[1].split(/[&;]/g);
   const encodedParameters = parameters.map(
     (para) => `${encodeURIComponent(para)}=`
@@ -15,16 +17,25 @@ const removeURLParameters = (url: string, parameters: string[]) => {
 
 const processRequest = (details: chrome.webRequest.WebRequestBodyDetails) => {
   const { url, tabId } = details;
+  console.log(`BG: Processing request, url: ${url}, tabId: ${tabId}`);
 
   // handle live audio streams
-  if (url.includes("live=1")) return;
+  if (url.includes("live=1")) {
+    console.log(`BG: Live video detected, skipping.`);
+    return;
+  }
 
   // remove specific parameters from audio URLs
   const parametersToBeRemoved = ["range", "rn", "rbuf", "ump"];
   const audioURL = removeURLParameters(url, parametersToBeRemoved);
+  console.log(`BG: Cleaned audio url, url: ${audioURL}`);
 
   if (audioURL) {
-    chrome.tabs.sendMessage(tabId, { url: audioURL });
+    console.log(`BG: Sending message, tab: ${tabId}, url: ${audioURL}`);
+    chrome.tabs.sendMessage(tabId, {
+      type: "MSG_BG_TAB_AUDIOURL",
+      url: audioURL,
+    });
   }
 };
 
