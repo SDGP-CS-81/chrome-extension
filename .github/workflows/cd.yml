@@ -1,0 +1,29 @@
+name: Deployment
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    name: Publish To Chrome Webstore
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: npm run build
+
+      - name: Zip Output Directory
+        run: zip -r dist.zip dist
+
+      - name: Upload & release
+        uses: mnao305/chrome-extension-upload@v5.0.0
+        with:
+          file-path: dist.zip
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
+          client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
