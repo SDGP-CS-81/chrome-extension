@@ -9,15 +9,15 @@ class CategoryEl extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex items-center @[400px]/dropdown:h-20">
+      <div class="flex items-center @md/dropdown:h-20">
         <div
           id="dropdown"
-          class="relative flex h-14 w-full flex-col justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] text-left text-base shadow-sm @[400px]/dropdown:h-16 @[400px]/dropdown:flex-row @[400px]/dropdown:items-center dark:border-grey-high dark:bg-grey-high"
+          class="relative flex h-16 w-full flex-col justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] py-1.5 text-left text-base shadow-sm @md/dropdown:flex-row @md/dropdown:items-center @md/dropdown:justify-between dark:border-grey-high dark:bg-grey-high"
         >
           <p>${this.categoryName}</p>
 
           <div
-            class="flex w-full items-center justify-between gap-x-8 @[400px]/dropdown:w-auto @[400px]/dropdown:justify-normal"
+            class="flex w-full items-center justify-between @md/dropdown:w-auto @md/dropdown:justify-normal @md/dropdown:gap-x-8"
           >
             <dropdown-el
               ${this.categoryId === "defaultQuality" ? "hidden" : ""}
