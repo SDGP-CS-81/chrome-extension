@@ -266,20 +266,19 @@
     console.log(`ContentScript/runOnUrlChange: Url change detected`);
     const currentVideoID = location.href.split("v=")[1].split("&")[0];
     const videoScores = await helpers.getVideoScores(currentVideoID);
-    const qualityToSet = await helpers.calcOptimumQuality(videoScores);
-    console.log(`ContentScript/runOnUrlChange: qualityToSet: ${qualityToSet}`);
+    const { optimumCategoryId, optimumQuality } =
+      await helpers.calcOptimumQuality(videoScores);
+    console.log(
+      `ContentScript/runOnUrlChange: qualityToSet: ${optimumQuality}`
+    );
 
-    // try to find a way to avoid doing this again
-    // it's already called in the calcOptimumQuality
-    // function
-    const selectedCategory = await helpers.selectOptimumCategory(videoScores);
     categoryAudioOnly = (await helpers.getPreferences())["categories"][
-      selectedCategory
+      optimumCategoryId
     ]["audioOnly"];
 
     if (categoryAudioOnly) {
       console.log(
-        `ContentScript/runOnUrlChange: Category is set to audio only`
+        `ContentScript/runOnUrlChange: Category ${optimumCategoryId} is set to audio only`
       );
       storeOriginalSrcUrl();
       setVideoUrl(audioSrc);
@@ -294,7 +293,7 @@
       observer.disconnect();
 
       setTimeout(() => {
-        setQuality(qualityToSet);
+        setQuality(optimumQuality);
       }, 100);
     }).observe(document.body, observerConfig);
   };
