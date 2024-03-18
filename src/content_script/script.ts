@@ -372,6 +372,30 @@
     const availableQualities = document.querySelectorAll(
       ".ytp-quality-menu .ytp-menuitem-label"
     ) as NodeListOf<HTMLElement>;
+
+    const parsedQualities = Array.from(availableQualities).map((item) =>
+      parseInt(item.innerText.match(/(\d+)/)[0])
+    );
+
+    const parsedToSetQuality = parseInt(quality);
+
+    // if the chosen quality is not found in the dropdown then select the closest one
+    if (!parsedQualities.includes(parsedToSetQuality)) {
+      console.log(
+        `ContentScript/setQuality: Requested quality not found, using closest quality`
+      );
+      quality = parsedQualities
+        .find((item) => item > parsedToSetQuality)
+        .toString();
+
+      if (quality === undefined) {
+        quality = parsedQualities
+          .findLast((item) => item < parsedToSetQuality)
+          .toString();
+      }
+      console.log(`ContentScript/setQuality: Closest quality is ${quality}`);
+    }
+
     let hasQualityBeenSet = false;
     for (const qualityElement of Array.from(availableQualities)) {
       // check if quality is in innertext ex: "1080p" in "1080p HD"
