@@ -1,59 +1,79 @@
 import { getPreferences } from "../common/helpers.js";
 
 // send a message to content script
-(async () => {
-  chrome.tabs.query(
-    {
-      currentWindow: true,
-      active: true,
-      url: "*://*.youtube.com/*",
-    },
-    (tabs) => {
-      const activeTab = tabs[0];
+chrome.tabs.query(
+  {
+    currentWindow: true,
+    active: true,
+    url: "*://*.youtube.com/*",
+  },
+  (tabs) => {
+    const activeTab = tabs[0];
 
-      if (activeTab) {
-        console.log(
-          `Popup: Active YT tab found, requesting channel information`
-        );
+    if (activeTab) {
+      console.log(
+        `Popup: Active YT tab found, requesting channel and category information`
+      );
 
-        chrome.tabs.sendMessage(
-          activeTab.id,
-          {
-            type: "MSG_POPUP_TAB_GET_CHANNEL",
-          },
-          async (response) => {
+      // message to get channel information
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        {
+          type: "MSG_POPUP_TAB_GET_CHANNEL",
+        },
+        async (response) => {
+          if (response) {
             const { channelId, channelName } = response;
-            console.log(`Popup: Received response from content script`);
+            console.log(`Popup: Received channel response from content script`);
             console.log(
               `Popup: channelId: ${channelId}, channelName: ${channelName}`
             );
 
-            // get current selected category
-            const preferences = await getPreferences();
+            if (channelId && channelName) {
+              // get current selected category
+              const preferences = await getPreferences();
 
-            const channelDropdownContainer = document.querySelector(
-              ".channel-dropdown-popup"
-            );
-            const newChannelEl = document.createElement("category-dropdown");
-            // pass current selected category as an attribute
-            newChannelEl.setAttribute(
-              "channel-category-id",
-              preferences.channelPreferences[channelName]
-            );
-            newChannelEl.setAttribute("channel-name", channelName);
-            newChannelEl.setAttribute("channel-id", channelId);
-            channelDropdownContainer.appendChild(newChannelEl);
+              const channelDropdownContainer = document.querySelector(
+                ".channel-dropdown-popup"
+              );
+              const newChannelEl = document.createElement("category-dropdown");
+              // pass current selected category as an attribute
+              newChannelEl.setAttribute(
+                "channel-category-id",
+                preferences.channelPreferences[channelName]
+              );
+              newChannelEl.setAttribute("channel-name", channelName);
+              newChannelEl.setAttribute("channel-id", channelId);
+              channelDropdownContainer.appendChild(newChannelEl);
+            }
           }
-        );
-      }
-    }
-  );
+        }
+      );
 
-  // on document load, grab the current video category
-  // then host its dropdown element into the html document
-  console.log(`Popup: Get and display current category`);
-  const dropdownContainer = document.querySelector(".dropdown-popup");
-  const newCategoryEl = document.createElement("category-el");
-  newCategoryEl.setAttribute("category-id", "");
-  dropdownContainer.appendChild(newCategoryEl);
-})();
+      // on document load, grab the current video category
+      // then host its dropdown element into the html document
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        { type: "MSG_POPUP_TAB_GET_CATEGORY" },
+        (response) => {
+          if (response) {
+            console.log(
+              `Popup: Received category response from content script`
+            );
+
+            const categoryId = response.categoryId;
+            console.log(`Popup: categoryId: ${categoryId}`);
+
+            if (categoryId) {
+              const dropdownContainer =
+                document.querySelector(".dropdown-popup");
+              const newCategoryEl = document.createElement("category-el");
+              newCategoryEl.setAttribute("category-id", categoryId);
+              dropdownContainer.appendChild(newCategoryEl);
+            }
+          }
+        }
+      );
+    }
+  }
+);

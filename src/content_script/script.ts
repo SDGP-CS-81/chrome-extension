@@ -24,6 +24,9 @@
   let channelName: string = null;
   let channelId: string = null;
 
+  // variables to store category id
+  let categoryId: string = null;
+
   const extractChannelInfo = () => {
     console.log(`ContentScript/extractChannelInfo: Parsing channel info`);
     let channelInfo;
@@ -41,7 +44,11 @@
   };
 
   // receive message from popup
-  chrome.runtime.onMessage.addListener((message, _, responseCb) => {
+  const popupMessageListener = (
+    message: { [key: string]: string },
+    sender: chrome.runtime.MessageSender,
+    responseCb: (response?: { [key: string]: string }) => void
+  ) => {
     console.log(`ContentScript/PopupMessageListener: Message received`);
     console.log(
       `ContentScript/PopupMessageListener: Message type: ${message["type"]}`
@@ -55,10 +62,25 @@
         extractChannelInfo();
       }
 
-      console.log(`ContentScript/PopupMessageListener: Sending response`);
+      console.log(
+        `ContentScript/PopupMessageListener: Sending channel response`
+      );
       responseCb({ channelId, channelName });
     }
-  });
+
+    if (message["type"] == "MSG_POPUP_TAB_GET_CATEGORY") {
+      if (!categoryId) {
+        console.log(
+          `ContentScript/PopupMessageListener: Category not found yet`
+        );
+      }
+
+      console.log(
+        `ContentScript/PopupMessageListener: Sending category response`
+      );
+      responseCb({ categoryId });
+    }
+  };
 
   const storeOriginalSrcUrl = () => {
     console.log(`ContentScript/storeOriginalSrcUrl: Storing video src url`);
@@ -75,6 +97,7 @@
 
   const setVideoUrl = (url: string) => {
     console.log(`ContentScript/setVideoUrl: Trying to set video url`);
+    console.log(`ContentScript/setVideoUrl: Url: ${url}`);
     if (url) {
       const videoElement = document.querySelector("video");
       const currentTime = videoElement.currentTime;
@@ -272,6 +295,8 @@
       `ContentScript/runOnUrlChange: qualityToSet: ${optimumQuality}`
     );
 
+    categoryId = optimumCategoryId;
+
     categoryAudioOnly = (await helpers.getPreferences())["categories"][
       optimumCategoryId
     ]["audioOnly"];
@@ -371,6 +396,7 @@
 
     console.log(`ContentScript/NavigationFinishListener: Adding listeners`);
     chrome.runtime.onMessage.addListener(audioOnlyListener);
+    chrome.runtime.onMessage.addListener(popupMessageListener);
     runOnUrlChange();
   });
 
