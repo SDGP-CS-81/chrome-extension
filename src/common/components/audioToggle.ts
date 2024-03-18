@@ -1,7 +1,34 @@
-import { getPreferences, setPreferences } from "../helpers.js";
+import { getPreferences, html, setPreferences } from "../helpers.js";
 import ToggleButton from "./toggleBtn.js";
 
 class AudioToggle extends ToggleButton {
+  generateTemplate(toggleID: string) {
+    const template = document.createElement("template");
+    template.innerHTML = html`
+      <div class="flex items-center pr-6 @md/dropdown:pr-0">
+        <p
+          class="mr-3 text-nowrap font-dmsans text-sm text-grey-low @md/dropdown:hidden"
+        >
+          Audio Only
+        </p>
+        <div class="relative flex cursor-pointer items-center ">
+          <input
+            type="checkbox"
+            id="${toggleID}"
+            class="peer/toggle sr-only "
+          />
+          <div
+            class="h-6 w-10 rounded-full bg-grey-mid peer-checked/toggle:bg-primary-dark @md/main:h-7 @md/main:w-12"
+          ></div>
+          <div
+            class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-all duration-300 ease-out peer-checked/toggle:translate-x-[82%] @md/main:h-6 @md/main:w-6"
+          ></div>
+        </div>
+      </div>
+    `;
+    return template;
+  }
+
   async connectedCallback() {
     await super.connectedCallback();
 

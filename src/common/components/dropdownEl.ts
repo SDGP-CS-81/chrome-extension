@@ -34,17 +34,24 @@ class DropdownEl extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div id="dropdown" class="relative font-azeretmono">
+      <div id="dropdown" class="relative flex items-center font-azeretmono">
+        <p class="mr-1 font-dmsans text-sm text-grey-low @md/dropdown:hidden">
+          ${this.type}
+        </p>
+
         <!-- Button to trigger the dropdown -->
         <button
           type="button"
-          class="flex w-24 items-center justify-end"
+          class="flex w-[72px] items-center justify-end @md/dropdown:w-24"
           id="dropdown-button"
           aria-expanded="false"
           aria-haspopup="true"
         >
           <!-- Selected quality and dropdown icon -->
-          <p id="quality-text" class="mr-2">
+          <p
+            id="quality-text"
+            class="mr-px text-sm @md/dropdown:mr-2 @md/dropdown:text-base"
+          >
             ${this.currentSelectedQuality
               ? `${this.currentSelectedQuality}p`
               : ""}
@@ -55,7 +62,7 @@ class DropdownEl extends HTMLElement {
         <!-- Dropdown menu -->
         <div
           id="dropdown-item-container"
-          class="custom-scroll absolute right-0 top-12 z-50 hidden h-60 w-48 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block dark:bg-grey-high"
+          class="custom-scroll absolute right-0 top-8 z-50 hidden h-60 w-24 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block @md/dropdown:w-48 dark:bg-grey-high"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"

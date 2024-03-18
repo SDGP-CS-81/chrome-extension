@@ -8,6 +8,7 @@
 
     <script type="module" src="popup.js"></script>
     <script type="module" src="../svg.js"></script>
+    <script type="module" src="../common/components/audioToggle.js"></script>
     <script type="module" src="../common/components/textLogo.js"></script>
     <script type="module" src="../common/components/toggleBtn.js"></script>
     <script type="module" src="../common/components/dropdownEl.js"></script>
@@ -39,7 +40,7 @@
       </div>
 
       <div class="flex flex-col gap-4 p-5">
-        <div class="dropdown-popup flex flex-col">
+        <div class="dropdown-popup flex flex-col @container/dropdown">
           <h6 for="current-category" class="mb-3 text-base font-medium">
             Current Category
           </h6>
@@ -55,7 +56,9 @@
 
         <div>
           <h6 class="mb-3 text-base font-medium">Preferences</h6>
-          <div class="flex flex-col gap-y-3 @container/features">
+          <div
+            class="flex flex-col gap-y-3 @container-normal @container/features"
+          >
             <feature-btn toggle-id="audioOnly"></feature-btn>
             <feature-btn toggle-id="audioOnlyBackground"></feature-btn>
           </div>

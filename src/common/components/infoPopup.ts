@@ -6,7 +6,7 @@ class InfoPopup extends HTMLElement {
   generateTemplate(category: Category) {
     const template = document.createElement("template");
     template.innerHTML = html` <div
-      class="relative ml-2 hidden items-center @[400px]/dropdown:block"
+      class="relative ml-2 hidden items-center @md/dropdown:block"
     >
       <svg
         id="dropdown-info-icon"
