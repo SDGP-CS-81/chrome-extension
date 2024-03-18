@@ -34,7 +34,7 @@ class DropdownEl extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div id="dropdown" class="font-azeretmono relative">
+      <div id="dropdown" class="relative font-azeretmono">
         <!-- Button to trigger the dropdown -->
         <button
           type="button"
@@ -113,6 +113,8 @@ class DropdownEl extends HTMLElement {
       const target = event.target as HTMLElement;
       const selectedQuality = target.getAttribute("data-quality");
 
+      console.log(`DropdownEl: Quality selected, quality: ${selectedQuality}`);
+
       const preferences = await getPreferences();
       const category = preferences.categories[this.categoryId];
 
@@ -122,8 +124,12 @@ class DropdownEl extends HTMLElement {
           parseInt(selectedQuality) < parseInt(category["min"])) ||
         (this.type === "min" &&
           parseInt(selectedQuality) > parseInt(category["max"]))
-      )
+      ) {
+        console.error(
+          `DropdownEl: Quality range rule (min <= x <= max) broken`
+        );
         return;
+      }
 
       preferences.categories[this.categoryId][this.type] = selectedQuality;
       await setPreferences(preferences);

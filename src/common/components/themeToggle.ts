@@ -23,6 +23,9 @@ class ThemeToggle extends ToggleButton {
     ] as boolean;
 
     this.addEventListener("click", () => {
+      console.log(
+        `ThemeToggle: Theme changed, theme: ${this.checked ? "Dark" : "Light"}`
+      );
       this.checked = !this.checked;
     });
   }

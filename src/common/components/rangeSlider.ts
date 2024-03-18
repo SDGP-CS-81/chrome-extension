@@ -43,6 +43,8 @@ class RangeSlider extends HTMLElement {
     const rangeInput = e.target as HTMLInputElement;
     this.value = parseInt(rangeInput.value);
 
+    console.log(`RangeSlider: Value changed, value: ${this.value}`);
+
     const valueDisplay = this.querySelector("#value-display");
     valueDisplay.innerHTML = rangeInput.value + "s";
 

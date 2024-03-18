@@ -12,6 +12,10 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
       const activeTab = tabs[0];
 
       if (activeTab) {
+        console.log(
+          `Popup: Active YT tab found, requesting channel information`
+        );
+
         chrome.tabs.sendMessage(
           activeTab.id,
           {
@@ -19,6 +23,10 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
           },
           async (response) => {
             const { channelId, channelName } = response;
+            console.log(`Popup: Received response from content script`);
+            console.log(
+              `Popup: channelId: ${channelId}, channelName: ${channelName}`
+            );
 
             // get current selected category
             const preferences = await getPreferences();
@@ -43,6 +51,7 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
 
   // on document load, grab the current video category
   // then host its dropdown element into the html document
+  console.log(`Popup: Get and display current category`);
   const currentVideoCategory = await getCurrentVideoCategory();
 
   const dropdownContainer = document.querySelector(".dropdown-popup");
