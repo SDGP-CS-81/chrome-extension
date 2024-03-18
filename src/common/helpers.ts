@@ -139,7 +139,6 @@ export const selectOptimumCategory = async (
   );
 
   let confidentCategoryId = "defaultQuality";
-  await setCurrentVideoCategory(confidentCategoryId);
 
   if (!videoScores) {
     console.error(`Helpers/selectOptimumCategory: Video scores not found`);
@@ -218,7 +217,6 @@ export const selectOptimumCategory = async (
     );
     // optimumQuality = preferences.categories[confidentCategory[0]];
     confidentCategoryId = confidentCategory[0];
-    setCurrentVideoCategory(confidentCategoryId);
   }
 
   console.log(
@@ -278,25 +276,6 @@ const selectOptimumQuality = async (
     `Helpers/selectOptimumQuality: Quality chosen, quality: ${chosenQuality}`
   );
   return chosenQuality;
-};
-
-export const setCurrentVideoCategory = async (currentVideoCategory: string) => {
-  console.log(`Helpers/setCurrentVideoCategory: Saving current video category`);
-  console.log(currentVideoCategory);
-  await chrome.storage.local.set({
-    currentVideoCategory: currentVideoCategory,
-  });
-};
-
-export const getCurrentVideoCategory = async () => {
-  const obj = await chrome.storage.local.get({
-    currentVideoCategory: Object.keys(categories).pop(),
-  });
-  console.log(
-    `Helpers/setCurrentVideoCategory: Getting current video category`
-  );
-  console.log(obj);
-  return obj.currentVideoCategory;
 };
 
 export const setTheme = async (theme: boolean | null) => {

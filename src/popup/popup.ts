@@ -1,4 +1,4 @@
-import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
+import { getPreferences } from "../common/helpers.js";
 
 // send a message to content script
 (async () => {
@@ -52,10 +52,8 @@ import { getCurrentVideoCategory, getPreferences } from "../common/helpers.js";
   // on document load, grab the current video category
   // then host its dropdown element into the html document
   console.log(`Popup: Get and display current category`);
-  const currentVideoCategory = await getCurrentVideoCategory();
-
   const dropdownContainer = document.querySelector(".dropdown-popup");
   const newCategoryEl = document.createElement("category-el");
-  newCategoryEl.setAttribute("category-id", currentVideoCategory);
+  newCategoryEl.setAttribute("category-id", "");
   dropdownContainer.appendChild(newCategoryEl);
 })();
