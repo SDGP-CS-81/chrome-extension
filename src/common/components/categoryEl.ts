@@ -12,12 +12,16 @@ class CategoryEl extends HTMLElement {
       <div class="flex items-center @md/dropdown:h-20">
         <div
           id="dropdown"
-          class="relative flex h-16 w-full flex-col justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] py-1.5 text-left text-base shadow-sm @md/dropdown:flex-row @md/dropdown:items-center @md/dropdown:justify-between dark:border-grey-high dark:bg-grey-high"
+          class="relative flex h-24 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-2.5 py-1.5 text-left text-base shadow-sm @md/dropdown:h-16 @md/dropdown:px-[18px] dark:border-grey-high dark:bg-grey-high"
         >
-          <p>${this.categoryName}</p>
+          <p
+            class="grid h-full text-xl @md/dropdown:place-items-center @md/dropdown:text-base"
+          >
+            ${this.categoryName}
+          </p>
 
           <div
-            class="flex w-full items-center justify-between @md/dropdown:w-auto @md/dropdown:justify-normal @md/dropdown:gap-x-8"
+            class="flex h-full flex-col items-end justify-end gap-y-1.5 @md/dropdown:flex-row @md/dropdown:items-center @md/dropdown:justify-normal @md/dropdown:gap-x-4"
           >
             <dropdown-el
               ${this.categoryId === "defaultQuality" ? "hidden" : ""}

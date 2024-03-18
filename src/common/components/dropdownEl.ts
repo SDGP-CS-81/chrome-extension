@@ -34,11 +34,14 @@ class DropdownEl extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div id="dropdown" class="relative font-azeretmono">
+      <div id="dropdown" class="relative flex items-center font-azeretmono">
+        <p class="mr-1 font-dmsans text-sm text-grey-low @md/dropdown:hidden">
+          ${this.type}
+        </p>
         <!-- Button to trigger the dropdown -->
         <button
           type="button"
-          class="flex w-20 items-center justify-end"
+          class="flex w-[72px] items-center justify-end @md/dropdown:w-24"
           id="dropdown-button"
           aria-expanded="false"
           aria-haspopup="true"
