@@ -24,24 +24,39 @@
   let channelName: string = null;
   let channelId: string = null;
 
+  // variables to store category id
+  let categoryId: string = null;
+
   const extractChannelInfo = () => {
     console.log(`ContentScript/extractChannelInfo: Parsing channel info`);
     let channelInfo;
 
-    if (document.location.href.includes("@")) {
-      console.log(`ContentScript/extractChannelInfo: Channel page detected`);
-      channelInfo = htmlParsers.getChannelIDAndNameChannelPage();
-    } else if (document.location.href.includes("/watch?v=")) {
-      console.log(`ContentScript/extractChannelInfo: Video page detected`);
-      channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
-    }
+    try {
+      if (document.location.href.includes("@")) {
+        console.log(`ContentScript/extractChannelInfo: Channel page detected`);
+        channelInfo = htmlParsers.getChannelIDAndNameChannelPage();
+      } else if (document.location.href.includes("/watch?v=")) {
+        console.log(`ContentScript/extractChannelInfo: Video page detected`);
+        channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
+      }
 
-    channelId = channelInfo["channelId"];
-    channelName = channelInfo["channelName"];
+      channelId = channelInfo["channelId"];
+      channelName = channelInfo["channelName"];
+    } catch (error) {
+      console.error(
+        `ContentScript/extractChannelInfo: Error detected, trying again`
+      );
+      console.error(error);
+      setTimeout(extractChannelInfo, 500);
+    }
   };
 
   // receive message from popup
-  chrome.runtime.onMessage.addListener((message, _, responseCb) => {
+  const popupMessageListener = (
+    message: { [key: string]: string },
+    sender: chrome.runtime.MessageSender,
+    responseCb: (response?: { [key: string]: string }) => void
+  ) => {
     console.log(`ContentScript/PopupMessageListener: Message received`);
     console.log(
       `ContentScript/PopupMessageListener: Message type: ${message["type"]}`
@@ -52,13 +67,27 @@
         console.log(
           `ContentScript/PopupMessageListener: Channel name and ID not found, extracting`
         );
-        extractChannelInfo();
       }
 
-      console.log(`ContentScript/PopupMessageListener: Sending response`);
+      console.log(
+        `ContentScript/PopupMessageListener: Sending channel response`
+      );
       responseCb({ channelId, channelName });
     }
-  });
+
+    if (message["type"] == "MSG_POPUP_TAB_GET_CATEGORY") {
+      if (!categoryId) {
+        console.log(
+          `ContentScript/PopupMessageListener: Category not found yet`
+        );
+      }
+
+      console.log(
+        `ContentScript/PopupMessageListener: Sending category response`
+      );
+      responseCb({ categoryId });
+    }
+  };
 
   const storeOriginalSrcUrl = () => {
     console.log(`ContentScript/storeOriginalSrcUrl: Storing video src url`);
@@ -75,6 +104,7 @@
 
   const setVideoUrl = (url: string) => {
     console.log(`ContentScript/setVideoUrl: Trying to set video url`);
+    console.log(`ContentScript/setVideoUrl: Url: ${url}`);
     if (url) {
       const videoElement = document.querySelector("video");
       const currentTime = videoElement.currentTime;
@@ -266,20 +296,21 @@
     console.log(`ContentScript/runOnUrlChange: Url change detected`);
     const currentVideoID = location.href.split("v=")[1].split("&")[0];
     const videoScores = await helpers.getVideoScores(currentVideoID);
-    const qualityToSet = await helpers.calcOptimumQuality(videoScores);
-    console.log(`ContentScript/runOnUrlChange: qualityToSet: ${qualityToSet}`);
+    const { optimumCategoryId, optimumQuality } =
+      await helpers.calcOptimumQuality(videoScores);
+    console.log(
+      `ContentScript/runOnUrlChange: qualityToSet: ${optimumQuality}`
+    );
 
-    // try to find a way to avoid doing this again
-    // it's already called in the calcOptimumQuality
-    // function
-    const selectedCategory = await helpers.selectOptimumCategory(videoScores);
+    categoryId = optimumCategoryId;
+
     categoryAudioOnly = (await helpers.getPreferences())["categories"][
-      selectedCategory
+      optimumCategoryId
     ]["audioOnly"];
 
     if (categoryAudioOnly) {
       console.log(
-        `ContentScript/runOnUrlChange: Category is set to audio only`
+        `ContentScript/runOnUrlChange: Category ${optimumCategoryId} is set to audio only`
       );
       storeOriginalSrcUrl();
       setVideoUrl(audioSrc);
@@ -294,7 +325,7 @@
       observer.disconnect();
 
       setTimeout(() => {
-        setQuality(qualityToSet);
+        setQuality(optimumQuality);
       }, 100);
     }).observe(document.body, observerConfig);
   };
@@ -371,7 +402,9 @@
     if (location.pathname != "/watch") return;
 
     console.log(`ContentScript/NavigationFinishListener: Adding listeners`);
+    setTimeout(extractChannelInfo, 200);
     chrome.runtime.onMessage.addListener(audioOnlyListener);
+    chrome.runtime.onMessage.addListener(popupMessageListener);
     runOnUrlChange();
   });
 
