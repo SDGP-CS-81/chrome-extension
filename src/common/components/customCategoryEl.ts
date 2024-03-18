@@ -1,9 +1,8 @@
-import { categories } from "../constants.js";
 import { html } from "../helpers.js";
+import CategoryEl from "./categoryEl.js";
 
-class CategoryEl extends HTMLElement {
+class CustomCategoryEl extends CategoryEl {
   categoryId: string;
-  categoryName: string;
   currentSelectedQuality: string;
 
   generateTemplate() {
@@ -17,45 +16,35 @@ class CategoryEl extends HTMLElement {
           <p
             class="grid h-full text-xl @md/dropdown:place-items-center @md/dropdown:text-base"
           >
-            ${this.categoryName}
+            ${this.categoryId}
           </p>
 
           <div
             class="flex h-full flex-col items-end justify-end gap-y-1.5 @md/dropdown:flex-row @md/dropdown:items-center @md/dropdown:justify-normal @md/dropdown:gap-x-4"
           >
-            <dropdown-el
-              ${this.categoryId === "defaultQuality" ? "hidden" : ""}
+            <custom-category-dropdown
               category-id="${this.categoryId}"
               type="min"
-            ></dropdown-el>
-            <dropdown-el
+            ></custom-category-dropdown>
+            <custom-category-dropdown
               category-id="${this.categoryId}"
               type="max"
-            ></dropdown-el>
+            ></custom-category-dropdown>
             <div class="flex w-20 items-center justify-end">
-              <audio-toggle toggle-id="${this.categoryId}"></audio-toggle>
+              <custom-audio-toggle
+                toggle-id="${this.categoryId}"
+              ></custom-audio-toggle>
             </div>
           </div>
         </div>
-
-        <info-popup category-id="${this.categoryId}"></info-popup>
       </div>
     `;
     return template;
   }
-
   async connectedCallback() {
     this.categoryId = this.getAttribute("category-id");
-    this.categoryName = categories[this.categoryId].categoryName;
     this.appendChild(this.generateTemplate().content.cloneNode(true));
-  }
-
-  disconnectedCallback() {
-    this.replaceChildren();
-    this.replaceWith(this.cloneNode(true));
   }
 }
 
-customElements.define("category-el", CategoryEl);
-
-export default CategoryEl;
+customElements.define("custom-category-el", CustomCategoryEl);

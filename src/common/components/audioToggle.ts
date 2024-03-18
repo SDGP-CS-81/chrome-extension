@@ -53,3 +53,5 @@ class AudioToggle extends ToggleButton {
 }
 
 customElements.define("audio-toggle", AudioToggle);
+
+export default AudioToggle;

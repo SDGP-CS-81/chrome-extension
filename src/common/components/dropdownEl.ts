@@ -176,3 +176,5 @@ class DropdownEl extends HTMLElement {
 }
 
 customElements.define("dropdown-el", DropdownEl);
+
+export default DropdownEl;

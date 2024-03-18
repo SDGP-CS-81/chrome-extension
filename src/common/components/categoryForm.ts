@@ -10,7 +10,7 @@ class CategoryKeywordForm extends HTMLElement {
     template.innerHTML = html`
       <div class="flex pb-5 pr-32">
         <h5
-          for="category-input"
+          for="custom-category-input"
           class="w-full max-w-36 border border-transparent text-base text-gray-900 dark:text-white"
         >
           Category
@@ -110,7 +110,9 @@ class CategoryKeywordForm extends HTMLElement {
           `CategoryKeywordForm: Creating category and adding keywords`
         );
         customCategories[categoryData] = {
-          quality: { min: "144", max: "144" },
+          min: "144",
+          max: "144",
+          audioOnly: false,
           keywords: keywordData,
         };
       }
@@ -138,7 +140,7 @@ class CategoryKeywordForm extends HTMLElement {
 
     const customCategories = await getCustomCategories();
     for (const categoryData in customCategories) {
-      const newRow = document.createElement("category-input");
+      const newRow = document.createElement("custom-category-input");
       newRow.setAttribute("category-id", categoryData);
       categoryKeywordsContainer.prepend(newRow);
     }

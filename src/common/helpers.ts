@@ -44,7 +44,12 @@ export const getCustomCategories = async () => {
 };
 
 export type CustomCategories = {
-  [key: string]: { quality: { min: string; max: string }; keywords: string[] };
+  [key: string]: {
+    min: string;
+    max: string;
+    audioOnly: boolean;
+    keywords: string[];
+  };
 };
 
 // doesn't really do anything

@@ -1,7 +1,7 @@
 import { html } from "../helpers.js";
 import { getCustomCategories, setCustomCategories } from "../helpers.js";
 
-class CategoryInput extends HTMLElement {
+class CustomCategoryInput extends HTMLElement {
   categoryId: string;
   categoryKeywords: string[];
 
@@ -13,6 +13,9 @@ class CategoryInput extends HTMLElement {
     const template = document.createElement("template");
     template.innerHTML = html`
       <div class="flex items-center">
+        <custom-category-el
+          category-id="${this.categoryId}"
+        ></custom-category-el>
         <div class="flex w-full gap-x-0.5">
           <div
             name="category"
@@ -28,10 +31,6 @@ class CategoryInput extends HTMLElement {
           />
         </div>
 
-        <custom-category-dropdown
-          category-id="${this.categoryId}"
-          type="max"
-        ></custom-category-dropdown>
         <button
           class="grid w-10 place-items-center rounded text-black dark:text-white"
         >
@@ -92,4 +91,4 @@ class CategoryInput extends HTMLElement {
   }
 }
 
-customElements.define("category-input", CategoryInput);
+customElements.define("custom-category-input", CustomCategoryInput);
