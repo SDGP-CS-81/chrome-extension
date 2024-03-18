@@ -58,6 +58,7 @@ class CategoryInput extends HTMLElement {
 
     const deleteButton = this.querySelector("button");
     deleteButton.addEventListener("click", async () => {
+      console.log(`CategoryInput: Removing keyword category`);
       this.remove();
       const customCategories = await getCustomCategories();
 
@@ -66,6 +67,7 @@ class CategoryInput extends HTMLElement {
     });
 
     const handleChange = async (e: Event) => {
+      console.log(`CategoryInput: Handling input`);
       const customCategories = await getCustomCategories();
       const input = e.target as HTMLInputElement;
 

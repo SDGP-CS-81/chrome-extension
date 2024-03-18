@@ -45,7 +45,6 @@ class CategoryEl extends HTMLElement {
   }
 
   async connectedCallback() {
-    // this.setAttribute("data-element", "custom");
     this.categoryId = this.getAttribute("category-id");
     this.categoryName = categories[this.categoryId].categoryName;
     this.appendChild(this.generateTemplate().content.cloneNode(true));

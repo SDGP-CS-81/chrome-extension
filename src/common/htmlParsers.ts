@@ -34,12 +34,16 @@ export const getVideoTitle = () => {
 };
 
 export const getChannelIDAndNameVideoPage = () => {
+  console.log(`HTMLParsers/getChannelIDAndNameVideoPage: Parsing web info`);
   const channelLink = document.querySelector(
     "#upload-info .yt-simple-endpoint.style-scope.yt-formatted-string"
   ) as HTMLAnchorElement;
 
   const channelId = channelLink.href.split("www.youtube.com/")[1].toLowerCase();
   const channelName = channelLink.textContent;
+  console.log(
+    `HTMLParsers/getChannelIDAndNameVideoPage: Retrieved, channelId: ${channelId}, channelName: {channelName}`
+  );
 
   return {
     channelId,
@@ -48,11 +52,15 @@ export const getChannelIDAndNameVideoPage = () => {
 };
 
 export const getChannelIDAndNameChannelPage = () => {
+  console.log(`HTMLParsers/getChannelIDAndNameChannelPage: Parsing web info`);
   const channelId =
     "@" + document.location.href.split("@")[1].split("/")[0].toLowerCase();
   const channelName = document.querySelector(
     "#channel-header-container #text"
   ).textContent;
+  console.log(
+    `HTMLParsers/getChannelIDAndNameChannelPage: Retrieved, channelId: ${channelId}, channelName: ${channelName}`
+  );
 
   return {
     channelId,

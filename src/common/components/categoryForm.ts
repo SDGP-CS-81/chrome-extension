@@ -1,6 +1,6 @@
 import { getCustomCategories, html, setCustomCategories } from "../helpers.js";
 
-class categoryKeywordForm extends HTMLElement {
+class CategoryKeywordForm extends HTMLElement {
   constructor() {
     super();
   }
@@ -75,9 +75,14 @@ class categoryKeywordForm extends HTMLElement {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      console.log(`CategoryKeywordForm: Preparing to submit categories`);
+
       const formData = new FormData(e.target as HTMLFormElement);
       const categoryData = (formData.get("category") as string).toLowerCase();
       const keywords = formData.get("keywords") as string;
+
+      console.log(`CategoryKeywordForm: New category: ${categoryData}`);
+      console.log(`CategoryKeywordForm: Keywords: ${keywords}`);
 
       if (!keywords) return;
 
@@ -90,15 +95,22 @@ class categoryKeywordForm extends HTMLElement {
 
       // If the category already exists, append the new keywords
       if (customCategories[categoryData]) {
+        console.log(
+          `CategoryKeywordForm: Category exists, appending new keywords`
+        );
         customCategories[categoryData] = [
           ...new Set([...customCategories[categoryData], ...keywordData]),
         ];
       } else {
+        console.log(
+          `CategoryKeywordForm: Creating category and adding keywords`
+        );
         customCategories[categoryData] = keywordData;
       }
 
       await setCustomCategories(customCategories);
 
+      console.log(`CategoryKeywordForm: Resetting form back to default`);
       (e.target as HTMLFormElement).reset();
       (this.querySelector('[name="keywords"]') as HTMLInputElement).disabled =
         true;
@@ -110,13 +122,15 @@ class categoryKeywordForm extends HTMLElement {
   }
 
   async loadDataFromLocalStorage() {
+    console.log(
+      `CategoryKeywordForm: Loading category keyword data from local storage`
+    );
     const categoryKeywordsContainer = this.querySelector(
       "#category-keywords-container"
     );
 
     const customCategories = await getCustomCategories();
     for (const categoryData in customCategories) {
-      // const keywordDataArray = customCategories[categoryData];
       const newRow = document.createElement("category-input");
       newRow.setAttribute("category-id", categoryData);
       categoryKeywordsContainer.prepend(newRow);
@@ -129,11 +143,4 @@ class categoryKeywordForm extends HTMLElement {
   }
 }
 
-customElements.define("category-keyword-form", categoryKeywordForm);
-
-// fix order of keyword rows
-// make the custom element refresh on update, by removing and adding it
-// fix lightmode styles
-// give the first input a slightly different look to differentiate, maybe increase spacing also
-// make header shrink on scroll
-// remove empty keywords ex- bar,,foo
+customElements.define("category-keyword-form", CategoryKeywordForm);

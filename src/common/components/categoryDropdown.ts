@@ -30,7 +30,7 @@ class CategoryDropdownEl extends HTMLElement {
   }
 
   generateTemplate() {
-    const catgeoryItemsHtml = categoriesList
+    const categoryItemsHtml = categoriesList
       .map((category) =>
         this.generateMenuItemTemplate(category, this.currentSelectedCategory)
       )
@@ -69,7 +69,7 @@ class CategoryDropdownEl extends HTMLElement {
             aria-labelledby="menu-button"
           >
             <!-- Insert category items HTML here -->
-            ${catgeoryItemsHtml}
+            ${categoryItemsHtml}
           </div>
         </div>
       </div>
@@ -86,7 +86,6 @@ class CategoryDropdownEl extends HTMLElement {
     const preferences = await getPreferences();
 
     // get current channel name
-
     // check if the channel name is already a key of preferneces.channelPreferences
     // if true, assign value of channel name to current selected category
     if (this.channelName in preferences.channelPreferences) {
@@ -134,6 +133,10 @@ class CategoryDropdownEl extends HTMLElement {
     dropdownItemContainer.addEventListener("click", async (event) => {
       const target = event.target as HTMLElement;
       const selectedCategory = target.getAttribute("data-category");
+
+      console.log(
+        `CategoryDropdownEl: Category selected, category: ${selectedCategory}`
+      );
 
       // save channel name and selected category to storage
       const preferences = await getPreferences();
