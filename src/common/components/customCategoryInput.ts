@@ -12,12 +12,10 @@ class CustomCategoryInput extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div
-        class="flex w-full items-center border-t px-2.5 dark:border-secondary-dark"
-      >
+      <div class="flex w-full items-center border-t dark:border-secondary-dark">
         <p
           name="category"
-          class="flex w-28 flex-col border-r border-grey-low bg-white p-2 dark:border-secondary-dark dark:bg-grey-high dark:shadow-stone-500"
+          class="flex w-28 flex-col border-r border-grey-low bg-white px-[18px] py-2 dark:border-secondary-dark dark:bg-grey-high dark:shadow-stone-500"
         >
           Keywords
         </p>

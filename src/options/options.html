@@ -60,13 +60,11 @@
       class="flex flex-col items-center gap-y-12 px-8 py-12 pt-40 @container/main"
     >
       <!-- wrap any setting groups into a div like this one -->
-      <div
-        class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
-      >
-        <div class="flex flex-col justify-between @md/dropdown:flex-row">
-          <h1 class="mb-2 text-xl @md/dropdown:mb-0">Categories</h1>
+      <div class="flex w-full flex-col gap-y-2 @[600px]:w-[600px]">
+        <div class="flex flex-col justify-between @md/main:flex-row">
+          <h1 class="mb-2 text-xl @md/main:mb-0">Categories</h1>
           <div
-            class="hidden items-end justify-between gap-x-4 px-[18px] pr-8 @md/dropdown:flex"
+            class="hidden items-end justify-between gap-x-4 px-[18px] pr-8 @md/main:flex"
           >
             <h6 class="w-24 text-end text-base">Min</h6>
             <h6 class="w-24 text-end text-base">Max</h6>
@@ -85,9 +83,7 @@
         <category-el category-id="demo"></category-el>
       </div>
 
-      <div
-        class="flex w-full flex-col gap-y-2 @container/dropdown @[600px]:w-[600px]"
-      >
+      <div class="flex w-full flex-col gap-y-2 @[600px]:w-[600px]">
         <h1 class="text-xl">Default Quality</h1>
         <category-el category-id="defaultQuality"></category-el>
       </div>

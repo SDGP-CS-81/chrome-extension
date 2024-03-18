@@ -4,6 +4,7 @@ import CategoryEl from "./categoryEl.js";
 class CustomCategoryEl extends CategoryEl {
   categoryId: string;
   currentSelectedQuality: string;
+  isdefaultcategory: boolean;
 
   generateTemplate() {
     const template = document.createElement("template");
@@ -25,6 +26,9 @@ class CustomCategoryEl extends CategoryEl {
             <div
               class="flex h-full flex-col items-end justify-end gap-y-1.5 @md/main:flex-row @md/main:items-center @md/main:justify-normal @md/main:gap-x-4"
             >
+              ${this.isdefaultcategory
+                ? "This category already has preferences set &#8593"
+                : `
               <custom-category-dropdown
                 category-id="${this.categoryId}"
                 type="min"
@@ -33,11 +37,13 @@ class CustomCategoryEl extends CategoryEl {
                 category-id="${this.categoryId}"
                 type="max"
               ></custom-category-dropdown>
+
               <div class="flex w-20 items-center justify-end">
                 <custom-audio-toggle
                   toggle-id="${this.categoryId}"
                 ></custom-audio-toggle>
               </div>
+              `}
             </div>
           </div>
 
@@ -67,7 +73,9 @@ class CustomCategoryEl extends CategoryEl {
   }
   async connectedCallback() {
     this.categoryId = this.getAttribute("category-id");
+    this.isdefaultcategory = this.getAttribute("isdefaultcategory") === "true";
     this.appendChild(this.generateTemplate().content.cloneNode(true));
+
     const deleteButton = this.querySelector("button");
 
     deleteButton.addEventListener("click", async () => {

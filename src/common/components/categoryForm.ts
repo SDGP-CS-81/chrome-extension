@@ -1,3 +1,4 @@
+import { categories } from "../constants.js";
 import { getCustomCategories, html, setCustomCategories } from "../helpers.js";
 
 class CategoryKeywordForm extends HTMLElement {
@@ -8,25 +9,11 @@ class CategoryKeywordForm extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex pb-5 pr-32">
-        <h5
-          for="category"
-          class="w-full max-w-36 border border-transparent text-base text-gray-900 dark:text-white"
-        >
-          Category
-        </h5>
-        <h5
-          for="keywords"
-          class="w-full border border-transparent text-base text-gray-900 dark:text-white"
-        >
-          Keywords
-        </h5>
-      </div>
       <div class="flex flex-col gap-y-6 text-base">
         <form class="flex gap-x-0.5">
           <input
             name="category"
-            class="flex w-full max-w-36 flex-col rounded-l-lg rounded-r-none bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            class="flex w-full max-w-40 flex-col rounded-l-lg rounded-r-none bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Category name"
             maxlength="15"
           />
@@ -142,6 +129,12 @@ class CategoryKeywordForm extends HTMLElement {
     for (const categoryData in customCategories) {
       const newRow = document.createElement("custom-category-el");
       newRow.setAttribute("category-id", categoryData);
+
+      Object.entries(categories).forEach(([categoryId, _category]) => {
+        if (categoryData === categoryId) {
+          newRow.setAttribute("isdefaultcategory", "true");
+        }
+      });
       categoryKeywordsContainer.prepend(newRow);
     }
   }
