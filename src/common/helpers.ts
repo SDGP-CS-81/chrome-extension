@@ -260,10 +260,10 @@ const selectOptimumQuality = async (
     `Helpers/selectOptimumQuality: Using difference score to determine quality level, diffScore: ${diffScore}`
   );
 
-  const minIndex = qualities.find(
+  const minIndex = qualities.findIndex(
     (quality) => quality === parseInt(minimumQuality)
   );
-  const maxIndex = qualities.find(
+  const maxIndex = qualities.findIndex(
     (quality) => quality === parseInt(maximumQuality)
   );
 
