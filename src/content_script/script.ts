@@ -31,16 +31,24 @@
     console.log(`ContentScript/extractChannelInfo: Parsing channel info`);
     let channelInfo;
 
-    if (document.location.href.includes("@")) {
-      console.log(`ContentScript/extractChannelInfo: Channel page detected`);
-      channelInfo = htmlParsers.getChannelIDAndNameChannelPage();
-    } else if (document.location.href.includes("/watch?v=")) {
-      console.log(`ContentScript/extractChannelInfo: Video page detected`);
-      channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
-    }
+    try {
+      if (document.location.href.includes("@")) {
+        console.log(`ContentScript/extractChannelInfo: Channel page detected`);
+        channelInfo = htmlParsers.getChannelIDAndNameChannelPage();
+      } else if (document.location.href.includes("/watch?v=")) {
+        console.log(`ContentScript/extractChannelInfo: Video page detected`);
+        channelInfo = htmlParsers.getChannelIDAndNameVideoPage();
+      }
 
-    channelId = channelInfo["channelId"];
-    channelName = channelInfo["channelName"];
+      channelId = channelInfo["channelId"];
+      channelName = channelInfo["channelName"];
+    } catch (error) {
+      console.error(
+        `ContentScript/extractChannelInfo: Error detected, trying again`
+      );
+      console.error(error);
+      setTimeout(extractChannelInfo, 500);
+    }
   };
 
   // receive message from popup
@@ -59,7 +67,6 @@
         console.log(
           `ContentScript/PopupMessageListener: Channel name and ID not found, extracting`
         );
-        extractChannelInfo();
       }
 
       console.log(
@@ -395,6 +402,7 @@
     if (location.pathname != "/watch") return;
 
     console.log(`ContentScript/NavigationFinishListener: Adding listeners`);
+    setTimeout(extractChannelInfo, 200);
     chrome.runtime.onMessage.addListener(audioOnlyListener);
     chrome.runtime.onMessage.addListener(popupMessageListener);
     runOnUrlChange();
