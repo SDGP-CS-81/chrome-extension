@@ -44,7 +44,7 @@ export const getCustomCategories = async () => {
 };
 
 export type CustomCategories = {
-  [key: string]: string[];
+  [key: string]: { quality: { min: string; max: string }; keywords: string[] };
 };
 
 // doesn't really do anything

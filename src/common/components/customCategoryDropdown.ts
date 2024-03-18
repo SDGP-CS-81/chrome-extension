@@ -1,8 +1,8 @@
 import { caretDown } from "../../svg.js";
-import { setPreferences, getPreferences, html } from "../helpers.js";
+import { getCustomCategories, html, setCustomCategories } from "../helpers.js";
 import { qualities } from "../constants.js";
 
-class DropdownEl extends HTMLElement {
+class CustomCategoryDropdown extends HTMLElement {
   categoryId: string;
   currentSelectedQuality: string;
   type: "min" | "max";
@@ -33,24 +33,20 @@ class DropdownEl extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div id="dropdown" class="relative flex items-center font-azeretmono">
-        <p class="mr-1 font-dmsans text-sm text-grey-low @md/dropdown:hidden">
-          ${this.type}
-        </p>
-
+      <div
+        id="dropdown"
+        class="relative flex items-center font-azeretmono @container-normal"
+      >
         <!-- Button to trigger the dropdown -->
         <button
           type="button"
-          class="flex w-[72px] items-center justify-end @md/dropdown:w-24"
+          class="flex w-[72px] items-center justify-end @md:w-24"
           id="dropdown-button"
           aria-expanded="false"
           aria-haspopup="true"
         >
           <!-- Selected quality and dropdown icon -->
-          <p
-            id="quality-text"
-            class="mr-px text-sm @md/dropdown:mr-2 @md/dropdown:text-base"
-          >
+          <p id="quality-text" class="mr-px text-sm @md:mr-2 @md:text-base">
             ${this.currentSelectedQuality
               ? `${this.currentSelectedQuality}p`
               : ""}
@@ -61,7 +57,7 @@ class DropdownEl extends HTMLElement {
         <!-- Dropdown menu -->
         <div
           id="dropdown-item-container"
-          class="custom-scroll absolute right-0 top-8 z-50 hidden h-60 w-24 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block @md/dropdown:w-48 dark:bg-grey-high"
+          class="custom-scroll absolute bottom-8 right-0 z-50 hidden h-60 w-24 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block @md:w-48 dark:bg-grey-high"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -78,9 +74,8 @@ class DropdownEl extends HTMLElement {
     this.setAttribute("data-element", "custom");
     this.categoryId = this.getAttribute("category-id");
     this.type = this.getAttribute("type") as typeof this.type;
-    const preferences = await getPreferences();
-    this.currentSelectedQuality =
-      preferences.categories[this.categoryId][this.type];
+    const customCategories = await getCustomCategories();
+    this.currentSelectedQuality = customCategories[this.categoryId].quality.max;
     this.appendChild(this.generateTemplate().content.cloneNode(true));
 
     this.setUpEventListeners();
@@ -120,24 +115,9 @@ class DropdownEl extends HTMLElement {
 
       console.log(`DropdownEl: Quality selected, quality: ${selectedQuality}`);
 
-      const preferences = await getPreferences();
-      const category = preferences.categories[this.categoryId];
-
-      // max cannot be greater than min, and min cannot be greater than max
-      if (
-        (this.type === "max" &&
-          parseInt(selectedQuality) < parseInt(category["min"])) ||
-        (this.type === "min" &&
-          parseInt(selectedQuality) > parseInt(category["max"]))
-      ) {
-        console.error(
-          `DropdownEl: Quality range rule (min <= x <= max) broken`
-        );
-        return;
-      }
-
-      preferences.categories[this.categoryId][this.type] = selectedQuality;
-      await setPreferences(preferences);
+      const customCategories = await getCustomCategories();
+      customCategories[this.categoryId].quality.max = selectedQuality;
+      await setCustomCategories(customCategories);
 
       // remove the 'bg-primary-dark' class from all items
       this.querySelectorAll(".dropdown-menu-item").forEach((item) => {
@@ -175,4 +155,4 @@ class DropdownEl extends HTMLElement {
   }
 }
 
-customElements.define("dropdown-el", DropdownEl);
+customElements.define("custom-category-dropdown", CustomCategoryDropdown);

@@ -12,22 +12,26 @@ class CategoryInput extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex">
+      <div class="flex items-center">
         <div class="flex w-full gap-x-0.5">
           <div
             name="category"
-            class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-gray-100 p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            class="flex w-full max-w-36 flex-col rounded-l-lg rounded-r-none bg-gray-100 p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
           >
             ${this.categoryId}
           </div>
           <input
             name="keywords"
-            class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-gray-100 p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            class="flex w-full flex-col rounded-l-none rounded-r-lg bg-gray-100 p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             value="${this.categoryKeywords.join(", ")}"
             placeholder="Add relevant keywords"
           />
         </div>
 
+        <custom-category-dropdown
+          category-id="${this.categoryId}"
+          type="max"
+        ></custom-category-dropdown>
         <button
           class="grid w-10 place-items-center rounded text-black dark:text-white"
         >
@@ -52,7 +56,7 @@ class CategoryInput extends HTMLElement {
     const customCategories = await getCustomCategories();
 
     this.categoryId = this.getAttribute("category-id");
-    this.categoryKeywords = customCategories[this.categoryId];
+    this.categoryKeywords = customCategories[this.categoryId].keywords;
 
     this.appendChild(this.generateTemplate().content.cloneNode(true));
 
@@ -71,7 +75,7 @@ class CategoryInput extends HTMLElement {
       const customCategories = await getCustomCategories();
       const input = e.target as HTMLInputElement;
 
-      customCategories[this.categoryId] = input.value
+      customCategories[this.categoryId].keywords = input.value
         .split(",")
         .map((keyword) => keyword.trim().toLowerCase());
       setCustomCategories(customCategories);
