@@ -1,3 +1,4 @@
+import { categories } from "../constants.js";
 import { getCustomCategories, html, setCustomCategories } from "../helpers.js";
 
 class CategoryKeywordForm extends HTMLElement {
@@ -8,30 +9,17 @@ class CategoryKeywordForm extends HTMLElement {
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex pb-5 pr-10">
-        <h5
-          for="category-input"
-          class="w-1/3 border border-transparent text-base text-gray-900 dark:text-white"
-        >
-          Category
-        </h5>
-        <h5
-          for="keywords-input"
-          class="w-2/3 border border-transparent text-base text-gray-900 dark:text-white"
-        >
-          Keywords
-        </h5>
-      </div>
       <div class="flex flex-col gap-y-6 text-base">
         <form class="flex gap-x-0.5">
           <input
             name="category"
-            class="flex w-1/3 flex-col rounded-l-lg rounded-r-none bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
-            placeholder="Enter category name"
+            class="flex w-full max-w-40 flex-col rounded-l-lg rounded-r-none bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            placeholder="Category name"
+            maxlength="15"
           />
           <input
             name="keywords"
-            class="flex w-2/3 flex-col rounded-l-none rounded-r-lg bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
+            class="flex w-full flex-col rounded-l-none rounded-r-lg bg-white p-4 outline outline-1 outline-grey-low disabled:opacity-70 dark:bg-grey-high dark:shadow-stone-500 dark:outline-none"
             placeholder="Add relevant keywords"
             disabled
           />
@@ -98,14 +86,22 @@ class CategoryKeywordForm extends HTMLElement {
         console.log(
           `CategoryKeywordForm: Category exists, appending new keywords`
         );
-        customCategories[categoryData] = [
-          ...new Set([...customCategories[categoryData], ...keywordData]),
+        customCategories[categoryData].keywords = [
+          ...new Set([
+            ...customCategories[categoryData].keywords,
+            ...keywordData,
+          ]),
         ];
       } else {
         console.log(
           `CategoryKeywordForm: Creating category and adding keywords`
         );
-        customCategories[categoryData] = keywordData;
+        customCategories[categoryData] = {
+          min: "144",
+          max: "144",
+          audioOnly: false,
+          keywords: keywordData,
+        };
       }
 
       await setCustomCategories(customCategories);
@@ -131,8 +127,14 @@ class CategoryKeywordForm extends HTMLElement {
 
     const customCategories = await getCustomCategories();
     for (const categoryData in customCategories) {
-      const newRow = document.createElement("category-input");
+      const newRow = document.createElement("custom-category-el");
       newRow.setAttribute("category-id", categoryData);
+
+      Object.entries(categories).forEach(([categoryId, _category]) => {
+        if (categoryData === categoryId) {
+          newRow.setAttribute("isdefaultcategory", "true");
+        }
+      });
       categoryKeywordsContainer.prepend(newRow);
     }
   }

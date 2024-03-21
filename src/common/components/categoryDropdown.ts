@@ -44,7 +44,7 @@ class CategoryDropdownEl extends HTMLElement {
           <button
             type="button"
             id="channel-dropdown-button"
-            class="flex h-14 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] text-base shadow-sm @[400px]/dropdown:h-16 dark:border-grey-high dark:bg-grey-high"
+            class="flex h-14 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] text-base shadow-sm @md/main:h-16 dark:border-grey-high dark:bg-grey-high"
             aria-expanded="false"
             aria-haspopup="true"
           >

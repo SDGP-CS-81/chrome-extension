@@ -5,9 +5,9 @@ class AudioToggle extends ToggleButton {
   generateTemplate(toggleID: string) {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex items-center pr-6 @md/dropdown:pr-0">
+      <div class="flex items-center pr-6 @md/main:pr-0">
         <p
-          class="mr-3 text-nowrap font-dmsans text-sm text-grey-low @md/dropdown:hidden"
+          class="mr-3 text-nowrap font-dmsans text-sm text-grey-low @md/main:hidden"
         >
           Audio Only
         </p>
@@ -53,3 +53,5 @@ class AudioToggle extends ToggleButton {
 }
 
 customElements.define("audio-toggle", AudioToggle);
+
+export default AudioToggle;
