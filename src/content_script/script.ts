@@ -433,13 +433,22 @@
   };
 
   document.addEventListener("yt-navigate-finish", () => {
-    if (location.pathname != "/watch") return;
+    if (location.pathname.includes("/watch")) {
+      console.log(
+        `ContentScript/NavigationFinishListener: Running watch page listeners`
+      );
+      setTimeout(extractChannelInfo, 200);
+      chrome.runtime.onMessage.addListener(popupMessageListener);
 
-    console.log(`ContentScript/NavigationFinishListener: Adding listeners`);
-    setTimeout(extractChannelInfo, 200);
-    chrome.runtime.onMessage.addListener(audioOnlyListener);
-    chrome.runtime.onMessage.addListener(popupMessageListener);
-    runOnUrlChange();
+      chrome.runtime.onMessage.addListener(audioOnlyListener);
+      runOnUrlChange();
+    } else if (location.pathname.includes("/@")) {
+      console.log(
+        `ContentScript/NavigationFinishListener: Running channel page listeners`
+      );
+      setTimeout(extractChannelInfo, 200);
+      chrome.runtime.onMessage.addListener(popupMessageListener);
+    }
   });
 
   document.addEventListener("yt-player-updated", () => {
