@@ -1,6 +1,5 @@
 import { getPreferences } from "../common/helpers.js";
 
-// send a message to content script
 chrome.tabs.query(
   {
     currentWindow: true,
@@ -14,6 +13,21 @@ chrome.tabs.query(
       console.log(
         `Popup: Active YT tab found, requesting channel and category information`
       );
+
+      const hasChannelInfo =
+        activeTab.url.includes("@") || activeTab.url.includes("/watch?v=");
+
+      if (!hasChannelInfo) return;
+
+      console.log(
+        `Popup: YT Page has channel information, applying styles to popup`
+      );
+      document.body.style.height = "510px";
+      document
+        .querySelectorAll(".dropdown-popup, .channel-dropdown-popup")
+        .forEach((el: HTMLElement) => {
+          el.removeAttribute("style");
+        });
 
       // message to get channel information
       chrome.tabs.sendMessage(

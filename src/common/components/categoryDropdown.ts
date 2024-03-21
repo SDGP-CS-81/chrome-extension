@@ -38,7 +38,9 @@ class CategoryDropdownEl extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex items-center @[400px]/channel-dropdown:h-20">
+      <div class="relative flex items-center @[400px]/channel-dropdown:h-20">
+        <div class="absolute h-full w-full"></div>
+
         <div id="channel-dropdown" class="relative w-full text-left">
           <!-- Button to trigger the dropdown -->
           <button
