@@ -373,27 +373,37 @@
       ".ytp-quality-menu .ytp-menuitem-label"
     ) as NodeListOf<HTMLElement>;
 
-    const parsedQualities = Array.from(availableQualities).map((item) =>
-      parseInt(item.innerText.match(/(\d+)/)[0])
-    );
+    // this array is usually in descending order
+    const parsedQualities = Array.from(availableQualities)
+      .map((item) => parseInt(item.innerText))
+      .filter((item) => !isNaN(item));
 
     const parsedToSetQuality = parseInt(quality);
+    console.log(`ContentScript/setQuality: Qualities available for video`);
+    console.log(parsedQualities);
 
     // if the chosen quality is not found in the dropdown then select the closest one
     if (!parsedQualities.includes(parsedToSetQuality)) {
       console.log(
         `ContentScript/setQuality: Requested quality not found, using closest quality`
       );
-      quality = parsedQualities
-        .find((item) => item > parsedToSetQuality)
-        .toString();
 
-      if (quality === undefined) {
-        quality = parsedQualities
-          .findLast((item) => item < parsedToSetQuality)
-          .toString();
+      console.log(`ContentScript/setQuality: Finding greater quality`);
+      let intQuality = parsedQualities.findLast(
+        (item) => item > parsedToSetQuality
+      );
+
+      if (intQuality === undefined) {
+        console.log(
+          `ContentScript/setQuality: Greater quality not found, finding smaller quality`
+        );
+        intQuality = parsedQualities.find((item) => item < parsedToSetQuality);
       }
-      console.log(`ContentScript/setQuality: Closest quality is ${quality}`);
+
+      if (intQuality !== undefined) {
+        quality = intQuality.toString();
+        console.log(`ContentScript/setQuality: Closest quality is ${quality}`);
+      }
     }
 
     let hasQualityBeenSet = false;
