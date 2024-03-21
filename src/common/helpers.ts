@@ -274,7 +274,7 @@ const selectOptimumQuality = async (
 
   const numLevels = maxIndex - minIndex + 1;
   console.log(`Helpers/selectOptimumQuality: ${numLevels} quality steps found`);
-  const closestIndex = numLevels + Math.round(diffScore * numLevels);
+  const closestIndex = minIndex + Math.round(numLevels * diffScore);
   console.log(`Helpers/selectOptimumQuality: Step ${closestIndex} chosen`);
   const chosenQuality = qualities[closestIndex].toString();
   console.log(
