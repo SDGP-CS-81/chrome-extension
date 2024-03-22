@@ -10,7 +10,12 @@ import {
 export const getMergedCategories = async () => {
   console.log(`Helpers/getMergedCategories: Retrieving merged categories`);
   const builtInCategories = (await getPreferences()).categories;
-  const customCategories = await getCustomCategories();
+  const customCategories = Object.fromEntries(
+    Object.entries(await getCustomCategories()).map(([key, obj]) => [
+      key,
+      { min: obj.min, max: obj.max, audioOnly: obj.audioOnly },
+    ])
+  );
 
   const mergedCategories = { ...builtInCategories, ...customCategories };
   console.log(mergedCategories);
