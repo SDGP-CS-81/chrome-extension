@@ -95,7 +95,10 @@ export const getKeywordScores = (
 export const getVideoScores = async (videoID: string): Promise<VideoScores> => {
   const customCategories = await getCustomCategories();
   const categoryKeywords = Object.fromEntries(
-    Object.entries(customCategories).map(([category, obj]) => [category, obj])
+    Object.entries(customCategories).map(([category, obj]) => [
+      category,
+      obj.keywords,
+    ])
   );
 
   console.log(
@@ -177,7 +180,7 @@ const selectOptimumCategory = async (
 
   console.log(`Helpers/selectOptimumCategory: Calculating category confidence`);
 
-  const categoryConfidence: [string, number][] = Object.entries(categories).map(
+  let categoryConfidence: [string, number][] = Object.entries(categories).map(
     ([key, obj]: [key: string, obj: Category]) => {
       let confidenceScore = 0;
       // check if visual category is present in conditions
@@ -208,6 +211,20 @@ const selectOptimumCategory = async (
       return [key, confidenceScore];
     }
   );
+
+  // get the custom only keyword scores
+  console.log(
+    `Helpers/selectOptimumCategory: Merging custom and built in category keys`
+  );
+  const builtInKeys = Object.keys(categories);
+  const customCategoryScores = Object.entries(textScores).filter(
+    ([category]) => !builtInKeys.includes(category)
+  );
+  categoryConfidence = [...categoryConfidence, ...customCategoryScores];
+  console.log(
+    `Helpers/selectOptimumCategory: Custom and built in categories have been merged`
+  );
+  console.log(categoryConfidence);
 
   // select category with highest confidence
   const confidentCategory = categoryConfidence.sort(
@@ -241,8 +258,14 @@ const selectOptimumQuality = async (
     `Helpers/selectOptimumQuality: Running heuristics to get optimum quality`
   );
   const preferences = await getPreferences();
-  const minimumQuality = preferences.categories[optimumCategoryId].min;
-  const maximumQuality = preferences.categories[optimumCategoryId].max;
+  const customCategories = await getCustomCategories();
+  const mergedCategories = {
+    ...preferences.categories,
+    ...customCategories,
+  };
+
+  const minimumQuality = mergedCategories[optimumCategoryId].min;
+  const maximumQuality = mergedCategories[optimumCategoryId].max;
 
   console.log(
     `Helpers/selectOptimumQuality: Checking preferred quality, min: ${minimumQuality}, max: ${maximumQuality}`
