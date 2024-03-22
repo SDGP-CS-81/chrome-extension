@@ -92,7 +92,7 @@ export const getKeywordScores = (
   return keywordScores;
 };
 
-export const getVideoScores = async (videoID: string) => {
+export const getVideoScores = async (videoID: string): Promise<VideoScores> => {
   const customCategories = await getCustomCategories();
   const categoryKeywords = Object.fromEntries(
     Object.entries(customCategories).map(([category, obj]) => [category, obj])
@@ -117,6 +117,9 @@ export const getVideoScores = async (videoID: string) => {
       }
     );
 
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
     return response.json();
   } catch (error) {
     console.error(`Helpers/getVideoScores: Error fetching video scores`);
