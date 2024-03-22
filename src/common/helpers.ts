@@ -7,6 +7,15 @@ import {
   qualities,
 } from "./constants.js";
 
+export const getMergedCategories = async () => {
+  const builtInCategories = (await getPreferences()).categories;
+  const customCategories = await getCustomCategories();
+
+  const mergedCategories = { ...builtInCategories, ...customCategories };
+
+  return mergedCategories;
+};
+
 export const setPreferences = async (preferences: Preferences) => {
   console.log(`Helpers/setPreferences: Setting preferences`);
   console.log(preferences);
@@ -257,12 +266,7 @@ const selectOptimumQuality = async (
   console.log(
     `Helpers/selectOptimumQuality: Running heuristics to get optimum quality`
   );
-  const preferences = await getPreferences();
-  const customCategories = await getCustomCategories();
-  const mergedCategories = {
-    ...preferences.categories,
-    ...customCategories,
-  };
+  const mergedCategories = await getMergedCategories();
 
   const minimumQuality = mergedCategories[optimumCategoryId].min;
   const maximumQuality = mergedCategories[optimumCategoryId].max;
@@ -301,7 +305,11 @@ const selectOptimumQuality = async (
   const numLevels = maxIndex - minIndex + 1;
   console.log(`Helpers/selectOptimumQuality: ${numLevels} quality steps found`);
   const closestIndex = minIndex + Math.round(numLevels * diffScore);
-  console.log(`Helpers/selectOptimumQuality: Step ${closestIndex} chosen`);
+  console.log(
+    `Helpers/selectOptimumQuality: Step ${Math.round(
+      numLevels * diffScore
+    )} chosen`
+  );
   const chosenQuality = qualities[closestIndex].toString();
   console.log(
     `Helpers/selectOptimumQuality: Quality chosen, quality: ${chosenQuality}`
