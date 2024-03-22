@@ -296,17 +296,19 @@
     };
 
     console.log(`ContentScript/runOnUrlChange: Url change detected`);
+
     const currentVideoID = location.href.split("v=")[1].split("&")[0];
     const videoScores = await helpers.getVideoScores(currentVideoID);
     const { optimumCategoryId, optimumQuality } =
       await helpers.calcOptimumQuality(videoScores);
+
     console.log(
       `ContentScript/runOnUrlChange: qualityToSet: ${optimumQuality}`
     );
 
     categoryId = optimumCategoryId;
 
-    categoryAudioOnly = (await helpers.getPreferences())["categories"][
+    categoryAudioOnly = (await helpers.getMergedCategories())[
       optimumCategoryId
     ]["audioOnly"];
 

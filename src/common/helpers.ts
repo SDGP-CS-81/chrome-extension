@@ -8,10 +8,12 @@ import {
 } from "./constants.js";
 
 export const getMergedCategories = async () => {
+  console.log(`Helpers/getMergedCategories: Retrieving merged categories`);
   const builtInCategories = (await getPreferences()).categories;
   const customCategories = await getCustomCategories();
 
   const mergedCategories = { ...builtInCategories, ...customCategories };
+  console.log(mergedCategories);
 
   return mergedCategories;
 };
