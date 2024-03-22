@@ -19,13 +19,11 @@
     <script type="module" src="../common/components/categoryEl.js"></script>
     <script
       type="module"
-      src="../common/components/categoryDropdown.js"
+      src="../common/components/channelDropdown.js"
     ></script>
   </head>
 
-  <body
-    class="h-[500px] max-h-[500px] w-80 overflow-hidden font-dmsans @container/main"
-  >
+  <body class="h-[260px] w-80 overflow-hidden font-dmsans @container/main">
     <div
       class="flex h-full w-full flex-col overflow-hidden bg-secondary-light text-black shadow-sm dark:bg-secondary-dark dark:text-white"
     >
@@ -40,18 +38,28 @@
       </div>
 
       <div class="flex flex-col gap-4 p-5">
-        <div class="dropdown-popup flex flex-col">
+        <div style="display: none" class="dropdown-popup flex flex-col">
           <h6 for="current-category" class="mb-3 text-base font-medium">
             Current Category
           </h6>
           <!--current category dropdown hosted here-->
+          <category-el
+            category-id="defaultQuality"
+            disabled="true"
+          ></category-el>
         </div>
 
-        <div class="channel-dropdown-popup flex flex-col">
+        <div style="display: none" class="channel-dropdown-popup flex flex-col">
           <h6 for="channel-based-category" class="mb-3 text-base font-medium">
-            Channel Based Category
+            Current Channel
           </h6>
           <!-- channel based category dropdown goes here-->
+          <channel-dropdown
+            disabled="true"
+            channel-category-id=""
+            channel-name=""
+            channel-id=""
+          ></channel-dropdown>
         </div>
 
         <div>
