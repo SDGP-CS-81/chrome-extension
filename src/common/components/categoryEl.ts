@@ -5,11 +5,21 @@ class CategoryEl extends HTMLElement {
   categoryId: string;
   categoryName: string;
   currentSelectedQuality: string;
+  disabled: boolean;
 
   generateTemplate() {
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="flex items-center @md/main:h-20">
+      <div class="relative flex items-center @md/main:h-20">
+        ${this.disabled
+          ? `
+      <!-- placeholder -->
+      <div
+        class="absolute z-10 grid h-full w-full place-items-center rounded-lg bg-secondary-light text-lg dark:bg-grey-high"
+      >
+        No Category detected
+      </div>`
+          : ""}
         <div
           id="dropdown"
           class="relative flex h-24 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-2.5 py-1.5 text-left text-base shadow-sm @md/main:h-16 @md/main:px-[18px] dark:border-grey-high dark:bg-grey-high"
@@ -47,6 +57,7 @@ class CategoryEl extends HTMLElement {
   async connectedCallback() {
     this.categoryId = this.getAttribute("category-id");
     this.categoryName = categories[this.categoryId].categoryName;
+    this.disabled = this.getAttribute("disabled") === "true";
     this.appendChild(this.generateTemplate().content.cloneNode(true));
   }
 

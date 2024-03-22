@@ -22,7 +22,7 @@ class InfoPopup extends HTMLElement {
       </svg>
       <div
         id="popup"
-        class="absolute right-7 z-10 hidden w-60 transform flex-col items-center rounded-md bg-secondary-light shadow-2xl dark:bg-grey-high dark:shadow-stone-700"
+        class="absolute right-7 z-10 hidden w-60 transform flex-col items-center rounded-md bg-secondary-light shadow-2xl dark:bg-black dark:shadow-stone-700"
       >
         <div
           style="background-image: url(${category.descImg});"

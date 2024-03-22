@@ -19,7 +19,7 @@
     <script type="module" src="../common/components/categoryEl.js"></script>
     <script
       type="module"
-      src="../common/components/categoryDropdown.js"
+      src="../common/components/channelDropdown.js"
     ></script>
   </head>
 
@@ -43,13 +43,23 @@
             Current Category
           </h6>
           <!--current category dropdown hosted here-->
+          <category-el
+            category-id="defaultQuality"
+            disabled="true"
+          ></category-el>
         </div>
 
         <div style="display: none" class="channel-dropdown-popup flex flex-col">
           <h6 for="channel-based-category" class="mb-3 text-base font-medium">
-            Channel Based Category
+            Current Channel
           </h6>
           <!-- channel based category dropdown goes here-->
+          <channel-dropdown
+            disabled="true"
+            channel-category-id=""
+            channel-name=""
+            channel-id=""
+          ></channel-dropdown>
         </div>
 
         <div>

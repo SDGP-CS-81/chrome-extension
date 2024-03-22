@@ -8,12 +8,13 @@ import {
 } from "../helpers.js";
 import { categoriesList } from "../constants.js";
 
-class CategoryDropdownEl extends HTMLElement {
+class ChannelDropdown extends HTMLElement {
   channelName: string;
   channelId: string;
   channelCategoryId: string;
   channelCategory: string;
   currentSelectedCategory: string;
+  disabled: boolean;
 
   generateMenuItemTemplate(channelCategory: string, selectedCategory: string) {
     const isSelected = channelCategory === selectedCategory;
@@ -38,41 +39,40 @@ class CategoryDropdownEl extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = html`
-      <div class="relative flex items-center @[400px]/channel-dropdown:h-20">
-        <div class="absolute h-full w-full"></div>
-
-        <div id="channel-dropdown" class="relative w-full text-left">
-          <!-- Button to trigger the dropdown -->
-          <button
-            type="button"
-            id="channel-dropdown-button"
-            class="flex h-14 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] text-base shadow-sm @md/main:h-16 dark:border-grey-high dark:bg-grey-high"
-            aria-expanded="false"
-            aria-haspopup="true"
-          >
-            <!-- Channel Id -->
-            <p id="channel-name">${this.channelName}</p>
-            <!-- Selected channel category and dropdown icon -->
-            <div class="flex items-center">
-              <p id="category-text" class="mr-2">
-                ${this.currentSelectedCategory
-                  ? `${this.currentSelectedCategory}`
-                  : ""}
-              </p>
-              ${caretDown}
-            </div>
-          </button>
-          <!-- Dropdown menu -->
-          <div
-            id="channel-dropdown-item-container"
-            class="custom-scroll absolute right-0 top-12 z-50 hidden h-60 w-48 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block dark:bg-grey-high"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="menu-button"
-          >
-            <!-- Insert category items HTML here -->
-            ${categoryItemsHtml}
+      <div
+        id="channel-dropdown"
+        class="relative flex w-full items-center text-left @[400px]/channel-dropdown:h-20"
+      >
+        <!-- Button to trigger the dropdown -->
+        <button
+          type="button"
+          id="channel-dropdown-button"
+          class="flex h-14 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-[18px] text-base shadow-sm @md/main:h-16 dark:border-grey-high dark:bg-grey-high"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <!-- Channel Id -->
+          <p id="channel-name">${this.channelName}</p>
+          <!-- Selected channel category and dropdown icon -->
+          <div class="flex items-center">
+            <p id="category-text" class="mr-2">
+              ${this.currentSelectedCategory
+                ? `${this.currentSelectedCategory}`
+                : ""}
+            </p>
+            ${caretDown}
           </div>
+        </button>
+        <!-- Dropdown menu -->
+        <div
+          id="channel-dropdown-item-container"
+          class="custom-scroll absolute right-0 top-12 z-50 hidden h-60 w-48 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block dark:bg-grey-high"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="menu-button"
+        >
+          <!-- Insert category items HTML here -->
+          ${categoryItemsHtml}
         </div>
       </div>
     `;
@@ -84,6 +84,7 @@ class CategoryDropdownEl extends HTMLElement {
     this.channelCategoryId = this.getAttribute("channel-category-id");
     this.channelName = this.getAttribute("channel-name");
     this.channelId = this.getAttribute("channel-id");
+    this.disabled = this.getAttribute("disabled") === "true";
 
     const preferences = await getPreferences();
 
@@ -137,7 +138,7 @@ class CategoryDropdownEl extends HTMLElement {
       const selectedCategory = target.getAttribute("data-category");
 
       console.log(
-        `CategoryDropdownEl: Category selected, category: ${selectedCategory}`
+        `ChannelDropdown: Category selected, category: ${selectedCategory}`
       );
 
       // save channel name and selected category to storage
@@ -192,4 +193,4 @@ class CategoryDropdownEl extends HTMLElement {
   }
 }
 
-customElements.define("category-dropdown", CategoryDropdownEl);
+customElements.define("channel-dropdown", ChannelDropdown);
