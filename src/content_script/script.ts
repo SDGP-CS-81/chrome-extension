@@ -297,15 +297,63 @@
 
     console.log(`ContentScript/runOnUrlChange: Url change detected`);
 
+    if (!channelId) {
+      extractChannelInfo();
+    }
+
+    const preferences = await helpers.getPreferences();
     const currentVideoID = location.href.split("v=")[1].split("&")[0];
     const videoScores = await helpers.getVideoScores(currentVideoID);
-    const { optimumCategoryId, optimumQuality } =
-      await helpers.calcOptimumQuality(videoScores);
-    const preferences = await helpers.getPreferences();
 
-    console.log(
-      `ContentScript/runOnUrlChange: qualityToSet: ${optimumQuality}`
-    );
+    let optimumCategoryId: string;
+    let optimumQuality: string;
+
+    if (channelId) {
+      console.log(
+        `ContentScript/runOnUrlChange: channelId available, using channel categories for heuristics`
+      );
+
+      if (preferences.channelPreferences[channelId]) {
+        console.log(
+          `ContentScript/runOnUrlChange: Local channel preference available, skipping category heuristics`
+        );
+
+        const optimumSettings = await helpers.calcOptimumQuality(
+          videoScores,
+          preferences.channelPreferences[channelId],
+          channelId
+        );
+
+        optimumCategoryId = optimumSettings.optimumCategoryId;
+        optimumQuality = optimumSettings.optimumQuality;
+      } else {
+        console.log(
+          `ContentScript/runOnUrlChange: Local channel preference not available, will get from backend`
+        );
+
+        const optimumSettings = await helpers.calcOptimumQuality(
+          videoScores,
+          null,
+          channelId
+        );
+
+        optimumCategoryId = optimumSettings.optimumCategoryId;
+        optimumQuality = optimumSettings.optimumQuality;
+      }
+    } else {
+      console.log(
+        `ContentScript/runOnUrlChange: channelId not available, not using channel for heuristics`
+      );
+
+      const optimumSettings = await helpers.calcOptimumQuality(
+        videoScores,
+        null,
+        null
+      );
+
+      optimumCategoryId = optimumSettings.optimumCategoryId;
+      optimumQuality = optimumSettings.optimumSettings;
+    }
 
     categoryId = optimumCategoryId;
 
