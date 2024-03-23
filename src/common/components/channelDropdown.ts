@@ -91,10 +91,10 @@ class ChannelDropdown extends HTMLElement {
     // get current channel name
     // check if the channel name is already a key of preferneces.channelPreferences
     // if true, assign value of channel name to current selected category
-    if (this.channelName in preferences.channelPreferences) {
+    if (this.channelId in preferences.channelPreferences) {
       // get current category for this channel
       this.currentSelectedCategory =
-        preferences.channelPreferences[this.channelName];
+        preferences.channelPreferences[this.channelId];
     } else {
       // fetch channelInfo from server
       const channelInfo = await getMostVotedCategory(this.channelId);
@@ -143,7 +143,8 @@ class ChannelDropdown extends HTMLElement {
 
       // save channel name and selected category to storage
       const preferences = await getPreferences();
-      preferences.channelPreferences[this.channelName] = selectedCategory;
+      preferences.channelPreferences[this.channelId] =
+        selectedCategory.toLowerCase();
       await setPreferences(preferences);
 
       postChannelInfo(this.channelId, selectedCategory.toLowerCase());

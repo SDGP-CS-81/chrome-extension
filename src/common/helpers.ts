@@ -109,20 +109,73 @@ export const getVideoScores = async (videoID: string): Promise<VideoScores> => {
   }
 };
 
-export const calcOptimumQuality = async (videoScores: VideoScores) => {
+export const calcOptimumQuality = async (
+  videoScores: VideoScores,
+  channelCategoryId: string | null,
+  channelId: string | null
+) => {
   console.log(`Helpers/calcOptimumQuality: Calculating optimum video quality`);
-  const optimumCategoryId = await selectOptimumCategory(videoScores);
+
+  let optimumCategoryId: string;
+
+  if (channelId) {
+    console.log(
+      `Helpers/calcOptimumQuality: Channel ID given, taking channel into consideration`
+    );
+
+    if (channelCategoryId) {
+      console.log(
+        `Helpers/calcOptimumQuality: Channel category given, skipping category heuristics`
+      );
+
+      console.log(
+        `Helpers/calcOptimumQuality: Channel category is ${channelCategoryId}`
+      );
+
+      optimumCategoryId = channelCategoryId;
+    } else {
+      console.log(
+        `Helpers/calcOptimumQuality: Channel category not given, getting from backend`
+      );
+
+      let mostVotedCategory = await getMostVotedCategory(channelId);
+
+      if (mostVotedCategory) {
+        console.log(
+          `Helpers/calcOptimumQuality: Community category is ${mostVotedCategory}`
+        );
+
+        mostVotedCategory = mostVotedCategory.toLowerCase();
+      } else {
+        console.log(
+          `Helpers/calcOptimumQuality: Community category is not available`
+        );
+        mostVotedCategory = null;
+      }
+
+      optimumCategoryId = await selectOptimumCategory(
+        videoScores,
+        mostVotedCategory
+      );
+    }
+  } else {
+    console.log(
+      `Helpers/calcOptimumQuality: Channel ID not given, not taking channel into consideration`
+    );
+
+    optimumCategoryId = await selectOptimumCategory(videoScores, null);
+  }
 
   const optimumQuality = await selectOptimumQuality(
     optimumCategoryId,
     videoScores
   );
-
   return { optimumCategoryId, optimumQuality };
 };
 
 const selectOptimumCategory = async (
-  videoScores: VideoScores
+  videoScores: VideoScores,
+  channelCategoryId: string | null
 ): Promise<string> => {
   console.log(
     `Helpers/selectOptimumCategory: Running heuristics to get optimum category`
@@ -167,6 +220,14 @@ const selectOptimumCategory = async (
         console.log(
           `Helpers/selectOptimumCategory: Visual condition hit, category: ${key}, visual category: ${visualCategory}`
         );
+        confidenceScore++;
+      }
+
+      if (channelCategoryId === key) {
+        console.log(
+          `Helpers/selectOptimumCategory: Channel category hit, category: ${key}, channel category: ${channelCategoryId}`
+        );
+
         confidenceScore++;
       }
 
