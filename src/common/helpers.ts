@@ -24,34 +24,6 @@ export const getPreferences = async () => {
   return preferences;
 };
 
-export const setCustomCategories = async (
-  customCategories: CustomCategories
-) => {
-  console.log(`Helpers/setCustomCategories: Setting custom categories`);
-  console.log(customCategories);
-  await chrome.storage.local.set({ customCategories: customCategories });
-};
-
-export const getCustomCategories = async () => {
-  console.log(`Helpers/getCustomCategories: Retrieving custom categories`);
-  const customCategories: CustomCategories = (
-    await chrome.storage.local.get({
-      customCategories: {},
-    })
-  ).customCategories;
-  console.log(customCategories);
-  return customCategories;
-};
-
-export type CustomCategories = {
-  [key: string]: {
-    min: string;
-    max: string;
-    audioOnly: boolean;
-    keywords: string[];
-  };
-};
-
 // doesn't really do anything
 // a hack to get prettier-plugin-tailwindcss to work
 // it's plugin bug
@@ -93,22 +65,32 @@ export const getKeywordScores = (
 };
 
 export const getVideoScores = async (videoID: string): Promise<VideoScores> => {
-  const customCategories = await getCustomCategories();
-  const categoryKeywords = Object.fromEntries(
-    Object.entries(customCategories).map(([category, obj]) => [category, obj])
-  );
+  const preferences = await getPreferences();
+  let categoryKeywords;
+
+  if (preferences.customCategories) {
+    console.log(`Helpers/getVideoScores: Preparing keywords`);
+    console.log(categoryKeywords);
+
+    categoryKeywords = Object.fromEntries(
+      Object.entries(preferences.customCategories).map(([category, obj]) => [
+        category,
+        obj.keywords,
+      ])
+    );
+  }
 
   console.log(
     `Helpers/getVideoScores: Preparing to get scores for video: ${videoID}`
   );
-  console.log(`Helpers/getVideoScores: Preparing keywords`);
-  console.log(categoryKeywords);
 
   try {
     const response = await fetch(
-      `${apiURL}/api/video/${videoID}?categoryKeywords=${encodeURIComponent(
-        JSON.stringify(categoryKeywords)
-      )}`,
+      `${apiURL}/api/video/${videoID}?categoryKeywords=${
+        categoryKeywords
+          ? encodeURIComponent(JSON.stringify(categoryKeywords))
+          : null
+      }`,
       {
         method: "GET",
         headers: {
@@ -177,7 +159,7 @@ const selectOptimumCategory = async (
 
   console.log(`Helpers/selectOptimumCategory: Calculating category confidence`);
 
-  const categoryConfidence: [string, number][] = Object.entries(categories).map(
+  let categoryConfidence: [string, number][] = Object.entries(categories).map(
     ([key, obj]: [key: string, obj: Category]) => {
       let confidenceScore = 0;
       // check if visual category is present in conditions
@@ -208,6 +190,20 @@ const selectOptimumCategory = async (
       return [key, confidenceScore];
     }
   );
+
+  // get the custom only keyword scores
+  console.log(
+    `Helpers/selectOptimumCategory: Merging custom and built in category keys`
+  );
+  const builtInKeys = Object.keys(categories);
+  const customCategoryScores = Object.entries(textScores).filter(
+    ([category]) => !builtInKeys.includes(category)
+  );
+  categoryConfidence = [...categoryConfidence, ...customCategoryScores];
+  console.log(
+    `Helpers/selectOptimumCategory: Custom and built in categories have been merged`
+  );
+  console.log(categoryConfidence);
 
   // select category with highest confidence
   const confidentCategory = categoryConfidence.sort(
@@ -241,8 +237,13 @@ const selectOptimumQuality = async (
     `Helpers/selectOptimumQuality: Running heuristics to get optimum quality`
   );
   const preferences = await getPreferences();
-  const minimumQuality = preferences.categories[optimumCategoryId].min;
-  const maximumQuality = preferences.categories[optimumCategoryId].max;
+  const mergedCategories = {
+    ...preferences.categories,
+    ...preferences.customCategories,
+  };
+
+  const minimumQuality = mergedCategories[optimumCategoryId].min;
+  const maximumQuality = mergedCategories[optimumCategoryId].max;
 
   console.log(
     `Helpers/selectOptimumQuality: Checking preferred quality, min: ${minimumQuality}, max: ${maximumQuality}`
@@ -278,7 +279,11 @@ const selectOptimumQuality = async (
   const numLevels = maxIndex - minIndex + 1;
   console.log(`Helpers/selectOptimumQuality: ${numLevels} quality steps found`);
   const closestIndex = minIndex + Math.round(numLevels * diffScore);
-  console.log(`Helpers/selectOptimumQuality: Step ${closestIndex} chosen`);
+  console.log(
+    `Helpers/selectOptimumQuality: Step ${Math.round(
+      numLevels * diffScore
+    )} chosen`
+  );
   const chosenQuality = qualities[closestIndex].toString();
   console.log(
     `Helpers/selectOptimumQuality: Quality chosen, quality: ${chosenQuality}`

@@ -56,7 +56,12 @@ class CategoryEl extends HTMLElement {
 
   async connectedCallback() {
     this.categoryId = this.getAttribute("category-id");
-    this.categoryName = categories[this.categoryId].categoryName;
+
+    const categoryName = categories[this.categoryId]
+      ? categories[this.categoryId].categoryName
+      : this.categoryId.charAt(0).toUpperCase() + this.categoryId.slice(1);
+
+    this.categoryName = categoryName;
     this.disabled = this.getAttribute("disabled") === "true";
     this.appendChild(this.generateTemplate().content.cloneNode(true));
   }

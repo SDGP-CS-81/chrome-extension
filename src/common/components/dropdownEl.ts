@@ -1,6 +1,10 @@
 import { caretDown } from "../../svg.js";
 import { setPreferences, getPreferences, html } from "../helpers.js";
-import { qualities } from "../constants.js";
+import {
+  CategoryPreferences,
+  CustomCategoryPreferences,
+  qualities,
+} from "../constants.js";
 
 class DropdownEl extends HTMLElement {
   categoryId: string;
@@ -78,9 +82,16 @@ class DropdownEl extends HTMLElement {
     this.setAttribute("data-element", "custom");
     this.categoryId = this.getAttribute("category-id");
     this.type = this.getAttribute("type") as typeof this.type;
+
     const preferences = await getPreferences();
-    this.currentSelectedQuality =
-      preferences.categories[this.categoryId][this.type];
+    if (preferences.categories[this.categoryId]) {
+      this.currentSelectedQuality =
+        preferences.categories[this.categoryId][this.type];
+    } else {
+      this.currentSelectedQuality =
+        preferences.customCategories[this.categoryId][this.type];
+    }
+
     this.appendChild(this.generateTemplate().content.cloneNode(true));
 
     this.setUpEventListeners();
@@ -121,7 +132,13 @@ class DropdownEl extends HTMLElement {
       console.log(`DropdownEl: Quality selected, quality: ${selectedQuality}`);
 
       const preferences = await getPreferences();
-      const category = preferences.categories[this.categoryId];
+      let category: CategoryPreferences | CustomCategoryPreferences;
+
+      if (preferences.categories[this.categoryId]) {
+        category = preferences.categories[this.categoryId];
+      } else {
+        category = preferences.customCategories[this.categoryId];
+      }
 
       // max cannot be greater than min, and min cannot be greater than max
       if (
@@ -136,7 +153,12 @@ class DropdownEl extends HTMLElement {
         return;
       }
 
-      preferences.categories[this.categoryId][this.type] = selectedQuality;
+      if (preferences.categories[this.categoryId]) {
+        preferences.categories[this.categoryId][this.type] = selectedQuality;
+      } else {
+        preferences.customCategories[this.categoryId][this.type] =
+          selectedQuality;
+      }
       await setPreferences(preferences);
 
       // remove the 'bg-primary-dark' class from all items

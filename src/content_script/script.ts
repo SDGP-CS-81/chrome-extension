@@ -23,6 +23,7 @@
   // variable to store the channel name and id
   let channelName: string = null;
   let channelId: string = null;
+  let channelExtractorHandle: number = null;
 
   // variables to store category id
   let categoryId: string = null;
@@ -42,12 +43,13 @@
 
       channelId = channelInfo["channelId"];
       channelName = channelInfo["channelName"];
+
+      window.clearInterval(channelExtractorHandle);
     } catch (error) {
       console.error(
         `ContentScript/extractChannelInfo: Error detected, trying again`
       );
       console.error(error);
-      setTimeout(extractChannelInfo, 500);
     }
   };
 
@@ -294,19 +296,25 @@
     };
 
     console.log(`ContentScript/runOnUrlChange: Url change detected`);
+
     const currentVideoID = location.href.split("v=")[1].split("&")[0];
     const videoScores = await helpers.getVideoScores(currentVideoID);
     const { optimumCategoryId, optimumQuality } =
       await helpers.calcOptimumQuality(videoScores);
+    const preferences = await helpers.getPreferences();
+
     console.log(
       `ContentScript/runOnUrlChange: qualityToSet: ${optimumQuality}`
     );
 
     categoryId = optimumCategoryId;
 
-    categoryAudioOnly = (await helpers.getPreferences())["categories"][
-      optimumCategoryId
-    ]["audioOnly"];
+    if (Object.keys(preferences.categories).includes(optimumCategoryId)) {
+      categoryAudioOnly = preferences.categories[optimumCategoryId].audioOnly;
+    } else if (preferences.customCategories) {
+      categoryAudioOnly =
+        preferences.customCategories[optimumCategoryId].audioOnly;
+    }
 
     if (categoryAudioOnly) {
       console.log(
@@ -433,11 +441,15 @@
   };
 
   document.addEventListener("yt-navigate-finish", () => {
+    chrome.runtime.onMessage.removeListener(audioOnlyListener);
+    chrome.runtime.onMessage.removeListener(popupMessageListener);
+    window.clearInterval(channelExtractorHandle);
+
     if (location.pathname.includes("/watch")) {
       console.log(
         `ContentScript/NavigationFinishListener: Running watch page listeners`
       );
-      setTimeout(extractChannelInfo, 200);
+      channelExtractorHandle = window.setInterval(extractChannelInfo, 500);
       chrome.runtime.onMessage.addListener(popupMessageListener);
 
       chrome.runtime.onMessage.addListener(audioOnlyListener);
@@ -446,7 +458,7 @@
       console.log(
         `ContentScript/NavigationFinishListener: Running channel page listeners`
       );
-      setTimeout(extractChannelInfo, 200);
+      channelExtractorHandle = window.setInterval(extractChannelInfo, 500);
       chrome.runtime.onMessage.addListener(popupMessageListener);
     }
   });
