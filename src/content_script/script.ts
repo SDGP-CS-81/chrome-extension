@@ -301,6 +301,7 @@
     const videoScores = await helpers.getVideoScores(currentVideoID);
     const { optimumCategoryId, optimumQuality } =
       await helpers.calcOptimumQuality(videoScores);
+    const preferences = await helpers.getPreferences();
 
     console.log(
       `ContentScript/runOnUrlChange: qualityToSet: ${optimumQuality}`
@@ -308,9 +309,12 @@
 
     categoryId = optimumCategoryId;
 
-    categoryAudioOnly = (await helpers.getMergedCategories())[
-      optimumCategoryId
-    ]["audioOnly"];
+    if (Object.keys(preferences.categories).includes(optimumCategoryId)) {
+      categoryAudioOnly = preferences.categories[optimumCategoryId].audioOnly;
+    } else if (preferences.customCategories) {
+      categoryAudioOnly =
+        preferences.customCategories[optimumCategoryId].audioOnly;
+    }
 
     if (categoryAudioOnly) {
       console.log(

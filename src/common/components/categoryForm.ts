@@ -1,5 +1,5 @@
 import { categories } from "../constants.js";
-import { getCustomCategories, html, setCustomCategories } from "../helpers.js";
+import { getPreferences, setPreferences, html } from "../helpers.js";
 
 class CategoryKeywordForm extends HTMLElement {
   constructor() {
@@ -79,16 +79,16 @@ class CategoryKeywordForm extends HTMLElement {
         .map((keyword) => keyword.trim().toLowerCase());
 
       // Get the existing data from chrome storage
-      const customCategories = await getCustomCategories();
+      const preferences = await getPreferences();
 
       // If the category already exists, append the new keywords
-      if (customCategories[categoryData]) {
+      if (preferences.customCategories[categoryData]) {
         console.log(
           `CategoryKeywordForm: Category exists, appending new keywords`
         );
-        customCategories[categoryData].keywords = [
+        preferences.customCategories[categoryData].keywords = [
           ...new Set([
-            ...customCategories[categoryData].keywords,
+            ...preferences.customCategories[categoryData].keywords,
             ...keywordData,
           ]),
         ];
@@ -96,7 +96,7 @@ class CategoryKeywordForm extends HTMLElement {
         console.log(
           `CategoryKeywordForm: Creating category and adding keywords`
         );
-        customCategories[categoryData] = {
+        preferences.customCategories[categoryData] = {
           min: "144",
           max: "144",
           audioOnly: false,
@@ -104,7 +104,7 @@ class CategoryKeywordForm extends HTMLElement {
         };
       }
 
-      await setCustomCategories(customCategories);
+      await setPreferences(preferences);
 
       console.log(`CategoryKeywordForm: Resetting form back to default`);
       (e.target as HTMLFormElement).reset();
@@ -125,12 +125,12 @@ class CategoryKeywordForm extends HTMLElement {
       "#category-keywords-container"
     );
 
-    const customCategories = await getCustomCategories();
-    for (const categoryData in customCategories) {
+    const preferences = await getPreferences();
+    for (const categoryData in preferences.customCategories) {
       const newRow = document.createElement("custom-category-el");
       newRow.setAttribute("category-id", categoryData);
 
-      Object.entries(categories).forEach(([categoryId, _category]) => {
+      Object.entries(categories).forEach(([categoryId]) => {
         if (categoryData === categoryId) {
           newRow.setAttribute("isdefaultcategory", "true");
         }

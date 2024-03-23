@@ -33,7 +33,12 @@ class AudioToggle extends ToggleButton {
     await super.connectedCallback();
 
     const preferences = await getPreferences();
-    this.checked = preferences.categories[this.toggleID].audioOnly;
+
+    if (preferences.categories[this.toggleID]) {
+      this.checked = preferences.categories[this.toggleID].audioOnly;
+    } else {
+      this.checked = preferences.customCategories[this.toggleID].audioOnly;
+    }
 
     this.addEventListener("click", () => {
       console.log(`AudioToggle: Toggled, new state: ${!this.checked}`);
@@ -44,7 +49,13 @@ class AudioToggle extends ToggleButton {
   async attributeChangedCallback(name: string) {
     if (name === "checked") {
       const preferences = await getPreferences();
-      preferences.categories[this.toggleID].audioOnly = this.checked;
+
+      if (preferences.categories[this.toggleID]) {
+        preferences.categories[this.toggleID].audioOnly = this.checked;
+      } else {
+        preferences.customCategories[this.toggleID].audioOnly = this.checked;
+      }
+
       await setPreferences(preferences);
       const hiddenInput = this.querySelector("input");
       if (hiddenInput) hiddenInput.checked = this.checked;

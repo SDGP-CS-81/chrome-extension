@@ -1,5 +1,5 @@
 import { html } from "../helpers.js";
-import { getCustomCategories, setCustomCategories } from "../helpers.js";
+import { getPreferences, setPreferences } from "../helpers.js";
 
 class CustomCategoryInput extends HTMLElement {
   categoryId: string;
@@ -31,22 +31,24 @@ class CustomCategoryInput extends HTMLElement {
   }
 
   async connectedCallback() {
-    const customCategories = await getCustomCategories();
+    const preferences = await getPreferences();
 
     this.categoryId = this.getAttribute("category-id");
-    this.categoryKeywords = customCategories[this.categoryId].keywords;
+    this.categoryKeywords =
+      preferences.customCategories[this.categoryId].keywords;
 
     this.appendChild(this.generateTemplate().content.cloneNode(true));
 
     const handleChange = async (e: Event) => {
+      const preferences = await getPreferences();
+
       console.log(`CategoryInput: Handling input`);
-      const customCategories = await getCustomCategories();
       const input = e.target as HTMLInputElement;
 
-      customCategories[this.categoryId].keywords = input.value
+      preferences.customCategories[this.categoryId].keywords = input.value
         .split(",")
         .map((keyword) => keyword.trim().toLowerCase());
-      setCustomCategories(customCategories);
+      setPreferences(preferences);
     };
     this.querySelector('[name="keywords"]').addEventListener(
       "input",

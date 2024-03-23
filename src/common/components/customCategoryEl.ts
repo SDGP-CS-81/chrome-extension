@@ -1,4 +1,4 @@
-import { getCustomCategories, html, setCustomCategories } from "../helpers.js";
+import { getPreferences, html, setPreferences } from "../helpers.js";
 import CategoryEl from "./categoryEl.js";
 
 class CustomCategoryEl extends CategoryEl {
@@ -39,9 +39,9 @@ class CustomCategoryEl extends CategoryEl {
               ></custom-category-dropdown>
 
               <div class="flex w-20 items-center justify-end">
-                <custom-audio-toggle
+                <audio-toggle
                   toggle-id="${this.categoryId}"
-                ></custom-audio-toggle>
+                ></audio-toggle>
               </div>
               `}
             </div>
@@ -81,10 +81,10 @@ class CustomCategoryEl extends CategoryEl {
     deleteButton.addEventListener("click", async () => {
       console.log(`CategoryInput: Removing keyword category`);
       this.remove();
-      const customCategories = await getCustomCategories();
+      const preferences = await getPreferences();
 
-      delete customCategories[this.categoryId];
-      setCustomCategories(customCategories);
+      delete preferences.customCategories[this.categoryId];
+      setPreferences(preferences);
     });
   }
 }

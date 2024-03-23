@@ -1,4 +1,4 @@
-import { getCustomCategories, setCustomCategories } from "../helpers.js";
+import { getPreferences, setPreferences } from "../helpers.js";
 import DropdownEl from "./dropdownEl.js";
 
 class CustomCategoryDropdown extends DropdownEl {
@@ -7,11 +7,14 @@ class CustomCategoryDropdown extends DropdownEl {
   type: "min" | "max";
 
   async connectedCallback() {
+    const preferences = await getPreferences();
+
     this.setAttribute("data-element", "custom");
     this.categoryId = this.getAttribute("category-id");
     this.type = this.getAttribute("type") as typeof this.type;
-    const customCategories = await getCustomCategories();
-    this.currentSelectedQuality = customCategories[this.categoryId][this.type];
+
+    this.currentSelectedQuality =
+      preferences.customCategories[this.categoryId][this.type];
     this.appendChild(this.generateTemplate().content.cloneNode(true));
 
     this.setUpEventListeners();
@@ -51,8 +54,8 @@ class CustomCategoryDropdown extends DropdownEl {
 
       console.log(`DropdownEl: Quality selected, quality: ${selectedQuality}`);
 
-      const customCategories = await getCustomCategories();
-      const category = customCategories[this.categoryId];
+      const preferences = await getPreferences();
+      const category = preferences.customCategories[this.categoryId];
 
       // max cannot be greater than min, and min cannot be greater than max
       if (
@@ -67,8 +70,9 @@ class CustomCategoryDropdown extends DropdownEl {
         return;
       }
 
-      customCategories[this.categoryId][this.type] = selectedQuality;
-      await setCustomCategories(customCategories);
+      preferences.customCategories[this.categoryId][this.type] =
+        selectedQuality;
+      await setPreferences(preferences);
 
       // remove the 'bg-primary-dark' class from all items
       this.querySelectorAll(".dropdown-menu-item").forEach((item) => {

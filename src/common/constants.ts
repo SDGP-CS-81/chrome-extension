@@ -1,5 +1,4 @@
-export const apiURL =
-  "https://ec2-13-233-179-121.ap-south-1.compute.amazonaws.com";
+export const apiURL = "http://localhost:5000";
 export const qualities = [144, 240, 360, 480, 720, 1080, 1440, 2160, 4320];
 export const categoriesList = [
   "Music",
@@ -24,7 +23,7 @@ export type PreferenceFeatures = {
 
 export type Preferences = {
   categories: {
-    [key: string]: { min: string; max: string; audioOnly: boolean };
+    [key: string]: CategoryPreferences;
   };
   features: PreferenceFeatures;
   channelCategories: {
@@ -32,6 +31,9 @@ export type Preferences = {
   };
   channelPreferences: {
     [channelName: string]: string;
+  };
+  customCategories: {
+    [key: string]: CustomCategoryPreferences;
   };
 };
 
@@ -112,10 +114,18 @@ export const defaultPreferences = {
     nature: "Nature",
     demo: "Demo",
   },
-  currentChannelName: "Alex Lee",
-  channelPreferences: {
-    "Alex Lee": "",
-  },
+  channelPreferences: {},
+  customCategories: {},
+};
+
+export type CategoryPreferences = {
+  min: string;
+  max: string;
+  audioOnly: boolean;
+};
+
+export type CustomCategoryPreferences = CategoryPreferences & {
+  keywords: string[];
 };
 
 export type Category = {

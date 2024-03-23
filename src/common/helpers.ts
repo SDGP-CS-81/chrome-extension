@@ -7,22 +7,6 @@ import {
   qualities,
 } from "./constants.js";
 
-export const getMergedCategories = async () => {
-  console.log(`Helpers/getMergedCategories: Retrieving merged categories`);
-  const builtInCategories = (await getPreferences()).categories;
-  const customCategories = Object.fromEntries(
-    Object.entries(await getCustomCategories()).map(([key, obj]) => [
-      key,
-      { min: obj.min, max: obj.max, audioOnly: obj.audioOnly },
-    ])
-  );
-
-  const mergedCategories = { ...builtInCategories, ...customCategories };
-  console.log(mergedCategories);
-
-  return mergedCategories;
-};
-
 export const setPreferences = async (preferences: Preferences) => {
   console.log(`Helpers/setPreferences: Setting preferences`);
   console.log(preferences);
@@ -38,34 +22,6 @@ export const getPreferences = async () => {
   ).preferences;
   console.log(preferences);
   return preferences;
-};
-
-export const setCustomCategories = async (
-  customCategories: CustomCategories
-) => {
-  console.log(`Helpers/setCustomCategories: Setting custom categories`);
-  console.log(customCategories);
-  await chrome.storage.local.set({ customCategories: customCategories });
-};
-
-export const getCustomCategories = async () => {
-  console.log(`Helpers/getCustomCategories: Retrieving custom categories`);
-  const customCategories: CustomCategories = (
-    await chrome.storage.local.get({
-      customCategories: {},
-    })
-  ).customCategories;
-  console.log(customCategories);
-  return customCategories;
-};
-
-export type CustomCategories = {
-  [key: string]: {
-    min: string;
-    max: string;
-    audioOnly: boolean;
-    keywords: string[];
-  };
 };
 
 // doesn't really do anything
@@ -109,25 +65,32 @@ export const getKeywordScores = (
 };
 
 export const getVideoScores = async (videoID: string): Promise<VideoScores> => {
-  const customCategories = await getCustomCategories();
-  const categoryKeywords = Object.fromEntries(
-    Object.entries(customCategories).map(([category, obj]) => [
-      category,
-      obj.keywords,
-    ])
-  );
+  const preferences = await getPreferences();
+  let categoryKeywords;
+
+  if (preferences.customCategories) {
+    console.log(`Helpers/getVideoScores: Preparing keywords`);
+    console.log(categoryKeywords);
+
+    categoryKeywords = Object.fromEntries(
+      Object.entries(preferences.customCategories).map(([category, obj]) => [
+        category,
+        obj.keywords,
+      ])
+    );
+  }
 
   console.log(
     `Helpers/getVideoScores: Preparing to get scores for video: ${videoID}`
   );
-  console.log(`Helpers/getVideoScores: Preparing keywords`);
-  console.log(categoryKeywords);
 
   try {
     const response = await fetch(
-      `${apiURL}/api/video/${videoID}?categoryKeywords=${encodeURIComponent(
-        JSON.stringify(categoryKeywords)
-      )}`,
+      `${apiURL}/api/video/${videoID}?categoryKeywords=${
+        categoryKeywords
+          ? encodeURIComponent(JSON.stringify(categoryKeywords))
+          : null
+      }`,
       {
         method: "GET",
         headers: {
@@ -273,7 +236,11 @@ const selectOptimumQuality = async (
   console.log(
     `Helpers/selectOptimumQuality: Running heuristics to get optimum quality`
   );
-  const mergedCategories = await getMergedCategories();
+  const preferences = await getPreferences();
+  const mergedCategories = {
+    ...preferences.categories,
+    ...preferences.customCategories,
+  };
 
   const minimumQuality = mergedCategories[optimumCategoryId].min;
   const maximumQuality = mergedCategories[optimumCategoryId].max;
