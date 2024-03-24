@@ -104,8 +104,8 @@ export const getVideoScores = async (videoID: string): Promise<VideoScores> => {
     }
     return response.json();
   } catch (error) {
-    console.error(`Helpers/getVideoScores: Error fetching video scores`);
-    console.error(error);
+    console.log(`Helpers/getVideoScores: Error fetching video scores`);
+    console.log(error);
   }
 };
 
@@ -184,8 +184,8 @@ const selectOptimumCategory = async (
   let confidentCategoryId = "defaultQuality";
 
   if (!videoScores) {
-    console.error(`Helpers/selectOptimumCategory: Video scores not found`);
-    console.error(videoScores);
+    console.log(`Helpers/selectOptimumCategory: Video scores not found`);
+    console.log(videoScores);
 
     console.log(`Helpers/selectOptimumCategory: Returning category`);
     console.log(confidentCategoryId);
@@ -400,10 +400,8 @@ export const postChannelInfo = async (channelId: string, category: string) => {
       throw new Error("Network response was not ok");
     }
   } catch (error) {
-    console.error(
-      `Helpers/postChannelInfo: Error sending channel category info`
-    );
-    console.error(error);
+    console.log(`Helpers/postChannelInfo: Error sending channel category info`);
+    console.log(error);
   }
 };
 
@@ -426,10 +424,10 @@ export const getMostVotedCategory = async (channelId: string) => {
 
     return data.mostVotedCategory;
   } catch (error) {
-    console.error(
+    console.log(
       `Helpers/getMostVotedCategory: Error getting category from backend`
     );
-    console.error(error);
+    console.log(error);
     return null;
   }
 };
