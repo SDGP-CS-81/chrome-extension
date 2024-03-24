@@ -11,7 +11,7 @@ class CustomCategoryEl extends CategoryEl {
     template.innerHTML = html`
       <div class="flex">
         <div
-          class="flex w-full flex-col overflow-hidden rounded-lg border border-grey-low bg-secondary-light dark:border-grey-high dark:bg-grey-high"
+          class="flex w-full flex-col rounded-lg border border-grey-low bg-secondary-light dark:border-grey-high dark:bg-grey-high"
         >
           <div
             id="dropdown"
