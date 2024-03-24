@@ -17,7 +17,7 @@ class DropdownEl extends HTMLElement {
       <p
         class="dropdown-menu-item ${isSelected
           ? "bg-primary-dark dark:text-white"
-          : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
+          : "dark:text-white hover:bg-grey-low hover:text-gray-900"} relative z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
         data-quality="${quality}"
       >
         ${quality}p
@@ -65,7 +65,7 @@ class DropdownEl extends HTMLElement {
         <!-- Dropdown menu -->
         <div
           id="dropdown-item-container"
-          class="custom-scroll absolute right-0 top-8 z-50 hidden h-60 w-24 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block @md/main:w-48 dark:bg-grey-high"
+          class="custom-scroll absolute right-0 top-8 z-50 hidden h-60 w-24 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block @md/main:w-28 dark:bg-grey-high"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"

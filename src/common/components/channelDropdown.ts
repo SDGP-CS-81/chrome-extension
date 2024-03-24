@@ -97,7 +97,13 @@ class ChannelDropdown extends HTMLElement {
         preferences.channelPreferences[this.channelId];
     } else {
       // fetch channelInfo from server
-      const channelInfo = await getMostVotedCategory(this.channelId);
+      let channelInfo;
+      try {
+        channelInfo = await getMostVotedCategory(this.channelId);
+      } catch (error) {
+        console.log(`ChannelDropdown: failed to fetch most voted category`);
+        channelInfo = null;
+      }
       let mostVotedCategory = channelInfo;
       // if most voted category is not null capitalize first letter
       if (mostVotedCategory) {
