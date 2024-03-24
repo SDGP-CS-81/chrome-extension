@@ -17,7 +17,7 @@ class DropdownEl extends HTMLElement {
       <p
         class="dropdown-menu-item ${isSelected
           ? "bg-primary-dark dark:text-white"
-          : "dark:text-white hover:bg-grey-low hover:text-gray-900"} z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
+          : "dark:text-white hover:bg-grey-low hover:text-gray-900"} relative z-[99] block h-12 w-full cursor-pointer px-4 py-3 text-right text-base"
         data-quality="${quality}"
       >
         ${quality}p

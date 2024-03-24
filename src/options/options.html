@@ -57,7 +57,7 @@
 
     <!-- contains all the settings and clamps them to a given width -->
     <div
-      class="flex flex-col items-center gap-y-12 px-8 py-12 pt-40 @container/main"
+      class="flex flex-col items-center gap-y-12 px-8 py-12 pt-40 @container-normal @container/main"
     >
       <!-- wrap any setting groups into a div like this one -->
       <div class="flex w-full flex-col gap-y-2 @[600px]:w-[600px]">
@@ -89,7 +89,7 @@
       </div>
 
       <div
-        class="flex w-full flex-col gap-y-6 @container/features @[600px]:w-[600px]"
+        class="flex w-full flex-col gap-y-6 @container-normal @container/features @[600px]:w-[600px]"
       >
         <h1 class="text-xl">Other Features</h1>
         <feature-btn toggle-id="audioOnly"></feature-btn>
@@ -105,7 +105,9 @@
         </div>
       </div>
 
-      <div class="flex w-full flex-col gap-y-6 @container @[600px]:w-[600px]">
+      <div
+        class="flex w-full flex-col gap-y-6 @container-normal @[600px]:w-[600px]"
+      >
         <h1 class="text-xl">Custom Categories</h1>
         <category-keyword-form class="w-full"></category-keyword-form>
       </div>
