@@ -46,10 +46,10 @@
 
       window.clearInterval(channelExtractorHandle);
     } catch (error) {
-      console.error(
+      console.log(
         `ContentScript/extractChannelInfo: Error detected, trying again`
       );
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -289,21 +289,23 @@
   };
 
   const runOnUrlChange = async () => {
-    const observerConfig = {
-      childList: true,
-      subtree: true,
-      attributes: true,
-    };
-
     console.log(`ContentScript/runOnUrlChange: Url change detected`);
 
     if (!channelId) {
       extractChannelInfo();
     }
+    const currentVideoID = location.href.split("v=")[1].split("&")[0];
 
     const preferences = await helpers.getPreferences();
-    const currentVideoID = location.href.split("v=")[1].split("&")[0];
-    const videoScores = await helpers.getVideoScores(currentVideoID);
+
+    let videoScores;
+    if (preferences?.features?.offlineMode) {
+      console.log(
+        `ContentScript/runOnUrlChange: Offline mode is on, video information is not fetched`
+      );
+    } else {
+      videoScores = await helpers.getVideoScores(currentVideoID);
+    }
 
     let optimumCategoryId: string;
     let optimumQuality: string;
@@ -372,6 +374,12 @@
       setVideoUrl(audioSrc);
       return;
     }
+
+    const observerConfig = {
+      childList: true,
+      subtree: true,
+      attributes: true,
+    };
 
     // perhaps reassign a null varaible "qualityToSet" and check in observer
     new MutationObserver((_, observer) => {
