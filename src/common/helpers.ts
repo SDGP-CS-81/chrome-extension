@@ -4,7 +4,7 @@ import {
   categories,
   Preferences,
   Category,
-  qualities,
+  // qualities,
 } from "./constants.js";
 
 export const setPreferences = async (preferences: Preferences) => {
@@ -192,20 +192,20 @@ const selectOptimumCategory = async (
     return confidentCategoryId;
   }
 
-  const { imageScores, textScores } = videoScores;
+  const { textScores } = videoScores;
 
   console.log(`Helpers/selectOptimumCategory: Video scores found`);
   console.log(videoScores);
 
-  console.log(`Helpers/selectOptimumCategory: Sorting visual scores`);
-  const sortedCategoryScores = Object.entries(imageScores).sort(
-    (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
-  );
+  // console.log(`Helpers/selectOptimumCategory: Sorting visual scores`);
+  // const sortedCategoryScores = Object.entries(imageScores).sort(
+  //   (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
+  // );
 
-  const visualCategory = sortedCategoryScores[0][0];
-  console.log(
-    `Helpers/selectOptimumCategory: Visual category selected: ${visualCategory}`
-  );
+  // const visualCategory = sortedCategoryScores[0][0];
+  // console.log(
+  // `Helpers/selectOptimumCategory: Visual category selected: ${visualCategory}`
+  // );
   const textScoresKeys = textScores ? Object.keys(textScores) : [];
   console.log(`Helpers/selectOptimumCategory: Categories with keyword scores`);
   console.log(textScoresKeys);
@@ -216,12 +216,12 @@ const selectOptimumCategory = async (
     ([key, obj]: [key: string, obj: Category]) => {
       let confidenceScore = 0;
       // check if visual category is present in conditions
-      if (obj.selectionConditions.backendCategories.includes(visualCategory)) {
-        console.log(
-          `Helpers/selectOptimumCategory: Visual condition hit, category: ${key}, visual category: ${visualCategory}`
-        );
-        confidenceScore++;
-      }
+      // if (obj.selectionConditions.backendCategories.includes(visualCategory)) {
+      //   console.log(
+      //     `Helpers/selectOptimumCategory: Visual condition hit, category: ${key}, visual category: ${visualCategory}`
+      //   );
+      //   confidenceScore++;
+      // }
 
       if (channelCategoryId === key) {
         console.log(
@@ -294,6 +294,7 @@ const selectOptimumQuality = async (
   optimumCategoryId: string,
   videoScores: VideoScores
 ): Promise<string> => {
+  console.log(videoScores);
   console.log(
     `Helpers/selectOptimumQuality: Running heuristics to get optimum quality`
   );
@@ -324,32 +325,34 @@ const selectOptimumQuality = async (
     );
     return minimumQuality;
   }
+  return maximumQuality;
 
-  const { diffScore } = videoScores.frameScores;
-  console.log(
-    `Helpers/selectOptimumQuality: Using difference score to determine quality level, diffScore: ${diffScore}`
-  );
+  // const { diffScore } = videoScores.frameScores;
+  // console.log(
+  //   `Helpers/selectOptimumQuality: Using difference score to determine quality level, diffScore: ${diffScore}`
+  // );
 
-  const minIndex = qualities.findIndex(
-    (quality) => quality === parseInt(minimumQuality)
-  );
-  const maxIndex = qualities.findIndex(
-    (quality) => quality === parseInt(maximumQuality)
-  );
+  // const minIndex = qualities.findIndex(
+  //   (quality) => quality === parseInt(minimumQuality)
+  // );
+  // const maxIndex = qualities.findIndex(
+  //   (quality) => quality === parseInt(maximumQuality)
+  // );
 
-  const numLevels = maxIndex - minIndex + 1;
-  console.log(`Helpers/selectOptimumQuality: ${numLevels} quality steps found`);
-  const closestIndex = minIndex + Math.round(numLevels * diffScore);
-  console.log(
-    `Helpers/selectOptimumQuality: Step ${Math.round(
-      numLevels * diffScore
-    )} chosen`
-  );
-  const chosenQuality = qualities[closestIndex].toString();
-  console.log(
-    `Helpers/selectOptimumQuality: Quality chosen, quality: ${chosenQuality}`
-  );
-  return chosenQuality;
+  // const numLevels = maxIndex - minIndex + 1;
+  // console.log(`Helpers/selectOptimumQuality: ${numLevels} quality steps found`);
+  // const closestIndex = minIndex + Math.round(numLevels * diffScore);
+  // console.log(
+  //   `Helpers/selectOptimumQuality: Step ${Math.round(
+  //     numLevels * diffScore
+  //   )} chosen`
+  // );
+  // const chosenQuality = qualities[closestIndex].toString();
+
+  // console.log(
+  //   `Helpers/selectOptimumQuality: Quality chosen, quality: ${chosenQuality}`
+  // );
+  // return chosenQuality;
 };
 
 export const setTheme = async (theme: boolean | null) => {
@@ -363,21 +366,9 @@ export const setTheme = async (theme: boolean | null) => {
 };
 
 export type VideoScores = {
-  imageScores: ImageScores;
-  frameScores: FrameScores;
   textScores: TextScores;
 };
 
-export type ImageScores = {
-  graphics: number;
-  lowLight: number;
-  nature: number;
-  person: number;
-  sports: number;
-  textHeavy: number;
-  news: number;
-};
-export type FrameScores = { [key: string]: number };
 export type TextScores = { [key: string]: number };
 
 export const postChannelInfo = async (channelId: string, category: string) => {
