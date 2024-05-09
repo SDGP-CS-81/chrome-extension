@@ -325,6 +325,7 @@ const selectOptimumQuality = async (
     );
     return minimumQuality;
   }
+  
   return maximumQuality;
 
   // const { diffScore } = videoScores.frameScores;
@@ -353,6 +354,7 @@ const selectOptimumQuality = async (
   //   `Helpers/selectOptimumQuality: Quality chosen, quality: ${chosenQuality}`
   // );
   // return chosenQuality;
+
 };
 
 export const setTheme = async (theme: boolean | null) => {

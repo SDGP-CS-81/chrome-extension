@@ -66,7 +66,7 @@ class ChannelDropdown extends HTMLElement {
         <!-- Dropdown menu -->
         <div
           id="channel-dropdown-item-container"
-          class="custom-scroll absolute right-0 top-12 z-50 hidden h-60 w-48 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block dark:bg-grey-high"
+          class="custom-scroll absolute right-0 top-12 z-50 hidden h-48 w-28 origin-top-right overflow-hidden overflow-y-scroll overscroll-contain rounded-md bg-secondary-light shadow-lg ring-1 ring-grey-mid focus-within:block focus:block dark:bg-grey-high"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
