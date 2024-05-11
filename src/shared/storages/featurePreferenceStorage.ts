@@ -6,14 +6,16 @@ import {
 import { defaultFeaturePreference } from "@src/shared/constants/constants";
 
 export type FeaturePreference = {
-  theme: boolean; // true for dark
+  // theme: boolean; // true for dark
   offlineMode: boolean;
   audioOnly: boolean;
   audioOnlyBackground: boolean;
   audioOnlyBackgroundTimeout: number;
 };
 
-type FeaturePreferenceStorage = BaseStorage<FeaturePreference>;
+type FeaturePreferenceStorage = BaseStorage<FeaturePreference> & {
+  toggleOfflineMode: () => Promise<void>;
+};
 
 const storage = createStorage<FeaturePreference>(
   "feature-preference",
@@ -25,7 +27,13 @@ const storage = createStorage<FeaturePreference>(
 );
 
 const featurePreferenceStorage: FeaturePreferenceStorage = {
-  ...storage
+  ...storage,
+  toggleOfflineMode: async () => {
+    await storage.set((current) => {
+      current.offlineMode = !current.offlineMode;
+      return current;
+    });
+  }
 };
 
 export default featurePreferenceStorage;

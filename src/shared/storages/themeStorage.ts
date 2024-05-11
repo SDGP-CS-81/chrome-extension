@@ -4,18 +4,18 @@ import {
   StorageType
 } from "@src/shared/storages/base";
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 
 type ThemeStorage = BaseStorage<Theme> & {
   toggle: () => Promise<void>;
 };
 
-const storage = createStorage<Theme>("theme-storage-key", "light", {
+const storage = createStorage<Theme>("theme-storage", "light", {
   storageType: StorageType.Local,
   liveUpdate: true
 });
 
-const exampleThemeStorage: ThemeStorage = {
+const themeStorage: ThemeStorage = {
   ...storage,
   // TODO: extends your own methods
   toggle: async () => {
@@ -25,4 +25,4 @@ const exampleThemeStorage: ThemeStorage = {
   }
 };
 
-export default exampleThemeStorage;
+export default themeStorage;

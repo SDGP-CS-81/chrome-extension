@@ -167,6 +167,7 @@ export function createStorage<D = string>(
 
   // Register life cycle methods
   const _getDataFromStorage = async (): Promise<D> => {
+    console.log(key);
     checkStoragePermission(storageType);
     const value = await chrome.storage[storageType].get([key]);
     return deserialize(value[key]) ?? fallback;

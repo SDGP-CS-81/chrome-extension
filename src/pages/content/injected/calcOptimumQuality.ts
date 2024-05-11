@@ -49,6 +49,7 @@ async function selectOptimumCategory(
       //   confidenceScore++;
       // }
 
+      // why this condition???
       if (textScoresKeys.includes(key)) {
         if (textScores[key] >= obj.selectionConditions.textThreshold) {
           console.log(
