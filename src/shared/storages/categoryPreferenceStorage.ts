@@ -1,26 +1,28 @@
-import {
-  categories,
-  defaultCategoryPreference
-} from "@src/shared/constants/constants";
+import { defaultCategoryPreferences } from "@src/shared/constants/constants";
+
 import {
   BaseStorage,
   createStorage,
   StorageType
 } from "@src/shared/storages/base";
+import { categories } from "@src/shared/constants/categories";
 
-type CategoryP = {
+export type CategoryPreference = {
   min: string;
   max: string;
   audioOnly: boolean;
 };
 
-export type CategoryPreference = Record<keyof typeof categories, CategoryP>;
+export type CategoryPreferences = Record<
+  keyof typeof categories,
+  CategoryPreference
+>;
 
-type CategoryPreferenceStorage = BaseStorage<CategoryPreference>;
+type CategoryPreferenceStorage = BaseStorage<CategoryPreferences>;
 
-const storage = createStorage<CategoryPreference>(
+const storage = createStorage<CategoryPreferences>(
   "category-preference",
-  defaultCategoryPreference,
+  defaultCategoryPreferences,
   {
     storageType: StorageType.Local,
     liveUpdate: true

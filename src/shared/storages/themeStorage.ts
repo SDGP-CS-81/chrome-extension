@@ -10,7 +10,7 @@ type ThemeStorage = BaseStorage<Theme> & {
   toggle: () => Promise<void>;
 };
 
-const storage = createStorage<Theme>("theme-storage", "light", {
+const storage = createStorage<Theme>("theme-storage", "dark", {
   storageType: StorageType.Local,
   liveUpdate: true
 });

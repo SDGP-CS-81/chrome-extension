@@ -1,12 +1,13 @@
 import refreshOnUpdate from "virtual:reload-on-update-in-view";
-import { categories, VideoScores } from "@root/src/shared/constants/constants";
-import { CategoryPreference } from "@root/src/shared/storages/categoryPreferenceStorage";
+import { VideoScores } from "@root/src/shared/constants/constants";
+import { categories } from "@root/src/shared/constants/categories";
+import { CategoryPreferences } from "@root/src/shared/storages/categoryPreferenceStorage";
 
 refreshOnUpdate("pages/content/injected/calcOptimumQuality");
 
 export async function calcOptimumQuality(
   videoScores: VideoScores,
-  categoryPreference: CategoryPreference
+  categoryPreferences: CategoryPreferences
 ) {
   console.log(`Calculating optimum video quality`);
 
@@ -15,7 +16,7 @@ export async function calcOptimumQuality(
   const optimumQuality = await selectOptimumQuality(
     optimumCategoryId,
     videoScores,
-    categoryPreference
+    categoryPreferences
   );
   return { optimumCategoryId, optimumQuality };
 }
@@ -92,12 +93,12 @@ async function selectOptimumCategory(
 const selectOptimumQuality = async (
   optimumCategoryId: string,
   videoScores: VideoScores,
-  categoryPreference: CategoryPreference
+  categoryPreferences: CategoryPreferences
 ): Promise<string> => {
   console.log(`Running heuristics to get optimum quality`);
 
-  const minimumQuality = categoryPreference[optimumCategoryId].min;
-  const maximumQuality = categoryPreference[optimumCategoryId].max;
+  const minimumQuality = categoryPreferences[optimumCategoryId].min;
+  const maximumQuality = categoryPreferences[optimumCategoryId].max;
 
   console.log(
     `Checking preferred quality, min: ${minimumQuality}, max: ${maximumQuality}`

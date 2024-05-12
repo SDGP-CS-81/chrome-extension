@@ -14,7 +14,7 @@ export async function runOnUrlChange() {
   const currentVideoID = location.href.split("v=")[1].split("&")[0];
 
   const featurePreference = await featurePreferenceStorage.get();
-  const categoryPreference = await categoryPreferenceStorage.get();
+  const categoryPreferences = await categoryPreferenceStorage.get();
 
   if (featurePreference.offlineMode) {
     console.log(`Offline mode is on, video information is not fetched`);
@@ -31,7 +31,7 @@ export async function runOnUrlChange() {
   }
   const optimumSettings = await calcOptimumQuality(
     videoScores,
-    categoryPreference
+    categoryPreferences
   );
   const optimumQuality = optimumSettings.optimumQuality;
 

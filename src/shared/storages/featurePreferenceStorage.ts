@@ -3,23 +3,23 @@ import {
   createStorage,
   StorageType
 } from "@src/shared/storages/base";
-import { defaultFeaturePreference } from "@src/shared/constants/constants";
+import { defaultFeaturePreferences } from "@src/shared/constants/constants";
 
-export type FeaturePreference = {
-  // theme: boolean; // true for dark
+export type FeaturePreferences = {
+  defaultVideo: { quality: string };
   offlineMode: boolean;
-  audioOnly: boolean;
-  audioOnlyBackground: boolean;
-  audioOnlyBackgroundTimeout: number;
+  audioMode: boolean;
+  backgroundMode: boolean;
+  backgroundModeTimeout: number;
 };
 
-type FeaturePreferenceStorage = BaseStorage<FeaturePreference> & {
+type FeaturePreferenceStorage = BaseStorage<FeaturePreferences> & {
   toggleOfflineMode: () => Promise<void>;
 };
 
-const storage = createStorage<FeaturePreference>(
+const storage = createStorage<FeaturePreferences>(
   "feature-preference",
-  defaultFeaturePreference,
+  defaultFeaturePreferences,
   {
     storageType: StorageType.Local,
     liveUpdate: true

@@ -21,9 +21,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.3.6",
+    "@nextui-org/slider": "^2.2.9",
     "@twind/preset-container-queries": "^1.0.7",
     "axios": "^1.6.8",
     "construct-style-sheets-polyfill": "3.1.0",
+    "framer-motion": "^11.1.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "webextension-polyfill": "0.10.0"
@@ -78,5 +81,5 @@
       "eslint --fix"
     ]
   },
-  "packageManager": "pnpm@8.9.2"
+  "packageManager": "pnpm@9.1.0"
 }
