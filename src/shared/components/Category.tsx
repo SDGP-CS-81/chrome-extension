@@ -1,24 +1,30 @@
-import { CategoryInfo } from "../constants/categories";
-import { CategoryPreference } from "../storages/categoryPreferenceStorage";
-import { CategoryInfoPopup } from "./CategoryInfoPopup";
+import useStorage from "@src/shared/hooks/useStorage";
+import categoryPreferenceStorage from "@src/shared/storages/categoryPreferenceStorage";
+import { CategoryInfoPopup } from "@src/shared/components/CategoryInfoPopup";
+import { categories } from "../constants/categories";
 
 type CategoryProps = {
   categoryKey: string;
-  info: CategoryInfo;
-  preference: CategoryPreference;
+  isGlobalAudioMode?: boolean;
 };
 
-export const Category = ({ categoryKey, info, preference }: CategoryProps) => {
-  categoryKey;
+export const Category = ({ categoryKey, isGlobalAudioMode }: CategoryProps) => {
+  const categoryPreferences = useStorage(categoryPreferenceStorage);
+
+  const preference = categoryPreferences[categoryKey];
   preference;
+  const info = categories[categoryKey];
+
+  if (isGlobalAudioMode) {
+    // pass true into toggle, put this line in jsx
+  }
   return (
-    <div className="relative flex items-center gap-x-4">
-      <div className="relative flex h-24 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-2.5 py-1.5 text-left text-base shadow-sm dark:border-grey-high dark:bg-grey-high md:h-16 md:px-[18px]">
-        <p className="grid h-full text-xl md:place-items-center md:text-base">
-          {info.categoryName}
-        </p>
-        <div>
-          {/* <Slider
+    <div className="group/category relative flex h-24 w-full items-center justify-between rounded-lg border border-grey-low bg-secondary-light px-2.5 py-1.5 text-left text-base shadow-sm dark:border-grey-high dark:bg-grey-high md:h-16 md:px-[18px]">
+      <p className="grid h-full text-xl md:place-items-center md:text-base">
+        {info.categoryName}
+      </p>
+      <div>
+        {/* <Slider
             label="Select a value"
             color="danger"
             size="sm"
@@ -40,8 +46,8 @@ export const Category = ({ categoryKey, info, preference }: CategoryProps) => {
             defaultValue={20}
             className="max-w-md"
           />*/}
-        </div>
       </div>
+
       <CategoryInfoPopup
         description={info.description}
         exampleImage={info.exampleImage}

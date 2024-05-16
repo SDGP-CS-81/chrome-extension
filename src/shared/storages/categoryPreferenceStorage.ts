@@ -1,5 +1,4 @@
 import { defaultCategoryPreferences } from "@src/shared/constants/constants";
-
 import {
   BaseStorage,
   createStorage,

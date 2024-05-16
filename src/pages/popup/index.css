@@ -14,3 +14,7 @@
 * {
   font-family: inherit;
 }
+
+html {
+  font-size: 1rem;
+}

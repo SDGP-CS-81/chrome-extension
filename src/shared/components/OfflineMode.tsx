@@ -1,5 +1,4 @@
-import wifiOn from "@assets/img/wifiOn.svg";
-import wifiOff from "@assets/img/wifiOff.svg";
+import { FiWifi, FiWifiOff } from "react-icons/fi";
 import useStorage from "../hooks/useStorage";
 import featurePreferenceStorage from "../storages/featurePreferenceStorage";
 
@@ -10,24 +9,14 @@ export const OfflineMode = () => {
   return (
     <button
       onClick={featurePreferenceStorage.toggleOfflineMode}
-      className="flex cursor-pointer gap-x-3 rounded-full border-solid border-grey-mid sm:border-2 sm:p-2.5"
+      className="flex cursor-pointer items-center gap-x-2 rounded-full border-solid border-grey-mid sm:border-2 sm:p-3"
     >
       <p className="hidden cursor-pointer text-lg sm:block">Offline Mode</p>
-      <div className="relative flex cursor-pointer items-center stroke-black dark:stroke-white ">
-        {offlineMode ? (
-          <img
-            src={wifiOff}
-            alt="Wifi Off"
-            className="h-6 w-6 scale-125 fill-transparent stroke-inherit peer-checked/toggle:hidden"
-          />
-        ) : (
-          <img
-            src={wifiOn}
-            alt="Wifi On"
-            className="h-6 w-6 scale-125 fill-transparent stroke-inherit peer-checked/toggle:hidden"
-          />
-        )}
-      </div>
+      {offlineMode ? (
+        <FiWifiOff className="mb-1 h-6 w-6 text-black dark:text-white" />
+      ) : (
+        <FiWifi className="mb-1 h-6 w-6 text-black dark:text-white" />
+      )}
     </button>
   );
 };

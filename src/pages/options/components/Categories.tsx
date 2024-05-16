@@ -1,36 +1,33 @@
 import { Category } from "@root/src/shared/components/Category";
 import { categories } from "@root/src/shared/constants/categories";
 import useStorage from "@root/src/shared/hooks/useStorage";
-import categoryPreferencesStorage from "@root/src/shared/storages/categoryPreferenceStorage";
+import featurePreferenceStorage from "@root/src/shared/storages/featurePreferenceStorage";
 
 export const Categories = () => {
-  const categoryPreferences = useStorage(categoryPreferencesStorage);
-  const categoryInfoAndPreferences = Object.keys(categories).map(
-    (categoryKey) => {
-      return {
-        categoryKey,
-        info: categories[categoryKey],
-        preference: categoryPreferences[categoryKey]
-      };
-    }
-  );
+  const categoryKeys = Object.keys(categories);
+  const featurePreferences = useStorage(featurePreferenceStorage);
 
   return (
-    <div className="flex w-full flex-col gap-y-2">
-      <div className="mb-4 mr-10 flex items-end justify-between">
-        <h1 className="text-xl">Categories</h1>
-        <h6 className="text-base">Audio Only</h6>
+    <div className="flex w-full flex-col">
+      <div className="flex items-end justify-between">
+        <h2 className="text-xl">Categories</h2>
+        <h4 className="text-base">Audio Only</h4>
       </div>
-      {categoryInfoAndPreferences.map((category, index) => {
-        return (
-          <Category
-            key={index}
-            categoryKey={category.categoryKey}
-            info={category.info}
-            preference={category.preference}
-          />
-        );
-      })}
+      <div className="mb-4 flex justify-end">
+        <p>toggle</p>
+      </div>
+
+      <div className="flex flex-col gap-y-2">
+        {categoryKeys.map((categoryKey, index) => {
+          return (
+            <Category
+              key={index}
+              categoryKey={categoryKey}
+              isGlobalAudioMode={featurePreferences.audioMode}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
