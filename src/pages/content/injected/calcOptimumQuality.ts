@@ -2,8 +2,11 @@ import refreshOnUpdate from "virtual:reload-on-update-in-view";
 import { VideoScores } from "@root/src/shared/constants/constants";
 import { categories } from "@root/src/shared/constants/categories";
 import { CategoryPreferences } from "@root/src/shared/storages/categoryPreferenceStorage";
+import featurePreferenceStorage from "@root/src/shared/storages/featurePreferenceStorage";
 
 refreshOnUpdate("pages/content/injected/calcOptimumQuality");
+
+const DEFAULT_QUALITY_ID = "defaultQuality";
 
 export async function calcOptimumQuality(
   videoScores: VideoScores,
@@ -24,7 +27,7 @@ export async function calcOptimumQuality(
 async function selectOptimumCategory(
   videoScores: VideoScores
 ): Promise<string> {
-  let confidentCategoryId = "defaultQuality";
+  let confidentCategoryId = DEFAULT_QUALITY_ID;
 
   if (!videoScores) {
     console.log(`Video scores not found, returning '${confidentCategoryId}'`);
@@ -75,15 +78,12 @@ async function selectOptimumCategory(
     (keyPair1, keyPair2) => keyPair2[1] - keyPair1[1]
   )[0];
 
-  console.log(
-    `Category with highest confidence, category: ${confidentCategory[0]}`
-  );
-
   // ensure that default category is used if no confidence
   if (confidentCategory[1] > 0) {
     console.log(`Sufficient confidence detected`);
-    // optimumQuality = preferences.categories[confidentCategory[0]];
     confidentCategoryId = confidentCategory[0];
+  } else {
+    console.log(`No confidence on any category`);
   }
 
   console.log(`Optimum category is ${confidentCategoryId}`);
@@ -95,7 +95,13 @@ const selectOptimumQuality = async (
   videoScores: VideoScores,
   categoryPreferences: CategoryPreferences
 ): Promise<string> => {
-  console.log(`Running heuristics to get optimum quality`);
+  if (optimumCategoryId === DEFAULT_QUALITY_ID) {
+    const featurePreferences = await featurePreferenceStorage.get();
+    console.log(
+      `Default video quality chosen: ${featurePreferences.defaultVideo.quality}`
+    );
+    return featurePreferences.defaultVideo.quality;
+  }
 
   const minimumQuality = categoryPreferences[optimumCategoryId].min;
   const maximumQuality = categoryPreferences[optimumCategoryId].max;
@@ -103,12 +109,6 @@ const selectOptimumQuality = async (
   console.log(
     `Checking preferred quality, min: ${minimumQuality}, max: ${maximumQuality}`
   );
-
-  // default quality does not have a min/max, only a single value that is represented by max
-  if (optimumCategoryId === "defaultQuality") {
-    console.log(`Default quality chosen, quality: ${maximumQuality}`);
-    return maximumQuality;
-  }
 
   if (minimumQuality === maximumQuality) {
     console.log(`Min/Max is the same, quality: ${minimumQuality}`);

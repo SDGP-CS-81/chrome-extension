@@ -48,7 +48,7 @@ export type BaseStorage<D> = {
   set: (value: ValueOrUpdate<D>) => Promise<void>;
   getSnapshot: () => D | null;
   subscribe: (listener: () => void) => () => void;
-  resetToDefault: () => void;
+  resetToDefault: () => Promise<void>;
 };
 
 type StorageConfig<D = string> = {
@@ -197,8 +197,9 @@ export function createStorage<D = string>(
   };
 
   const resetToDefault = async () => {
-    await chrome.storage[storageType].remove([key]);
+    await set({ ...fallback });
   };
+
   _getDataFromStorage().then((data) => {
     cache = data;
     _emitChange();

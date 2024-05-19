@@ -7,7 +7,7 @@ export const defaultVideo = {
 
 export const defaultFeaturePreferences = {
   defaultVideo: { quality: "480" },
-  offlineMode: false,
+  localMode: false,
   audioMode: false,
   backgroundMode: true,
   backgroundModeTimeout: 6

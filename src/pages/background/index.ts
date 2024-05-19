@@ -25,7 +25,6 @@ const removeURLParameters = (url: string, parameters: string[]) => {
 
   return `${urlParts[0]}?${filteredParameters.join("&")}`;
 };
-
 const processRequest = (details: chrome.webRequest.WebRequestBodyDetails) => {
   const { url, tabId } = details;
   console.log(`BG: Processing request, url: ${url}, tabId: ${tabId}`);

@@ -1,3 +1,4 @@
+import { Switch } from "@nextui-org/react";
 import { Category } from "@root/src/shared/components/Category";
 import { categories } from "@root/src/shared/constants/categories";
 import useStorage from "@root/src/shared/hooks/useStorage";
@@ -14,7 +15,12 @@ export const Categories = () => {
         <h4 className="text-base">Audio Only</h4>
       </div>
       <div className="mb-4 flex justify-end">
-        <p>toggle</p>
+        <Switch
+          isSelected={featurePreferences.audioMode}
+          onValueChange={handleChange}
+          color="secondary"
+          className="bg-blue-500"
+        />
       </div>
 
       <div className="flex flex-col gap-y-2">
@@ -31,3 +37,7 @@ export const Categories = () => {
     </div>
   );
 };
+
+function handleChange(isSelected: boolean) {
+  featurePreferenceStorage.setAudioMode(isSelected);
+}

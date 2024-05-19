@@ -1,7 +1,7 @@
 import { Logo } from "@src/shared/components/Logo";
-import { OfflineMode } from "@root/src/shared/components/OfflineMode";
 import { OptionsButton } from "@root/src/shared/components/OptionsButton";
 import { ThemeButton } from "./ThemeButton";
+import { LocalMode } from "./LocalMode";
 
 export const Header = () => {
   const isPopupPage = location.href.includes("popup");
@@ -11,7 +11,7 @@ export const Header = () => {
         <Logo />
 
         <div className="flex items-center gap-x-3 sm:gap-x-4">
-          <OfflineMode />
+          <LocalMode />
           {isPopupPage ? <OptionsButton /> : <ThemeButton />}
         </div>
       </div>

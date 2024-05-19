@@ -1,9 +1,9 @@
 import categoryPreferenceStorage from "@root/src/shared/storages/categoryPreferenceStorage";
 import featurePreferenceStorage from "@root/src/shared/storages/featurePreferenceStorage";
 
-function handleClick() {
-  categoryPreferenceStorage.resetToDefault();
-  featurePreferenceStorage.resetToDefault();
+async function handleClick() {
+  await categoryPreferenceStorage.resetToDefault();
+  await featurePreferenceStorage.resetToDefault();
 }
 
 export const ResetDefault = () => {

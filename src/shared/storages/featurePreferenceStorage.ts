@@ -7,14 +7,16 @@ import { defaultFeaturePreferences } from "@src/shared/constants/constants";
 
 export type FeaturePreferences = {
   defaultVideo: { quality: string };
-  offlineMode: boolean;
+  localMode: boolean;
   audioMode: boolean;
   backgroundMode: boolean;
   backgroundModeTimeout: number;
 };
 
 type FeaturePreferenceStorage = BaseStorage<FeaturePreferences> & {
-  toggleOfflineMode: () => Promise<void>;
+  toggleLocalMode: () => void;
+  setBackgroundMode: (value: boolean) => void;
+  setAudioMode: (value: boolean) => void;
 };
 
 const storage = createStorage<FeaturePreferences>(
@@ -28,10 +30,19 @@ const storage = createStorage<FeaturePreferences>(
 
 const featurePreferenceStorage: FeaturePreferenceStorage = {
   ...storage,
-  toggleOfflineMode: async () => {
-    await storage.set((current) => {
-      current.offlineMode = !current.offlineMode;
-      return current;
+  toggleLocalMode: () => {
+    storage.set((current) => {
+      return { ...current, localMode: !current.localMode };
+    });
+  },
+  setBackgroundMode: (value: boolean) => {
+    featurePreferenceStorage.set((current) => {
+      return { ...current, backgroundMode: value };
+    });
+  },
+  setAudioMode: (value: boolean) => {
+    featurePreferenceStorage.set((current) => {
+      return { ...current, audioMode: value };
     });
   }
 };

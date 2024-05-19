@@ -16,7 +16,7 @@ export async function runOnUrlChange() {
   const featurePreference = await featurePreferenceStorage.get();
   const categoryPreferences = await categoryPreferenceStorage.get();
 
-  if (featurePreference.offlineMode) {
+  if (featurePreference.localMode) {
     console.log(`Offline mode is on, video information is not fetched`);
     return;
   }
